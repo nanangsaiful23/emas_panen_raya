@@ -144,4 +144,20 @@ class Good extends Model
             return intval($code[2]) + 1;
         }
     }
+
+    public function convertJenisEmas()
+    {
+        if($this->is_old_gold == 0)
+        {
+            return 'MT';
+        }
+        elseif($this->is_old_gold == 1)
+        {
+            return 'TA';
+        }
+        elseif($this->is_old_gold == 2)
+        {
+            return 'STW';
+        }
+    }
 }

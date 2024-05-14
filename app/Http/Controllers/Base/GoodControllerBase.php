@@ -823,9 +823,7 @@ trait GoodControllerBase
                         $data['name'] = $good_unit->good->name;
                         $data['code'] = $good_unit->good->code;
                         $data['weight'] = $good_unit->good->weight;
-                        $data['old_gold'] = '';
-                        if($good_unit->good->is_old_gold == 1)
-                            $data['old_gold'] = 'MT';
+                        $data['old_gold'] = $good_unit->good->convertJenisEmas();
                         $data['stone_weight'] = $good_unit->good->stone_weight;
                         $data['stone_price'] = formatNumber($good_unit->good->stone_price);
 

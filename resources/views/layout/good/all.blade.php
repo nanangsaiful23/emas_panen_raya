@@ -55,6 +55,7 @@
                   <th style="width: 10%; text-align: center;">Kategori</th>
                   <th style="width: 10%; text-align: center;">Kode</th>
                   <th style="width: 15%; text-align: center;">Nama</th>
+                  <th style="width: 9%; text-align: center;">Jenis Emas</th>
                   <th style="width: 10%; text-align: center;">Berat Emas</th>
                   <th style="width: 9%; text-align: center;">Persentase</th>
                   <th style="width: 9%; text-align: center;">Berat Batu</th>
@@ -76,11 +77,11 @@
                     <td>
                       <h4>{{ $good->name }}</h4>
                       Deskripsi: {{ $good->description }}<br>
-                      @if($good->brand != null) <h5>Brand: {{ $good->brand->name }}</h5>@endif
                       @if(\Auth::user()->email == 'admin')
                         <i class="fa fa-truck green" aria-hidden="true"></i> @if($good->getLastBuy() != null) {{ $good->getLastBuy()->good_loading->distributor->name . ' (' . $good->getLastBuy()->good_loading->note . ')' }} @endif
                       @endif
                     </td>
+                    <td style="text-align: center;"><b>{{ $good->convertJenisEmas() }}</b></td>
                     <td>{{ $good->weight }} gram</td>
                     <td>{{ $good->percentage->name }}</td>
                     @if($good->stone_weight != '0.00' && $good->stone_weight != null && $good->stone_weight != '' && $good->stone_weight != '0') 
