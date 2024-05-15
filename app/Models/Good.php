@@ -149,7 +149,7 @@ class Good extends Model
     {
         if($this->is_old_gold == 0)
         {
-            return 'MT';
+            return 'MD';
         }
         elseif($this->is_old_gold == 1)
         {
