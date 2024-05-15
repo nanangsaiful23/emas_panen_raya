@@ -879,7 +879,7 @@ trait GoodControllerBase
         if($pagination == 'all')
         {
             $loadings = GoodLoadingDetail::join('good_units', 'good_units.id', 'good_loading_details.good_unit_id')
-                                         ->select('good_loading_details.id', 'good_loading_details.created_at')
+                                         ->select('good_loading_details.id', 'good_loading_details.created_at', 'good_loading_details.good_loading_id as gid')
                                          ->where('good_units.good_id', $good_id)
                                          ->whereDate('good_loading_details.created_at', '>=', $start_date)
                                          ->whereDate('good_loading_details.created_at', '<=', $end_date)
@@ -887,7 +887,7 @@ trait GoodControllerBase
                                          ->get();
 
             $transactions = TransactionDetail::join('good_units', 'good_units.id', 'transaction_details.good_unit_id')
-                                             ->select('transaction_details.id', 'transaction_details.created_at')
+                                             ->select('transaction_details.id', 'transaction_details.created_at', 'transaction_details.transaction_id as gid')
                                              ->where('good_units.good_id', $good_id)
                                              ->whereDate('transaction_details.created_at', '>=', $start_date)
                                              ->whereDate('transaction_details.created_at', '<=', $end_date)
@@ -897,7 +897,7 @@ trait GoodControllerBase
         else
         {     
             $loadings = GoodLoadingDetail::join('good_units', 'good_units.id', 'good_loading_details.good_unit_id')
-                                         ->select('good_loading_details.id', 'good_loading_details.created_at')
+                                         ->select('good_loading_details.id', 'good_loading_details.created_at', 'good_loading_details.good_loading_id as gid')
                                          ->where('good_units.good_id', $good_id)
                                          ->whereDate('good_loading_details.created_at', '>=', $start_date)
                                          ->whereDate('good_loading_details.created_at', '<=', $end_date)
@@ -905,7 +905,7 @@ trait GoodControllerBase
                                          ->paginate($pagination);
 
             $transactions = TransactionDetail::join('good_units', 'good_units.id', 'transaction_details.good_unit_id')
-                                             ->select('transaction_details.id', 'transaction_details.created_at')
+                                             ->select('transaction_details.id', 'transaction_details.created_at', 'transaction_details.transaction_id as gid')
                                              ->where('good_units.good_id', $good_id)
                                              ->whereDate('transaction_details.created_at', '>=', $start_date)
                                              ->whereDate('transaction_details.created_at', '<=', $end_date)
