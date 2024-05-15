@@ -101,6 +101,8 @@
         $("#weight-" + total_item).html("<h3>TA " + good[3] + "GR</h3>");
       else if(good[5] == '2')
         $("#weight-" + total_item).html("<h3>STW " + good[3] + "GR</h3>");
+      else if(good[5] == '3')
+        $("#weight-" + total_item).html("<h3>R " + good[3] + "GR</h3>");
       $("#stone_weight-" + total_item).html("{{ config('app.store_name') }}");
       // if(good[6] != '0.00' && good[6] != '' && good[6] != null && good[6] != '0')
       // {

@@ -433,6 +433,203 @@ trait TransactionControllerBase
         return $transaction;
     }
 
+    public function updateTransactionBase($role, $role_id, $transaction_id, Request $request)
+    {
+        // $hpp = 0;
+        // $sum = 0;
+
+        if($request->member_name != null)
+        {
+            $data_member_new['name'] = $request->member_name;
+
+            $member = Member::where('name', $request->member_name)->first();
+
+            if($member == null)
+                $member = Member::create($data_member_new);
+
+            $data_transaction['member_id'] = $member->id;
+        }
+        else
+        {
+            $data_transaction['member_id'] = $request->member_id;
+        }
+
+        #tabel transaction
+        $data_transaction['type'] = $request->type;
+        $data_transaction['role'] = $role;
+        $data_transaction['role_id'] = $role_id;
+        $data_transaction['total_item_price'] = unformatNumber($request->total_item_price);
+        $data_transaction['total_discount_price'] = unformatNumber($request->total_discount_price);
+        $data_transaction['total_sum_price'] = unformatNumber($request->total_sum_price);
+        $data_transaction['money_paid'] = unformatNumber($request->money_paid);
+        $data_transaction['money_returned'] = unformatNumber($request->money_returned);
+        $data_transaction['store']   = config('app.store_name');
+        $data_transaction['payment'] = 'cash';
+        $data_transaction['note']    = $request->note;
+
+        $transaction = Transaction::find($transaction_id);
+        $transaction->update($data_transaction);
+
+        #tabel transaction detail
+        $data_detail['transaction_id'] = $transaction->id;
+
+        for ($i = 0; $i < sizeof($request->detail_ids); $i++) 
+        { 
+            if($request->detail_ids[$i] != null)
+            {
+                $data_detail['buy_price']      = unformatNumber($request->buy_prices[$i]);
+                $data_detail['selling_price']  = unformatNumber($request->prices[$i]);
+                $data_detail['discount_price'] = unformatNumber($request->discounts[$i]);
+                $data_detail['stone_price']    = unformatNumber($request->stone_prices[$i]);
+                $data_detail['sum_price']      = unformatNumber($request->sums[$i]);
+
+                $detail = TransactionDetail::find($request->detail_ids[$i]);
+                $detail->update($data_detail);
+
+                // $sum += $data_detail['sum_price'];
+                // $hpp += $data_detail['buy_price'] * $data_detail['quantity'];
+            }
+        }
+
+        #tabel journal transaksi
+        // if($request->payment == 'cash')
+        // {
+            $data_journal['debit_account_id']   = Account::where('code', '1111')->first()->id;
+        // }
+        // elseif($request->payment == 'transfer')
+        // {
+        //     $data_journal['debit_account_id']   = Account::where('code', '1112')->first()->id;
+        // }
+        // $journal = Journal::whereDate('journal_date', date('Y-m-d'))
+        //                   ->where('type', 'transaction')
+        //                   ->where('debit_account_id', $data_journal['debit_account_id'])
+        //                   ->first();
+
+        // if($journal != null)
+        // {
+        //     $data_journal['debit'] = floatval($journal->debit) + floatval($sum);
+        //     $data_journal['credit'] = floatval($journal->credit) + floatval($sum);
+
+        //     $journal->update($data_journal);
+        // }
+        // else
+        // {
+        //     $data_journal['type']               = 'transaction';
+        //     $data_journal['journal_date']       = date('Y-m-d');
+        //     $data_journal['name']               = 'Penjualan tanggal ' . displayDate(date('Y-m-d'));
+        //     $data_journal['debit']              = $sum;
+        //     $data_journal['credit_account_id']  = Account::where('code', '4101')->first()->id;
+        //     $data_journal['credit']             = $sum;
+
+        //     Journal::create($data_journal);
+        // }
+
+        // #tabel journal hpp
+        // $hpp_journal = Journal::whereDate('journal_date', date('Y-m-d'))->where('type', 'hpp')->first();
+
+        // if($hpp_journal != null)
+        // {
+        //     $data_hpp['debit'] = floatval($hpp_journal->debit) + floatval($hpp);
+        //     $data_hpp['credit'] = floatval($hpp_journal->credit) + floatval($hpp);
+
+        //     $hpp_journal->update($data_hpp);
+        // }
+        // else
+        // {
+        //     $data_hpp['type']               = 'hpp';
+        //     $data_hpp['journal_date']       = date('Y-m-d');
+        //     $data_hpp['name']               = 'Penjualan tanggal ' . displayDate(date('Y-m-d'));
+        //     $data_hpp['debit_account_id']   = Account::where('code', '5101')->first()->id;
+        //     $data_hpp['debit']              = $hpp;
+        //     $data_hpp['credit_account_id']  = Account::where('code', '1141')->first()->id;
+        //     $data_hpp['credit']             = $hpp;
+
+        //     Journal::create($data_hpp);
+        // }
+
+        // #tabel journal piutang
+        // if($data_transaction['money_paid'] < $data_transaction['total_sum_price'])
+        // {
+        //     if($request->payment == 'cash')
+        //     {
+        //         $data_piutang['credit_account_id']   = Account::where('code', '1111')->first()->id;
+        //     }
+        //     elseif($request->payment == 'transfer')
+        //     {
+        //         $data_piutang['credit_account_id']   = Account::where('code', '1112')->first()->id;
+        //     }
+        //     $piutang = Journal::whereDate('journal_date', date('Y-m-d'))
+        //                       ->where('type', 'piutang')
+        //                       ->where('name', 'like', 'Piutang dagang member ' . $transaction->member->name . ' (ID member ' . $transaction->member->id . ') %')
+        //                       ->where('credit_account_id', $data_piutang['credit_account_id'])
+        //                       ->first();
+
+        //     if($piutang != null)
+        //     {
+        //         $data_piutang['name']   = $piutang->name . ', ' . $transaction->id;
+        //         $data_piutang['debit']  = floatval($piutang->debit) + floatval($data_transaction['total_sum_price']);
+        //         $data_piutang['credit'] = floatval($piutang->credit) + floatval($data_transaction['total_sum_price']);
+
+        //         $piutang->update($data_piutang);
+        //     }
+        //     else
+        //     {
+        //         $data_piutang['type']               = 'piutang';
+        //         $data_piutang['journal_date']       = date('Y-m-d');
+        //         $data_piutang['name']               = 'Piutang dagang member ' . $transaction->member->name . ' (ID member ' . $transaction->member->id . ') -> ID transaksi ' . $transaction->id;
+        //         $data_piutang['debit_account_id']   = Account::where('code', '1131')->first()->id;
+        //         $data_piutang['debit']              = $data_transaction['total_sum_price'];
+        //         $data_piutang['credit']             = $data_transaction['total_sum_price'];
+
+        //         Journal::create($data_piutang);
+        //     }
+
+        //     if($data_transaction['money_paid'] > 0)
+        //     {
+        //         if($request->payment == 'cash')
+        //         {
+        //             $data_piutang_member['debit_account_id']   = Account::where('code', '1111')->first()->id;
+        //         }
+        //         elseif($request->payment == 'transfer')
+        //         {
+        //             $data_piutang_member['debit_account_id']   = Account::where('code', '1112')->first()->id;
+        //         }
+        //         $data_member['member_id']    = $transaction->member_id;
+        //         $data_member['payment_date'] = date('Y-m-d');
+        //         $data_member['money']        = $data_transaction['money_paid'];
+
+        //         $payment = PiutangPayment::create($data_member);
+
+        //         $piutang = Journal::whereDate('journal_date', date('Y-m-d'))
+        //                           ->where('type', 'piutang_transaction')
+        //                           ->where('name', 'Pembayaran piutang member ' . $payment->member->name . ' (ID ' . $payment->member->id . ')')
+        //                           ->where('debit_account_id', $data_piutang_member['debit_account_id'])
+        //                           ->first();
+
+        //         if($piutang != null)
+        //         {
+        //             $data_piutang_member['debit'] = floatval($piutang->debit) + floatval($data_transaction['money_paid']);
+        //             $data_piutang_member['credit'] = floatval($piutang->credit) + floatval($data_transaction['money_paid']);
+
+        //             $piutang->update($data_piutang_member);
+        //         }
+        //         else
+        //         {
+        //             $data_piutang_member['type']               = 'piutang_transaction';
+        //             $data_piutang_member['journal_date']       = date('Y-m-d');
+        //             $data_piutang_member['name']               = 'Pembayaran piutang member ' . $payment->member->name . ' (ID ' . $payment->member->id . ')';
+        //             $data_piutang_member['debit']              = $data_transaction['money_paid'];
+        //             $data_piutang_member['credit_account_id']  = Account::where('code', '1131')->first()->id;
+        //             $data_piutang_member['credit']             = $data_transaction['money_paid'];
+
+        //             Journal::create($data_piutang_member);
+        //         }
+        //     }
+        // }
+
+        return $transaction;
+    }
+
     public function reverseTransactionBase($role, $role_id, $transaction_id)
     {
         $transaction = Transaction::find($transaction_id);

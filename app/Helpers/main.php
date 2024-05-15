@@ -377,7 +377,7 @@
 
     function getGoldTypes()
     {
-        $types = [0 => 'MD', 1 => 'TA', '2' => 'STW'];
+        $types = [0 => 'MD', 1 => 'TA', '2' => 'STW', '3' => 'R'];
 
         return $types;
     }

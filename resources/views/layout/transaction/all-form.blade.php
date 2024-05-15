@@ -21,6 +21,7 @@
       <th class="center">Detail</th>
       @if($role == 'admin')
         <!-- <th class="center">Retur</th> -->
+        <th class="center">Edit</th>
         <th class="center">Print</th>
       @endif
     </tr>
@@ -66,6 +67,7 @@
               {{ method_field('PUT') }}
             </form>
           </td> -->
+            <td class="center"><a href="{{ url($role . '/transaction/' . $transaction->id . '/edit') }}"><i class="fa fa-pencil-square-o tosca" aria-hidden="true"></i></a></td>
             <td class="center"><a href="{{ url($role . '/transaction/' . $transaction->id . '/print') }}"><i class="fa fa-print tosca" aria-hidden="true"></i></a></td>
           @endif
         </tr>

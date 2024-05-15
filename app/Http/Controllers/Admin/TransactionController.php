@@ -64,6 +64,28 @@ class TransactionController extends Controller
         return view('admin.layout.page', compact('default', 'transaction'));
     }
 
+    public function edit($transaction_id)
+    {
+        [$default['type'], $default['color'], $default['data']] = alert();
+
+        $default['page_name'] = 'Edit transaksi';
+        $default['page'] = 'transaction';
+        $default['section'] = 'edit';
+
+        $transaction = Transaction::find($transaction_id);
+
+        return view('admin.layout.page', compact('default', 'transaction'));
+    }
+
+    public function update($transaction_id, Request $request)
+    {
+        $transaction = $this->updateTransactionBase('admin', \Auth::user()->id, $transaction_id, $request);
+
+        session(['alert' => 'edit', 'data' => 'transaksi barang']);
+            
+        return redirect('/admin/transaction/' . $transaction->id . '/print');
+    }
+
     public function print($transaction_id)
     {
         $role = 'admin';
