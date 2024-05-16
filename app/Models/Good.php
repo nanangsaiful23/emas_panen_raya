@@ -157,7 +157,7 @@ class Good extends Model
         }
         elseif($this->is_old_gold == 2)
         {
-            return 'STW';
+            return 'ST';
         }
         elseif($this->is_old_gold == 3)
         {

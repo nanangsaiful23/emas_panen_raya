@@ -96,13 +96,13 @@
       $("#code-" + total_item).html(good[4]);
       $("#quantity-" + total_item).val(1);
       if(good[5] == '0')
-        $("#weight-" + total_item).html("<h3>MD " + good[3] + "GR</h3>");
+        $("#weight-" + total_item).html("<h3>" + good[3] + " MD</h3>");
       else if(good[5] == '1')
-        $("#weight-" + total_item).html("<h3>TA " + good[3] + "GR</h3>");
+        $("#weight-" + total_item).html("<h3>" + good[3] + " TA</h3>");
       else if(good[5] == '2')
-        $("#weight-" + total_item).html("<h3>STW " + good[3] + "GR</h3>");
+        $("#weight-" + total_item).html("<h3>" + good[3] + " ST</h3>");
       else if(good[5] == '3')
-        $("#weight-" + total_item).html("<h3>R " + good[3] + "GR</h3>");
+        $("#weight-" + total_item).html("<h3>" + good[3] + " R</h3>");
       $("#stone_weight-" + total_item).html("{{ config('app.store_name') }}");
       // if(good[6] != '0.00' && good[6] != '' && good[6] != null && good[6] != '0')
       // {

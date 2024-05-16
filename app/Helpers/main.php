@@ -377,7 +377,8 @@
 
     function getGoldTypes()
     {
-        $types = [0 => 'MD', 1 => 'TA', '2' => 'STW', '3' => 'R'];
+        $types = [0 => 'MD', 1 => 'TA', '2' => 'ST', '3' => 'R'];
+        //ada di main, model good, vie choose print
 
         return $types;
     }
