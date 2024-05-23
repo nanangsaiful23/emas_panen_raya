@@ -363,11 +363,11 @@
 
     function getGoldHistoryNumber()
     {
-        $types = ['N' => 'Kulak pertama', '1' => 'Buyback pertama'];
+        $types = ['N' => 'Kulak pertama', '0' => 'Buyback pertama'];
 
-        for($i = 2; $i < 11; $i++)
+        for($i = 1; $i < 11; $i++)
         {
-            $entry = [$i => 'Buyback ke-' . $i];
+            $entry = [$i => 'Buyback ke-' . ($i + 1)];
             $types = array_merge($types, $entry);
             // array_push($types, $entry);
         }
@@ -443,6 +443,24 @@
         $roles = ['admin' => 'admin', 'cashier' => 'cashier', 'member' => 'member'];
 
         return $roles;
+    }
+
+    function getTotalItems($category, $status)
+    {
+        if($category == 'all')
+        {
+            $golds = Good::where('goods.status', $status)
+                         ->count();  
+        }
+        else
+        {
+            $golds = Good::join('categories', 'categories.id', 'goods.category_id')
+                         ->where('categories.code', $category)
+                         ->where('goods.status', $status)
+                         ->count();  
+        }
+
+        return $golds;
     }
 
     function getSearchLoading($type, $start_date = null, $end_date = null)
