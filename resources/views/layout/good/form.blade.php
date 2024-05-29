@@ -6,8 +6,7 @@
                 @if($SubmitButtonText == 'View')
                     {!! Form::text('category', null, array('class' => 'form-control', 'readonly' => 'readonly')) !!}
                 @else
-                    {!! Form::select('category_id', getCategories(), $good->category_id, ['class' => 'form-control select2',
-                    'style'=>'width: 100%', 'id' => 'category_id']) !!}
+                    {!! Form::text('category', $good->category->name, array('class' => 'form-control', 'readonly' => 'readonly')) !!}
                 @endif
             </div>
         </div>
@@ -18,7 +17,7 @@
                 @if($SubmitButtonText == 'View')
                     {!! Form::text('code', null, array('class' => 'form-control', 'readonly' => 'readonly')) !!}
                 @else
-                    {!! Form::text('code', null, array('class' => 'form-control')) !!}
+                    {!! Form::text('code', null, array('class' => 'form-control', 'readonly' => 'readonly')) !!}
                 @endif
             </div>
         </div>

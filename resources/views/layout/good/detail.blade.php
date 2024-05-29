@@ -18,11 +18,11 @@
                             <a href="{{ url($role . '/good/' . $good->id . '/photo/create') }}"><i class="fa fa-camera"></i><br>Tambah Foto</a><br>
                         </div>
                         <div class="col-sm-4" style="text-align: right;">
-                            <small>nama </small><br><span style="font-size: 25px; text-transform: capitalize;">{{ $good->name }}</span><br>
-                            <small>kode </small><br><span style="font-size: 15px">{{ $good->code }}</span><br>
-                            <small>persentase </small><br><span style="font-size: 20px">{{ $good->percentage->name }}</span><br>
-                            <small>berat </small><br><span style="font-size: 20px">{{ $good->weight }}gram</span><br>
-                            @if($good->getStock() > 0) <h4>{{ $good->status }}</h4> @else Sudah terjual @endif
+                            <small style="font-style: italic;">nama </small><br><span style="font-size: 25px; text-transform: capitalize;">{{ $good->name }}</span><br>
+                            <small style="font-style: italic;">kode </small><br><span style="font-size: 20px">{{ $good->code }}</span><br>
+                            <small style="font-style: italic;">persentase </small><br><span style="font-size: 20px">{{ $good->percentage->name }}</span><br>
+                            <small style="font-style: italic;">berat </small><br><span style="font-size: 20px">{{ $good->weight }}gram</span><br>
+                            <small style="font-style: italic;">status </small>@if($good->getStock() > 0) <h4>{{ $good->status }}</h4> @else Sudah terjual @endif
                         </div>
                     </div>
                     <hr>
