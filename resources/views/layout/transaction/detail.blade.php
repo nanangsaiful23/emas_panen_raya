@@ -20,6 +20,12 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            {!! Form::label('member', 'Member', array('class' => 'col-sm-2 control-label')) !!}
+                            <div class="col-sm-4">
+                                {!! Form::text('member', $transaction->member->name . ' (' . $transaction->member->address . '/' . $transaction->member->phone_number . ')', array('class' => 'form-control', 'readonly' => 'readonly')) !!}
+                            </div>
+                        </div>
+                        <div class="form-group">
                             {!! Form::label('total_item_price', 'Total Harga', array('class' => 'col-sm-2 control-label')) !!}
                             <div class="col-sm-4">
                                 {!! Form::text('total_item_price', showRupiah($transaction->total_item_price), array('class' => 'form-control', 'readonly' => 'readonly')) !!}
@@ -62,7 +68,10 @@
                             <thead>
                                 <th>Barcode</th>
                                 <th>Nama</th>
-                                <th>Jumlah</th>
+                                <th>Berat</th>
+                                <th>Kadar</th>
+                                <th>Berat Batu</th>
+                                <th>Harga Batu</th>
                                 @if(\Auth::user()->email == 'admin')
                                     <th>Harga Beli</th> 
                                 @endif
@@ -80,7 +89,16 @@
                                             {{ $detail->good_unit->good->name . ' ' . $detail->good_unit->unit->name }}
                                         </td>
                                         <td>
-                                            {{ $detail->quantity }}
+                                            {{ $detail->good_unit->good->weight }} gram
+                                        </td>
+                                        <td>
+                                            {{ $detail->good_unit->good->percentage->name . '(Pengali ' . $detail->good_unit->good->percentage->nominal . ' Profit ' . $detail->good_unit->good->percentage->profit . ')' }}
+                                        </td>
+                                        <td>
+                                            {{ $detail->good_unit->good->stone_weight }}
+                                        </td>
+                                        <td>
+                                            {{ showRupiah($detail->good_unit->good->stone_price) }}
                                         </td>
                                         @if(\Auth::user()->email == 'admin')
                                             <td style="text-align: right;">

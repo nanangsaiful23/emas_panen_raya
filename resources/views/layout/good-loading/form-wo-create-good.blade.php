@@ -146,7 +146,7 @@
                             <div class="form-group">
                                 {!! Form::label('gold_history_number', 'History Barang', array('class' => 'col-sm-4 control-label')) !!}
                                 <div class="col-sm-8">
-                                {!! Form::hidden('gold_history_number', '0') !!}
+                                {!! Form::hidden('gold_history_number', 'N') !!}
                                 {!! Form::text('gold_history_number_show', 'Kulak pertama', array('class' => 'form-control',  'readonly' => 'readonly')) !!}
                                 </div>
                             </div>
@@ -569,7 +569,8 @@
           function deleteItem(index)
           {
               $("#row-data-" + index).remove();
-              total_real_item-=1;
+              if(index == total_real_item)
+                total_real_item-=1;
               changeTotal();
           }
           function editPrice(index)

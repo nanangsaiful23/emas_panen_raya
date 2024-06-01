@@ -93,10 +93,10 @@
                 <th>Kode</th>
                 <th>Berat</th>
                 <th>Kadar</th>
-                <th>Harga Emas</th>
+                <th>Harga Emas per Gram</th>
                 <th>Barang</th>
                 <th style="display: none">Jumlah</th>
-                <th>Jumlah</th>
+                <th>Harga Emas</th>
                 <th>Harga Batu</th>
                 <th>Potongan</th>
                 <th style="display: none">Total Harga</th>
@@ -115,6 +115,7 @@
                     </td>
                     <td>
                         {!! Form::text('percentages[]', null, array('class' => 'form-control', 'readonly' => 'readonly', 'id' => 'percentage-'.$i, 'style' => 'display:none')) !!}
+                        {!! Form::text('profits[]', null, array('class' => 'form-control', 'readonly' => 'readonly', 'id' => 'profit-'.$i, 'style' => 'display:none')) !!}
                         {!! Form::text('percentage_shows[]', null, array('class' => 'form-control', 'readonly' => 'readonly', 'id' => 'percentage_show-'.$i)) !!}
                     </td>
                     <td>
@@ -271,6 +272,7 @@
                     document.getElementById("barcode-" + type + items).value = good.getPcsSellingPrice.id;
                     document.getElementById("code-" + type + items).value = good.code;
                     document.getElementById("weight-" + type + items).value = good.weight;
+                    document.getElementById("profit-" + type + items).value = good.percentage.profit;
                     document.getElementById("percentage-" + type + items).value = good.percentage.nominal;
                     document.getElementById("percentage_show-" + type + items).value = good.percentage.name;
                     if(good.stone_price == null || good.stone_price == "")
@@ -289,7 +291,12 @@
                     document.getElementById("gold_price-" + type + items).value = today_gold_buy_price;
 
                     document.getElementById("buy_price-" + type + items).value = document.getElementById("weight-" + type + items).value * document.getElementById("percentage-" + type + items).value * today_gold_buy_price;
-                    document.getElementById("price-" + type + items).value = document.getElementById("weight-" + type + items).value * document.getElementById("percentage-" + type + items).value * today_gold_buy_price;
+                    document.getElementById("price-" + type + items).value = document.getElementById("weight-" + type + items).value * document.getElementById("percentage-" + type + items).value * today_gold_buy_price * ((parseInt(100) + parseInt(document.getElementById("profit-" + type + items).value)) / 100);
+                    console.log(document.getElementById("weight-" + type + items).value);
+                    console.log(document.getElementById("percentage-" + type + items).value);
+                    console.log(document.getElementById("profit-" + type + items).value);
+                    console.log(document.getElementById("weight-" + type + items).value * document.getElementById("percentage-" + type + items).value * today_gold_buy_price * (parseInt(100) + parseInt(document.getElementById("profit-" + type + items).value)));
+                    console.log('ya');
 
                     editPrice(items);
 
@@ -510,7 +517,7 @@
 
             htmlResult = '<tr id="row-data' + "-" + type + temp1 + '">';
             htmlResult += '<td><input type="hidden" name="barcodes[]" id="barcode-' + temp1 + '"><input type="text" name="codes' + type + '[]" class="form-control" id="code-' + type + temp1 + '" readonly="readonly"></td>';
-            htmlResult += '<td><input type="text" name="weights' + type + '[]" class="form-control" id="weight-' + type + temp1+'" readonly="readonly"></td><td style="display:none"><input type="text" name="percentages' + type + '[]" class="form-control" id="percentage-' + type + temp1+'" readonly="readonly"></td>';
+            htmlResult += '<td><input type="text" name="weights' + type + '[]" class="form-control" id="weight-' + type + temp1+'" readonly="readonly"></td><td style="display:none"><input type="text" name="percentages' + type + '[]" class="form-control" id="percentage-' + type + temp1+'" readonly="readonly"><input type="text" name="profits' + type + '[]" class="form-control" id="profit-' + type + temp1+'" readonly="readonly"></td>';
             htmlResult += '<td><input type="text" name="percentage_shows' + type + '[]" class="form-control" id="percentage_show-' + type + temp1+'" readonly="readonly"></td>';
             htmlResult += '<td><input type="text" name="gold_prices' + type + '[]" class="form-control" id="gold_price-' + type + temp1+'" readonly="readonly"></td>';
             htmlResult += '<td width="10%"><textarea class="form-control" readonly="readonly" id="name_temp-' + type + temp1 + '" name="name_temps' + type + '[]" type="text" style="height: 70px"></textarea><input id="name-' + type + temp1 + '" name="names' + type + '[]" type="text" style="display:none"></td>';

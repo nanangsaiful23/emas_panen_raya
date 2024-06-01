@@ -174,7 +174,14 @@ trait TransactionControllerBase
                 $data_detail['real_quantity']  = $request->quantities[$i] * $good_unit->unit->quantity;
                 $data_detail['last_stock']     = $good_unit->good->getStock();
                 $data_detail['gold_price']     = unformatNumber($request->gold_prices[$i]);
-                $data_detail['buy_price']      = ($data_detail['gold_price'] * $good_unit->good->weight * $good_unit->good->percentage->nominal * $good_unit->good->percentage->profit) + checkNull($good_unit->good->change_status_fee);
+                if($good_unit->good->gold_history_number == 'N')
+                {
+                    $data_detail['buy_price']  = ($data_detail['gold_price'] * $good_unit->good->weight * $good_unit->good->percentage->nominal) + checkNull($good_unit->good->change_status_fee);
+                }
+                else
+                {
+                    $data_detail['buy_price']  = $good_unit->good->getLastBuy() != null ? $good_unit->good->getLastBuy()->price : 0;
+                }
                 $data_detail['selling_price']  = unformatNumber($request->prices[$i]);
                 $data_detail['discount_price'] = unformatNumber($request->discounts[$i]);
                 $data_detail['stone_price']    = unformatNumber($request->stone_prices[$i]);
