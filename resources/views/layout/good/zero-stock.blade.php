@@ -43,6 +43,7 @@
               {!! Form::model(old(),array('url' => route($role . '.zeroStock.export'), 'enctype'=>'multipart/form-data', 'method' => 'POST', 'class' => 'form-horizontal')) !!}
                 {!! Form::submit('EXPORT', ['class' => 'btn form-control'])  !!}
             @endif
+            <h3>Total barang: {{ sizeof($goods) }}</h3>
             <table id="example1" class="table table-bordered table-striped">
               <thead>
               <tr>
