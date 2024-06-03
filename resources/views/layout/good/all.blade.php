@@ -91,12 +91,18 @@
                       <td>-</td>
                       <td>-</td>
                     @endif
-                    <td @if($good->status != 'Siap dijual') style="background-color: red !important"@endif>
-                      {{ $good->status }}<br>
-                      @if($good->status != 'Siap dijual')
-                        <a href="{{ url($role . '/good/' . $good->id . '/edit') }}" class="btn btn-warning" target="_blank()">Ubah Status Barang</a>
-                      @endif
-                    </td>
+                    @if($good->getStock() == 0)
+                      <td style="background-color: yellow !important">
+                        Barang sudah terjual<br>
+                      </td>
+                    @else
+                      <td @if($good->status != 'Siap dijual') style="background-color: red !important"@endif>
+                        {{ $good->status }}<br>
+                        @if($good->status != 'Siap dijual')
+                          <a href="{{ url($role . '/good/' . $good->id . '/edit') }}" class="btn btn-warning" target="_blank()">Ubah Status Barang</a>
+                        @endif
+                      </td>
+                    @endif
                     <td>
                       <i class="fa fa-cubes brown" aria-hidden="true"></i> {{ $good->getStock() . ' ' . $good->getPcsSellingPrice()->unit->code }}<br>
                       <i class="fa fa-money green" aria-hidden="true"></i> {{ $good->good_transactions()->sum('real_quantity') . ' ' . $good->getPcsSellingPrice()->unit->code }}<br>
@@ -173,7 +179,12 @@
               htmlResult += "<td>" + r[i].percentage.name + "</td>";
               htmlResult += "<td>" + r[i].stone_weight + "</td>";
               htmlResult += "<td>" + r[i].stone_price + "</td>";
-              htmlResult += "<td>" + r[i].status + "</td>";
+
+              if(r[i].stock == 0)
+                htmlResult += '<td style="background-color: #FFFDB5 !important">Barang sudah terjual<br></td>';
+              else
+                htmlResult += "<td>" + r[i].status + "</td>";
+
               htmlResult += "<td><i class=\"fa fa-cubes brown\" aria-hidden=\"true\"></i> " + r[i].stock + " " + r[i].unit + "<br><i class=\"fa fa-money green\" aria-hidden=\"true\"></i> " + r[i].transaction + " " + r[i].unit + "<br><i class=\"fa fa-truck pink\" aria-hidden=\"true\"></i> " + r[i].loading + " " + r[i].unit + "<br><br>@if($role == 'admin')<a href=\"" + window.location.origin + "/" + '{{ $role }}' + "/good/" + r[i].id + "/history/2023-01-01/" + "{{ date('Y-m-d') }}" + "/10\" class=\"btn btn-warning\" target=\"_blank()\">Riwayat barang</a><br>@endif</td>";
 
               htmlResult += "<td><a href=\"" + window.location.origin + "/" + '{{ $role }}' + "/good/" + r[i].id + "/detail\" target=\"_blank()\"><i class=\"fa fa-hand-o-right tosca\" aria-hidden=\"true\"></i> Detail</a><br>@if($role == 'admin')<a href=\"" + window.location.origin + "/" + '{{ $role }}' + "/good/" + r[i].id + "/edit\" target=\"_blank()\"><i class=\"fa fa-pencil-square-o orange\"></i> Edit</a><br>@endif<a href=\"" + window.location.origin + "/" + '{{ $role }}' + "/good/" + r[i].id + "/photo/create\" target=\"_blank()\"><i class=\"fa fa-camera orange\"></i> Photo</a><br>";

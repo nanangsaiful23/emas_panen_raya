@@ -554,7 +554,8 @@ trait GoodControllerBase
                                       LEFT JOIN (SELECT COALESCE(SUM(good_loading_details.real_quantity), 0) as quantity, good_units.good_id
                                                 FROM good_loading_details
                                                 LEFT JOIN good_units ON good_units.id = good_loading_details.good_unit_id
-                                                WHERE good_units.deleted_at IS NULL
+                                                LEFT JOIN good_loadings ON good_loadings.id = good_loading_details.good_loading_id
+                                                WHERE good_units.deleted_at IS NULL AND good_loadings.deleted_at IS NULL
                                                 GROUP BY good_units.good_id) as loading ON loading.good_id = goods.id
                                       LEFT JOIN (SELECT COALESCE(SUM(transaction_details.real_quantity), 0) as quantity, good_units.good_id
                                                 FROM transaction_details

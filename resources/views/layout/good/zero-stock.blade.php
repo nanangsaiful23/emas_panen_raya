@@ -46,10 +46,11 @@
             <table id="example1" class="table table-bordered table-striped">
               <thead>
               <tr>
-                @if(\Auth::user()->email == 'admin')
-                  <th>Distributor Terakhir</th>
-                @endif
+                <th>Kategori</th>
+                <th>Kode</th>
                 <th>Nama</th>
+                <th>Berat</th>
+                <th>Kadar</th>
                 @if(\Auth::user()->email == 'admin')
                   <th>Loading Terakhir</th>
                   <th>Harga Beli Terakhir</th>
@@ -64,10 +65,11 @@
               <tbody id="table-good">
                 @foreach($goods as $good)
                   <tr>
-                    @if(\Auth::user()->email == 'admin')
-                      <td>{{ $good->obj->getLastBuy() == null ? "" : $good->obj->getLastBuy()->good_loading->distributor->name }}</td>
-                    @endif
+                    <td>{{ $good->obj->category->name }}</td>
+                    <td>{{ $good->obj->code }}</td>
                     <td>{{ $good->obj->name }}</td>
+                    <td>{{ $good->obj->weight }} gram</td>
+                    <td>{{ $good->obj->percentage->name }}</td>
                     @if(\Auth::user()->email == 'admin')
                       <td style="text-align: center;">{{ $good->obj->getLastBuy() == null ? "" : displayDate($good->obj->getLastBuy()->good_loading->loading_date) }}</td>
                       <td style="text-align: right;">{{ $good->obj->getLastBuy() == null ? "" : showRupiah($good->obj->getLastBuy()->price) }}</td>
