@@ -337,6 +337,7 @@
           $(document).ready (function (){
               $('.select2').select2();
               $("#all_barcode").focus();
+              $("#row-data-" + total_item).hide();
                 $('#loading_date').datepicker({
                     autoclose: true,
                     format: 'yyyy-mm-dd',
@@ -350,6 +351,7 @@
 
               if(good.length != 0)
               {
+                $("#row-data-" + total_item).show();
                 @if($type == 'buy')
                     $("#id-" + total_item).val(good.id);
                 @endif
@@ -409,6 +411,8 @@
               }
 
               if(isi){
+                
+                $("#row-data-" + total_item).show();
                     $("#category_id-" + total_item).val($("#category_id").val()).change();
                     $("#is_old_gold-" + total_item).val($("#is_old_gold").val()).change();
                     $("#name-" + total_item).val($("#name").val());
@@ -607,6 +611,7 @@
               {
                   total_item += 1;
                   $("#table-transaction").prepend(htmlResult);
+                $("#row-data-" + total_item).hide();
               }
 
           }
