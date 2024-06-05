@@ -24,14 +24,11 @@ trait TransactionControllerBase
     {
         $transactions = [];
 
-        $sub_total = Transaction::join('transaction_details', 'transaction_details.transaction_id', 'transactions.id')
-                                ->select(DB::raw('SUM(transactions.total_sum_price) as total_sum_price, SUM(transactions.total_discount_price) as total_discount_price, SUM(transaction_details.discount_price) as discount_item'))
-                                ->whereDate('transactions.created_at', '>=', $start_date)
+        $sub_total = Transaction::whereDate('transactions.created_at', '>=', $start_date)
                                 ->whereDate('transactions.created_at', '<=', $end_date) 
                                 ->where('transactions.payment', 'cash')
                                 ->whereRaw('transactions.money_paid >= total_sum_price')
                                 ->where('transactions.type', 'normal')
-                                ->groupBy('transactions.created_at')
                                 ->orderBy('transactions.created_at','desc')
                                 ->get();
 
