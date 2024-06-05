@@ -38,7 +38,7 @@
             <li class="{{ Request::segment(2) == 'good' && Request::segment(3) != 'printDisplay' && Request::segment(3) != 'zeroStock' && Request::segment(3) != 'exp' && Request::segment(3) != 'changeStatus' ? 'active' : ''  }}"><a href="{{ url('/' . $role . '/good/all/all/all/20') }}"><i class="fa fa-circle-o"></i> Daftar Barang</a></li>
             <li class="{{ Request::segment(2) == 'good' && Request::segment(3) == 'printDisplay' ? 'active' : ''  }}"><a href="{{ url('/' . $role . '/good/printBarcode') }}"><i class="fa fa-circle-o"></i> Print Barcode Barang</a></li>
             @if($role == 'admin')
-              <li class="{{ Request::segment(2) == 'good' && Request::segment(3) == 'zeroStock' ? 'active' : ''  }}"><a href="{{ url('/' . $role . '/good/zeroStock/all/all/1/0') }}"><i class="fa fa-circle-o"></i> Daftar Barang Terjual</a></li>
+              <li class="{{ Request::segment(2) == 'good' && Request::segment(3) == 'zeroStock' ? 'active' : ''  }}"><a href="{{ url('/' . $role . '/good/zeroStock/all/all/all/0') }}"><i class="fa fa-circle-o"></i> Daftar Barang Terjual</a></li>
               <li class="{{ Request::segment(2) == 'good' && Request::segment(3) == 'changeStatus' ? 'active' : ''  }}"><a href="{{ url('/' . $role . '/good/changeStatus') }}"><i class="fa fa-circle-o"></i> Ubah Status Barang</a></li>
             @endif
         </ul>

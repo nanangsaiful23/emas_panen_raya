@@ -83,6 +83,7 @@ Route::group(['prefix' => 'good'], function () {
 	Route::post('/zeroStock/export', 'GoodController@stockExport')->name('zeroStock.export');
 	Route::get('/exp', 'GoodController@exp');
     Route::post('/store', 'GoodController@store')->name('good.store');
+	Route::post('/export/{category_id}/{distributor_id}', 'GoodController@goodExport')->name('good.export');
 	Route::get('/{good_id}/status/{type}', 'GoodController@changeStatus');
     Route::get('/{good_id}/loading/{start_date}/{end_date}/{pagination}', 'GoodController@loading');
     Route::get('/{good_id}/transaction/{start_date}/{end_date}/{pagination}', 'GoodController@transaction');

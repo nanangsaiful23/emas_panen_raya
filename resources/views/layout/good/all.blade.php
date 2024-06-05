@@ -44,6 +44,11 @@
             </div>
           </div>
           <div class="box-body" style="overflow-x:scroll">
+            @if(\Auth::user()->email == 'admin')
+              {!! Form::model(old(),array('url' => route($role . '.good.export', [$category_id, $status]), 'enctype'=>'multipart/form-data', 'method' => 'POST', 'class' => 'form-horizontal')) !!}
+                {!! Form::submit('EXPORT DATA BARANG SESUAI KATEGORI & STATUS YANG DIPILIH', ['class' => 'btn form-control'])  !!}
+              </form>
+            @endif
               <div class="form-group">
                 @if($pagination != 'all')
                   {{ $goods->render() }}
