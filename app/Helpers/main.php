@@ -507,7 +507,7 @@
                          ->get();  
         }
 
-        return $golds->count();
+        return sizeof($golds);
     }
 
     function getSearchLoading($type, $start_date = null, $end_date = null)
