@@ -85,7 +85,7 @@
                                             </td>
                                         @endif
                                         <td>
-                                            @if($detail->good->stone_weight != '0.00')
+                                            @if($detail->good->stone_weight != '0.00' && $detail->good->stone_weight != null && $detail->good->stone_weight != '' && $detail->good->stone_weight != '0') 
                                                 {{ $detail->good->stone_weight }} gram
                                             </td>
                                             <td>

@@ -916,50 +916,20 @@ trait GoodControllerBase
                                              ->orderBy('transaction_details.created_at', 'asc')
                                              ->paginate($pagination);
         }
-
         $histories = [];
-        $i = 0;
-        $j = 0;
 
-        if(sizeof($loadings) > sizeof($transactions)) 
+        foreach($transactions as $transaction)
         {
-            $total = sizeof($loadings);
+            $transaction->type = 'transaction';
+            array_push($histories, $transaction);
         }
-        else
+        foreach($loadings as $loading)
         {
-            $total = sizeof($transactions);
+            $loading->type = 'loading';
+            array_push($histories, $loading);
         }
 
-        for($k = 0; $k < $total; $k++)
-        {
-            if(isset($loadings[$i]) && isset($transactions[$j]))
-            {
-                if($loadings[$i]->created_at < $transactions[$j]->created_at)
-                {
-                    $loadings[$i]->type = 'loading';
-                    array_push($histories, $loadings[$i]);
-                    $i++;
-                }
-                else
-                {
-                    $transactions[$j]->type = 'transaction';
-                    array_push($histories, $transactions[$j]);
-                    $j++;
-                }
-            }
-            elseif(isset($loadings[$i]))
-            {
-                $loadings[$i]->type = 'loading';
-                array_push($histories, $loadings[$i]);
-                $i++;
-            }
-            else
-            {
-                $transactions[$j]->type = 'transaction';
-                array_push($histories, $transactions[$j]);
-                $j++;
-            }
-        }
+        usort($histories, fn($a, $b) => strcmp($a->created_at, $b->created_at));
 
         return $histories;
     }

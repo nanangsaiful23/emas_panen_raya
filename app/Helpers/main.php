@@ -473,9 +473,9 @@
     {
         if($category == 'all')
         {
-            $golds = Good::leftjoin('good_units', 'good_units.good_id', 'goods.id')
-                         ->leftjoin('good_loading_details', 'good_loading_details.good_unit_id', 'good_units.id')
-                         ->leftjoin('good_loadings', 'good_loadings.id', 'good_loading_details.good_loading_id')
+            $golds = Good::join('good_units', 'good_units.good_id', 'goods.id')
+                         ->join('good_loading_details', 'good_loading_details.good_unit_id', 'good_units.id')
+                         ->join('good_loadings', 'good_loadings.id', 'good_loading_details.good_loading_id')
                          ->leftjoin('transaction_details', 'transaction_details.good_unit_id', 'good_units.id')
                          ->leftjoin('transactions', 'transactions.id', 'transaction_details.transaction_id')
                          ->select('goods.id')
@@ -489,10 +489,10 @@
         }
         else
         {
-            $golds = Good::leftjoin('categories', 'categories.id', 'goods.category_id')
-                         ->leftjoin('good_units', 'good_units.good_id', 'goods.id')
-                         ->leftjoin('good_loading_details', 'good_loading_details.good_unit_id', 'good_units.id')
-                         ->leftjoin('good_loadings', 'good_loadings.id', 'good_loading_details.good_loading_id')
+            $golds = Good::join('categories', 'categories.id', 'goods.category_id')
+                         ->join('good_units', 'good_units.good_id', 'goods.id')
+                         ->join('good_loading_details', 'good_loading_details.good_unit_id', 'good_units.id')
+                         ->join('good_loadings', 'good_loadings.id', 'good_loading_details.good_loading_id')
                          ->leftjoin('transaction_details', 'transaction_details.good_unit_id', 'good_units.id')
                          ->leftjoin('transactions', 'transactions.id', 'transaction_details.transaction_id')
                          ->select('goods.id')
@@ -507,7 +507,7 @@
                          ->get();  
         }
 
-        return sizeof($golds);
+        return dd($golds);die;
     }
 
     function getSearchLoading($type, $start_date = null, $end_date = null)
