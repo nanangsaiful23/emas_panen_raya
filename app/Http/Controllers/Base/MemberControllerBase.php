@@ -14,19 +14,27 @@ trait MemberControllerBase
     public function indexMemberBase($start_date, $end_date, $sort, $order, $pagination)
     {
         if($pagination == 'all')
-           $members = Member::leftjoin('transactions', 'transactions.member_id', 'members.id')
+           $members = Member::leftJoin('transactions', function($join) use ($start_date, $end_date) {
+                                $join->on('transactions.member_id', '=', 'members.id')
+                                     ->on('transactions.created_at', '>=', DB::raw("'".$start_date."'"))
+                                     ->on('transactions.created_at', '<=', DB::raw("'".$end_date."'"));
+                            })
+                            // ->where('transactions.type', 'normal')
+                            // ->whereDate('transactions.created_at', '>=', $start_date)
+                            // ->whereDate('transactions.created_at', '<=', $end_date) 
                             ->select('members.id', 'members.name', 'members.address', 'members.phone_number', 'members.birth_place', 'members.birth_date', DB::raw('SUM(transactions.total_sum_price) as total_sum_price'), DB::raw('COUNT(transactions.id) as total_transaction'))
-                            ->where('transactions.type', 'normal')
-                            ->whereDate('transactions.created_at', '>=', $start_date)
-                            ->whereDate('transactions.created_at', '<=', $end_date) 
                             ->groupBy('members.id', 'members.name', 'members.address', 'members.phone_number', 'members.birth_place', 'members.birth_date')
                             ->orderBy($sort, $order)->get();
         else
-           $members = Member::leftjoin('transactions', 'transactions.member_id', 'members.id')
+           $members = Member::leftJoin('transactions', function($join) use ($start_date, $end_date) {
+                                $join->on('transactions.member_id', '=', 'members.id')
+                                     ->on('transactions.created_at', '>=', DB::raw("'".$start_date."'"))
+                                     ->on('transactions.created_at', '<=', DB::raw("'".$end_date."'"));
+                            })
+                            // ->where('transactions.type', 'normal')
+                            // ->whereDate('transactions.created_at', '>=', $start_date)
+                            // ->whereDate('transactions.created_at', '<=', $end_date) 
                             ->select('members.id', 'members.name', 'members.address', 'members.phone_number', 'members.birth_place', 'members.birth_date', DB::raw('SUM(transactions.total_sum_price) as total_sum_price'), DB::raw('COUNT(transactions.id) as total_transaction'))
-                            ->where('transactions.type', 'normal')
-                            ->whereDate('transactions.created_at', '>=', $start_date)
-                            ->whereDate('transactions.created_at', '<=', $end_date) 
                             ->groupBy('members.id', 'members.name', 'members.address', 'members.phone_number', 'members.birth_place', 'members.birth_date')
                             ->orderBy($sort, $order)->paginate($pagination);
 
