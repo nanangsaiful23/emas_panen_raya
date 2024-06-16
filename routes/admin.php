@@ -80,7 +80,7 @@ Route::group(['prefix' => 'good'], function () {
 	Route::get('/searchByKeywordGoodUnit/{query}', 'GoodController@searchByKeywordGoodUnit');
 	Route::get('/printBarcode', 'GoodController@choosePrintBarcode');
 	Route::post('/printBarcode', 'GoodController@printBarcode')->name('print-barcode');
-	Route::get('/zeroStock/{category_id}/{location}/{distributor_id}/{stock}', 'GoodController@zeroStock');
+	Route::get('/zeroStock/{category_id}/{location}/{distributor_id}/{stock}/{pagination}', 'GoodController@zeroStock');
 	Route::post('/zeroStock/export', 'GoodController@stockExport')->name('zeroStock.export');
 	Route::get('/exp', 'GoodController@exp');
     Route::post('/store', 'GoodController@store')->name('good.store');

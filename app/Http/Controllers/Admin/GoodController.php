@@ -271,7 +271,7 @@ class GoodController extends Controller
         return view('layout.good.print-barcode', compact('role', 'goods'));
     }
 
-    public function zeroStock($category_id, $location, $distributor_id, $stock)
+    public function zeroStock($category_id, $location, $distributor_id, $stock, $pagination)
     {
         [$default['type'], $default['color'], $default['data']] = alert();
 
@@ -279,9 +279,9 @@ class GoodController extends Controller
         $default['page'] = 'good';
         $default['section'] = 'zero-stock';
 
-        $goods = $this->zeroStockGoodBase($category_id, $location, $distributor_id, $stock);
+        $goods = $this->zeroStockGoodBase($category_id, $location, $distributor_id, $stock, $pagination);
 
-        return view('admin.layout.page', compact('default', 'goods', 'category_id', 'location', 'distributor_id', 'stock'));
+        return view('admin.layout.page', compact('default', 'goods', 'category_id', 'location', 'distributor_id', 'stock' , 'pagination'));
     }
 
     public function changeStatus()

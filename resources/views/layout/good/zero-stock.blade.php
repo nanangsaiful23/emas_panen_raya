@@ -18,24 +18,24 @@
           </div>
           <div class="box-body" style="overflow-x:scroll">
             <div class="form-group col-sm-12" style="margin-top: 10px;">
-              {!! Form::label('location', 'Lokasi', array('class' => 'col-sm-1 control-label')) !!}
-              <div class="col-sm-3">
-                {!! Form::select('location', getDistributorLocations(), $location, ['class' => 'form-control select2', 'style'=>'width: 100%', 'id' => 'location', 'onchange' => 'advanceSearch()']) !!}
-              </div>
               {!! Form::label('category_id', 'Kategori', array('class' => 'col-sm-1 control-label')) !!}
               <div class="col-sm-5">
                 {!! Form::select('category_id', getCategories(), $category_id, ['class' => 'form-control select2', 'style'=>'width: 100%', 'id' => 'category_id', 'onchange' => 'advanceSearch()']) !!}
-              </div>
-            </div>
-            <div class="form-group col-sm-12" style="margin-top: 10px;">
-              {!! Form::label('stock', 'Stock', array('class' => 'col-sm-1 control-label')) !!}
-              <div class="col-sm-3">
-                {!! Form::select('stock', ['0' => '0', '3' => '3', '5' => '5', '10' => '10'], $stock, ['class' => 'form-control select2', 'style'=>'width: 100%', 'id' => 'stock', 'onchange' => 'advanceSearch()']) !!}
               </div>
               {!! Form::label('distributor', 'Distributor', array('class' => 'col-sm-1 control-label')) !!}
               <div class="col-sm-5">
                 {!! Form::select('distributor_id', getDistributorLists(), $distributor_id, ['class' => 'form-control select2', 'style'=>'width: 100%', 'id' => 'distributor_id', 'onchange' => 'advanceSearch()']) !!}
               </div>
+            </div>
+            <div class="form-group col-sm-12" style="margin-top: 10px;">
+              <!-- {!! Form::label('stock', 'Stock', array('class' => 'col-sm-1 control-label')) !!}
+              <div class="col-sm-3">
+                {!! Form::select('stock', ['0' => '0', '3' => '3', '5' => '5', '10' => '10'], $stock, ['class' => 'form-control select2', 'style'=>'width: 100%', 'id' => 'stock', 'onchange' => 'advanceSearch()']) !!}
+              </div> -->
+              <!-- {!! Form::label('location', 'Lokasi', array('class' => 'col-sm-1 control-label')) !!}
+              <div class="col-sm-3">
+                {!! Form::select('location', getDistributorLocations(), $location, ['class' => 'form-control select2', 'style'=>'width: 100%', 'id' => 'location', 'onchange' => 'advanceSearch()']) !!}
+              </div> -->
             </div>
           </div>
           <div class="box-body" style="overflow-x:scroll; color: black !important">
@@ -66,28 +66,28 @@
               <tbody id="table-good">
                 @foreach($goods as $good)
                   <tr>
-                    <td>{{ $good->obj->category->name }}</td>
-                    <td>{{ $good->obj->code }}</td>
-                    <td>{{ $good->obj->name }}</td>
-                    <td>{{ $good->obj->weight }} gram</td>
-                    <td>{{ $good->obj->percentage->name }}</td>
+                    <td>{{ $good->category_name }}</td>
+                    <td>{{ $good->code }}</td>
+                    <td>{{ $good->name }}</td>
+                    <td>{{ $good->weight }} gram</td>
+                    <td>{{ $good->percentage_name }}</td>
                     @if(\Auth::user()->email == 'admin')
-                      <td style="text-align: center;">{{ $good->obj->getLastBuy() == null ? "" : displayDate($good->obj->getLastBuy()->good_loading->loading_date) }}</td>
-                      <td style="text-align: right;">{{ $good->obj->getLastBuy() == null ? "" : showRupiah($good->obj->getLastBuy()->price) }}</td>
+                      <td style="text-align: center;">{{ $good->getLastBuy() == null ? "" : displayDate($good->getLastBuy()->good_loading->loading_date) }}</td>
+                      <td style="text-align: right;">{{ $good->getLastBuy() == null ? "" : showRupiah($good->getLastBuy()->price) }}</td>
                     @endif
-                    <td style="text-align: center;">{{ $good->obj->getStock() }}</td>
+                    <td style="text-align: center;">{{ $good->getStock() }}</td>
                     @if(\Auth::user()->email == 'admin')
                       <td style="text-align: center;">
-                        <input type="checkbox" name="exports[]" value="{{ $good->obj->id }}" checked="checked">
+                        <input type="checkbox" name="exports[]" value="{{ $good->id }}" checked="checked">
                       </td>
                       </form>
                       <td style="text-align: center;">
-                        @if($good->obj->getStock() == 0)
+                        @if($good->getStock() == 0)
                           <button type="button" class="no-btn" data-toggle="modal" data-target="#modal-danger-{{$good->id}}"><i class="fa fa-times red" aria-hidden="true"></i></button>
 
-                          @include('layout' . '.delete-modal', ['id' => $good->obj->id, 'data' => $good->obj->name, 'formName' => 'delete-form-' . $good->obj->id])
+                          @include('layout' . '.delete-modal', ['id' => $good->id, 'data' => $good->name, 'formName' => 'delete-form-' . $good->id])
 
-                          <form id="delete-form-{{$good->obj->id}}" action="{{ url($role . '/good/' . $good->obj->id . '/delete') }}" method="POST" style="display: none;">
+                          <form id="delete-form-{{$good->id}}" action="{{ url($role . '/good/' . $good->id . '/delete') }}" method="POST" style="display: none;">
                             {{ csrf_field() }}
                             {{ method_field('DELETE') }}
                           </form>
@@ -127,7 +127,7 @@
 
     function advanceSearch()
     {
-      window.location = window.location.origin + '/{{ $role }}/good/zeroStock/' + $('#category_id').val() + '/' + $('#location').val() + '/' + $('#distributor_id').val() + '/' + $('#stock').val();
+      window.location = window.location.origin + '/{{ $role }}/good/zeroStock/' + $('#category_id').val() + '/{{ $location }}/' + $('#distributor_id').val() + '/0/all';
     }
   </script>
 @endsection
