@@ -51,6 +51,7 @@ Route::group(['prefix' => 'color'], function () {
 Route::group(['prefix' => 'distributor/{type}'], function () {
 	Route::get('/create', 'DistributorController@create');
 	Route::post('/store', 'DistributorController@store')->name('distributor.store');
+	Route::get('/search/{keyword}', 'DistributorController@search');
 	Route::get('/{distributor_id}/detail', 'DistributorController@detail');
 	Route::get('/{distributor_id}/edit', 'DistributorController@edit');
 	Route::put('/{distributor_id}/edit', 'DistributorController@update')->name('distributor.update');
@@ -149,13 +150,17 @@ Route::group(['prefix' => 'lebur'], function () {
 Route::group(['prefix' => 'member'], function () {
 	Route::get('/create', 'MemberController@create');
 	Route::post('/store', 'MemberController@store')->name('member.store');
+	Route::get('/search/{member_id}', 'MemberController@search');
+	Route::get('/searchByName/{name}', 'MemberController@searchByName');
 	Route::get('/{member_id}/detail', 'MemberController@detail');
+	Route::get('/{member_id}/redeem', 'MemberController@createRedeem');
+	Route::post('/{member_id}/storeRedeem', 'MemberController@storeRedeem')->name('member.storeRedeem');
 	Route::get('/{member_id}/transaction/{start_date}/{end_date}/{pagination}', 'MemberController@transaction');
-	Route::get('/{member_id}/payment/{start_date}/{end_date}/{pagination}', 'MemberController@payment');
+	Route::get('/{member_id}/point/{start_date}/{end_date}/{pagination}', 'MemberController@point');
 	Route::get('/{member_id}/edit', 'MemberController@edit');
 	Route::put('/{member_id}/edit', 'MemberController@update')->name('member.update');
 	Route::delete('/{member_id}/delete', 'MemberController@delete')->name('member.delete');
-	Route::get('/{pagination}', 'MemberController@index');
+	Route::get('/{start_date}/{end_date}/{sort}/{order}/{pagination}', 'MemberController@index');
 });
 
 Route::group(['prefix' => 'other-payment'], function () {

@@ -7,28 +7,28 @@
       <div class="col-xs-12">
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">{{ $default['page_name']  . ': ' . $member->name . ' (' . $member->address . ')' }}</h3>
+            <h3 class="box-title">{{ $default['page_name'] }}</h3>
             @include('layout.search-form')
           </div>
           <div class="box-body" style="overflow-x:scroll; color: black !important">
             <table id="example1" class="table table-bordered table-striped">
               <thead>
               <tr>
-                <th width="30%">Tanggal Pembayaran</th>
-                <th>Nominal</th>
+                <th width="20%">Tanggal Penukaran point</th>
+                <th>Point yang Ditukar</th>
               </tr>
               </thead>
               <tbody id="table-good">
-                @foreach($payments as $payment)
+                @foreach($points as $point)
                   <tr>
-                    <td>{{ displayDate($payment->payment_date) }}</td>
-                    <td>{{ showRupiah($payment->money) }}</td>
+                    <td>{{ displayDate($point->created_at) }}</td>
+                    <td>{{ $point->point }} point</td>
                   </tr>
                 @endforeach
               </tbody>
               <div id="renderField">
                 @if($pagination != 'all')
-                  {{ $payments->render() }}
+                  {{ $points->render() }}
                 @endif
               </div>
             </table>

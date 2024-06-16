@@ -27,9 +27,8 @@
               </div>
             </div>
           </div>
-          <div class="box-body" style="overflow-x:scroll; background-color: #E5F9DB">
-            <h3>Transaksi Lunas</h3><br>
-            <h4>Total transaksi lunas: {{ showRupiah($transactions['cash']->sum('total_sum_price')) }}</h4>
+          <div class="box-body">
+            <h4>Total transaksi: {{ showRupiah($transactions['cash']->sum('total_sum_price')) }}</h4>
             <h4>Total potongan: {{ showRupiah($transactions['cash']->sum('total_discount_price')) }}</h4><br>
           </div>
           <div class="box-body" style="overflow-x:scroll; background-color: #E5F9DB">
@@ -69,98 +68,6 @@
               <div id="renderField">
                 @if($pagination != 'all')
                   {{ $transactions['cash']->render() }}
-                @endif
-              </div>
-            </table>
-          </div>
-          <div class="box-body" style="overflow-x:scroll; background-color: #FFD3A3">
-            <h3>Transaksi Hutang</h3><br>
-            <h4>Total transaksi hutang: {{ showRupiah($transactions['credit']->sum('total_sum_price')) }}</h4>
-            <h4>Total potongan: {{ showRupiah($transactions['credit']->sum('total_discount_price')) }}</h4><br>
-          </div>
-          <div class="box-body" style="overflow-x:scroll; background-color: #FFD3A3">
-            <table id="example1" class="table table-bordered table-striped">
-              <thead>
-              <tr>
-                <th>Waktu</th>
-                @if(\Auth::user()->email == 'admin')
-                  <th>Kasir</th>
-                @endif
-                <th>Total Belanja</th>
-                <th>Total Diskon</th>
-                <th>Potongan Akhir</th>
-                <th>Total Akhir</th>
-                <th>Uang Dibayar</th>
-                <th>Kembalian</th>
-                <th class="center">Detail</th>
-              </tr>
-              </thead>
-              <tbody id="table-good">
-                @foreach($transactions['credit'] as $transaction)
-                  <tr>
-                    <td>{{ $transaction->created_at }}</td>
-                    @if(\Auth::user()->email == 'admin')
-                      <td>{{ $transaction->actor()->name }}</td>
-                    @endif
-                    <td>{{ showRupiah($transaction->total_item_price) }}</td>
-                    <td>{{ showRupiah(checkNull($transaction->details->sum('discount_price'))) }}</td>
-                    <td>{{ showRupiah($transaction->total_discount_price) }}</td>
-                    <td>{{ showRupiah($transaction->total_sum_price) }}</td>
-                    <td>{{ showRupiah($transaction->money_paid) }}</td>
-                    <td>{{ showRupiah($transaction->money_returned) }}</td>
-                    <td class="center"><a href="{{ url($role . '/transaction/' . $transaction->id . '/detail') }}"><i class="fa fa-hand-o-right tosca" aria-hidden="true"></i></a></td>
-                  </tr>
-                @endforeach
-              </tbody>
-              <div id="renderField">
-                @if($pagination != 'all')
-                  {{ $transactions['credit']->render() }}
-                @endif
-              </div>
-            </table>
-          </div>
-          <div class="box-body" style="overflow-x:scroll; background-color: #ECC9EE">
-            <h3>Transaksi Transfer</h3><br>
-            <h4>Total transaksi transfer: {{ showRupiah($transactions['transfer']->sum('total_sum_price')) }}</h4>
-            <h4>Total potongan: {{ showRupiah($transactions['transfer']->sum('total_discount_price')) }}</h4><br>
-          </div>
-          <div class="box-body" style="overflow-x:scroll; background-color: #ECC9EE">
-            <table id="example1" class="table table-bordered table-striped">
-              <thead>
-              <tr>
-                <th>Waktu</th>
-                @if(\Auth::user()->email == 'admin')
-                  <th>Kasir</th>
-                @endif
-                <th>Total Belanja</th>
-                <th>Total Diskon</th>
-                <th>Potongan Akhir</th>
-                <th>Total Akhir</th>
-                <th>Uang Dibayar</th>
-                <th>Kembalian</th>
-                <th class="center">Detail</th>
-              </tr>
-              </thead>
-              <tbody id="table-good">
-                @foreach($transactions['transfer'] as $transaction)
-                  <tr>
-                    <td>{{ $transaction->created_at }}</td>
-                    @if(\Auth::user()->email == 'admin')
-                      <td>{{ $transaction->actor()->name }}</td>
-                    @endif
-                    <td>{{ showRupiah($transaction->total_item_price) }}</td>
-                    <td>{{ showRupiah(checkNull($transaction->details->sum('discount_price'))) }}</td>
-                    <td>{{ showRupiah($transaction->total_discount_price) }}</td>
-                    <td>{{ showRupiah($transaction->total_sum_price) }}</td>
-                    <td>{{ showRupiah($transaction->money_paid) }}</td>
-                    <td>{{ showRupiah($transaction->money_returned) }}</td>
-                    <td class="center"><a href="{{ url($role . '/transaction/' . $transaction->id . '/detail') }}"><i class="fa fa-hand-o-right tosca" aria-hidden="true"></i></a></td>
-                  </tr>
-                @endforeach
-              </tbody>
-              <div id="renderField">
-                @if($pagination != 'all')
-                  {{ $transactions['transfer']->render() }}
                 @endif
               </div>
             </table>

@@ -133,19 +133,19 @@
       @endif
       @if($role == 'admin')
         <li class="header">MENU LAIN</li>
-        <li class="treeview {{ (Request::segment(2) == 'distributor' && Request::segment(3) == 'seller') ? 'active' : ''  }}">
+        <li class="treeview {{ (Request::segment(2) == 'distributor' && Request::segment(3) == 'all') ? 'active' : ''  }}">
           <a href="#">
-              <i class="fa fa-truck"></i><span> Kelola Penjual Emas</span>
+              <i class="fa fa-truck"></i><span> Kelola Distributor Emas</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-              <li class="{{ Request::segment(2) == 'distributor' && Request::segment(3) == 'seller' && Request::segment(4) == 'create' ? 'active' : ''  }}"><a href="{{ url('/' . $role . '/distributor/seller/create') }}"><i class="fa fa-circle-o"></i> Tambah Penjual Emas</a></li>
-              <li class="{{ Request::segment(2) == 'distributor' && Request::segment(3) == 'seller' && Request::segment(4) != 'create' ? 'active' : ''  }}"><a href="{{ url('/' . $role . '/distributor/seller/15') }}"><i class="fa fa-circle-o"></i> Daftar Penjual Emas</a></li>
+              <li class="{{ Request::segment(2) == 'distributor' && Request::segment(3) == 'all' && Request::segment(4) == 'create' ? 'active' : ''  }}"><a href="{{ url('/' . $role . '/distributor/all/create') }}"><i class="fa fa-circle-o"></i> Tambah Distributor Emas</a></li>
+              <li class="{{ Request::segment(2) == 'distributor' && Request::segment(3) == 'all' && Request::segment(4) != 'create' ? 'active' : ''  }}"><a href="{{ url('/' . $role . '/distributor/all/15') }}"><i class="fa fa-circle-o"></i> Daftar Distributor Emas</a></li>
           </ul>
         </li>
-        <li class="treeview {{ (Request::segment(2) == 'distributor' && Request::segment(3) == 'sales') ? 'active' : ''  }}">
+        <!-- <li class="treeview {{ (Request::segment(2) == 'distributor' && Request::segment(3) == 'sales') ? 'active' : ''  }}">
           <a href="#">
               <i class="fa fa-truck"></i><span> Kelola Sales</span>
             <span class="pull-right-container">
@@ -156,7 +156,7 @@
               <li class="{{ Request::segment(2) == 'distributor' && Request::segment(3) == 'sales' && Request::segment(4) == 'create' ? 'active' : ''  }}"><a href="{{ url('/' . $role . '/distributor/sales/create') }}"><i class="fa fa-circle-o"></i> Tambah Sales</a></li>
               <li class="{{ Request::segment(2) == 'distributor' && Request::segment(3) == 'sales' && Request::segment(4) != 'create' ? 'active' : ''  }}"><a href="{{ url('/' . $role . '/distributor/sales/15') }}"><i class="fa fa-circle-o"></i> Daftar Sales</a></li>
           </ul>
-        </li>
+        </li> -->
         <li class="treeview {{ (Request::segment(2) == 'category' ) ? 'active' : ''  }}">
           <a href="#">
               <i class="fa fa-shopping-cart"></i><span> Kelola Kategori</span>
@@ -178,7 +178,7 @@
           </a>
           <ul class="treeview-menu">
               <li class="{{ Request::segment(2) == 'member' && Request::segment(3) == 'create' ? 'active' : ''  }}"><a href="{{ url('/' . $role . '/member/create') }}"><i class="fa fa-circle-o"></i> Tambah Member</a></li>
-              <li class="{{ Request::segment(2) == 'member' && Request::segment(3) != 'create' ? 'active' : ''  }}"><a href="{{ url('/' . $role . '/member/15') }}"><i class="fa fa-circle-o"></i> Daftar Member</a></li>
+                <li class="{{ Request::segment(2) == 'member' && Request::segment(3) != 'create' ? 'active' : ''  }}"><a href="{{ url('/' . $role . '/member/2020-01-01/' . date('Y-m-d') . '/name/asc/15') }}"><i class="fa fa-circle-o"></i> Daftar Member</a></li>
           </ul>
         </li>
         <li class="treeview {{ (Request::segment(2) == 'percentage' ) ? 'active' : ''  }}">
