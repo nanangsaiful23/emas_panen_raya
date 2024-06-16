@@ -16,6 +16,7 @@
   <div class="content-wrapper">
     <section class="content-header">
       <h1>
+              {{ getTotalItems('KL', 'Siap dijual') }} pcs</h3>
         Hi, {{ \Auth::user()->name }}<br>
         Selamat datang di aplikasi {{ config('app.name') }}<br>
         <small>Anda login sebagai Admin</small>

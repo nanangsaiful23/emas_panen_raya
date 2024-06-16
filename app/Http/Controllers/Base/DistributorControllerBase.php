@@ -11,9 +11,27 @@ trait DistributorControllerBase
     public function indexDistributorBase($type, $pagination)
     {
         if($pagination == 'all')
-           $distributors = Distributor::where('type', $type)->orderBy('name', 'asc')->get();
+        {
+            if($type == 'all')
+                $distributors = Distributor::orderBy('name', 'asc')->get();
+            else
+                $distributors = Distributor::where('type', $type)->orderBy('name', 'asc')->get();
+        }
         else
-           $distributors = Distributor::where('type', $type)->orderBy('name', 'asc')->paginate($pagination);
+        {
+            if($type == 'all')
+                $distributors = Distributor::orderBy('name', 'asc')->paginate($pagination);
+            else
+                $distributors = Distributor::where('type', $type)->orderBy('name', 'asc')->paginate($pagination);
+        }
+
+        return $distributors;
+    }
+
+    public function searchDistributorBase($type, $keyword)
+    {
+        $distributors = Distributor::where('name', 'like', '%' . $keyword . '%')
+                                   ->get();
 
         return $distributors;
     }

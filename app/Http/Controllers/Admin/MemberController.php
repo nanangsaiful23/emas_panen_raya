@@ -18,7 +18,7 @@ class MemberController extends Controller
         $this->middleware('admin');
     }
 
-    public function index($pagination)
+    public function index($start_date, $end_date, $sort, $order, $pagination)
     {
         [$default['type'], $default['color'], $default['data']] = alert();
 
@@ -26,9 +26,27 @@ class MemberController extends Controller
         $default['page'] = 'member';
         $default['section'] = 'all';
 
-        $members = $this->indexMemberBase($pagination);
+        $members = $this->indexMemberBase($start_date, $end_date, $sort, $order, $pagination);
 
-        return view('admin.layout.page', compact('default', 'members', 'pagination'));
+        return view('admin.layout.page', compact('default', 'members', 'start_date', 'end_date', 'sort', 'order', 'pagination'));
+    }
+
+    public function search($member_id)
+    {
+        $member = Member::find($member_id);
+
+        return response()->json([
+            "member"  => $member
+        ], 200);
+    }
+
+    public function searchByName($name)
+    {
+        $members = $this->searchByNameMemberBase($name);
+
+        return response()->json([
+            "members"  => $members
+        ], 200);
     }
 
     public function create()
@@ -78,18 +96,19 @@ class MemberController extends Controller
         return view('admin.layout.page', compact('default', 'member', 'transactions', 'start_date', 'end_date', 'pagination'));
     }
 
-    public function payment($member_id, $start_date, $end_date, $pagination)
+    public function point($member_id, $start_date, $end_date, $pagination)
     {
         [$default['type'], $default['color'], $default['data']] = alert();
 
-        $default['page_name'] = 'Riwayat Pembayaran Member';
-        $default['page'] = 'member';
-        $default['section'] = 'payment';
-
         $member = Member::find($member_id);
-        $payments = $this->paymentMemberBase($member_id, $start_date, $end_date, $pagination);
 
-        return view('admin.layout.page', compact('default', 'member', 'payments', 'start_date', 'end_date', 'pagination'));
+        $default['page_name'] = 'Riwayat Penukaran Point Member ' . $member->name . ' (' . $member->phone_number . ')';
+        $default['page'] = 'member';
+        $default['section'] = 'point';
+
+        $points = $this->pointMemberBase($member_id, $start_date, $end_date, $pagination);
+
+        return view('admin.layout.page', compact('default', 'member', 'points', 'start_date', 'end_date', 'pagination'));
     }
 
     public function edit($member_id)
@@ -121,5 +140,27 @@ class MemberController extends Controller
         session(['alert' => 'delete', 'data' => 'member']);
 
         return redirect('/admin/member/all/10');
+    }
+
+    public function createRedeem($member_id)
+    {
+        [$default['type'], $default['color'], $default['data']] = alert();
+
+        $member = Member::find($member_id);
+
+        $default['page_name'] = 'Redeem Point Member ' . $member->name . ' (' . $member->phone_number . ')';
+        $default['page'] = 'member';
+        $default['section'] = 'create-redeem';
+
+        return view('admin.layout.page', compact('default', 'member'));
+    }
+
+    public function storeRedeem($member_id, Request $request)
+    {
+        $member = $this->storeRedeemMemberBase($member_id, $request);
+
+        session(['alert' => 'add', 'data' => 'redeem point']);
+
+        return redirect('/admin/member/' . $member->id . '/point/2024-01-01/' . date('Y-m-d') . '/20');
     }
 }

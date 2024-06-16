@@ -34,6 +34,15 @@ class DistributorController extends Controller
         return view('admin.layout.page', compact('default', 'distributors', 'type', 'pagination'));
     }
 
+    public function search($type, $keyword)
+    {
+        $distributors = $this->searchDistributorBase($type, $keyword);
+
+        return response()->json([
+            "distributors"  => $distributors
+        ], 200);
+    }
+
     public function create($type)
     {
         [$default['type'], $default['color'], $default['data']] = alert();
