@@ -20,7 +20,7 @@
                         <div>
                             <option value="null">Silahkan pilih barang</option>
                             @foreach($goods as $good)
-                                <option value="{{ $good->id . ';;' . $good->code . ';;' . $good->weight . ';;' . $good->percentage->name . ';;' . $good->name . ';;' . $good->status }}">{{ $good->name . ' ' . $good->weight . ' gram'}}</option>
+                                <option value="{{ $good->id . ';;' . $good->code . ';;' . $good->weight . ';;' . $good->percentage->name . ';;' . $good->name . ';;' . $good->status }}">{{ '[' . $good->code . '] ' . $good->name . ' ' . $good->weight . ' gram'}}</option>
                             @endforeach
                         </div>
                     </select>

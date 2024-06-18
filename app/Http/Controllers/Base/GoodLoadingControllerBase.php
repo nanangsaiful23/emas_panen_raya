@@ -188,7 +188,10 @@ trait GoodLoadingControllerBase
 
                         if($is_exist == null)
                         {
-                            $data_code['code'] = $category->code . ' ' . date('y') . ' ' . $barcode . ' ' . date('m') . ' ' . $good->gold_history_number;
+                            $hist_no = $good->gold_history_number;
+                            if($hist_no != 'N')
+                                $hist_no = intval($hist_no + 1);
+                            $data_code['code'] = $category->code . ' ' . date('y') . ' ' . $barcode . ' ' . date('m') . ' ' . $hist_no;
 
                             $good->update($data_code);
                             $is_code_exist = false;
