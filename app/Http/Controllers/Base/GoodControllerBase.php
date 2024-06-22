@@ -503,32 +503,15 @@ trait GoodControllerBase
         $data = $request->input();
 
         $good = Good::find($good_id);
+
+        $code = explode(' ', $good->code);
+
+        $hist_no = $data['gold_history_number'];
+        if($hist_no != 'N')
+            $hist_no = intval($hist_no + 1);
+        $data['code'] = $code[0] . ' ' . $code[1] . ' ' . $code [2] . ' ' . $code[3] . ' ' . $hist_no;
+
         $good->update($data);
-
-        // $good_unit = GoodUnit::where('good_id', $good->id)
-        //                      ->where('unit_id', 1)
-        //                      ->first();
-
-        // $data['selling_price'] = unformatNumber($data['selling_price']);
-
-        // if($good_unit)
-        // {
-        //     if($good_unit->selling_price != $data['selling_price'])
-        //     {
-        //         $data_price['role']         = $role;
-        //         $data_price['role_id']      = \Auth::user()->id;
-        //         $data_price['good_unit_id'] = $good_unit->id;
-        //         $data_price['old_price']    = $good_unit->selling_price;
-        //         $data_price['recent_price'] = $data['selling_price'];
-        //         $data_price['reason']       = 'Diubah saat edit barang';
-
-        //         GoodPrice::create($data_price);
-        //     }
-
-        //     $data_unit['selling_price'] = $data['selling_price'];
-
-        //     $good_unit->update($data_unit);
-        // }
 
         return $good;
     }
@@ -721,6 +704,7 @@ trait GoodControllerBase
             {
                 $good = Good::find($request->ids[$i]);
 
+                $data['weight'] = $request->weights[$i];
                 $data['status'] = $request->statuses[$i];
                 $data['change_status_fee'] = unformatNumber($request->fees[$i]);
 

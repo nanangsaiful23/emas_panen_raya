@@ -61,7 +61,7 @@
                                     {!! Form::textarea('codes[]', null, array('class' => 'form-control', 'readonly' => 'readonly', 'style' => 'height: 70px', 'id' => 'code-' . $i)) !!}
                                 </td>
                                 <td width="10%">
-                                    {!! Form::text('weights[]', null, array('class' => 'form-control', 'readonly' => 'readonly', 'id' => 'weight-' . $i)) !!}
+                                    {!! Form::text('weights[]', null, array('class' => 'form-control', 'id' => 'weight-' . $i)) !!}
                                 </td>
                                 <td width="10%">
                                     {!! Form::text('percentages[]', null, array('class' => 'form-control', 'readonly' => 'readonly', 'id' => 'percentage-' . $i)) !!}

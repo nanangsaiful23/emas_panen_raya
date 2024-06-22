@@ -147,23 +147,31 @@ trait GoodLoadingControllerBase
                 $data['prices'][$i] = unformatNumber($data['prices'][$i]);
                 $data['stone_prices'][$i] = unformatNumber($data['stone_prices'][$i]);
 
+                $data_good['category_id'] = $data['category_ids'][$i];
+                $data_good['is_old_gold'] = $data['is_old_golds'][$i];
+                $data_good['name'] = $data['names'][$i];
+                $data_good['percentage_id'] = $data['percentage_ids'][$i];
+                $data_good['weight'] = displayGramComa($data['weights'][$i]);
+                $data_good['status'] = $data['statuses'][$i];
+                $data_good['gold_history_number'] = $data['gold_history_numbers'][$i];
+                $data_good['stone_weight'] = $data['stone_weights'][$i];
+                $data_good['stone_price'] = $data['stone_prices'][$i];
+
                 if($request->type == 'buy')
                 {
                     $good = Good::find($data['ids'][$i]);
+
+                    $code = explode(' ', $good->code);
+
+                    $hist_no = $data['gold_history_numbers'][$i];
+                    if($hist_no != 'N')
+                        $hist_no = intval($hist_no + 1);
+                    $data_good['code'] = $code[0] . ' ' . $code[1] . ' ' . $code [2] . ' ' . $code[3] . ' ' . $hist_no;
+
+                    $good->update($data_good);
                 }
                 else
                 {
-                    $data_good['category_id'] = $data['category_ids'][$i];
-                    $data_good['is_old_gold'] = $data['is_old_golds'][$i];
-                    $data_good['name'] = $data['names'][$i];
-                    $data_good['percentage_id'] = $data['percentage_ids'][$i];
-
-                    $data_good['weight'] = displayGramComa($data['weights'][$i]);
-                    $data_good['status'] = $data['statuses'][$i];
-                    $data_good['gold_history_number'] = $data['gold_history_numbers'][$i];
-                    $data_good['stone_weight'] = $data['stone_weights'][$i];
-                    $data_good['stone_price'] = $data['stone_prices'][$i];
-
                     $good = Good::create($data_good);
 
                     $category = Category::find($data_good['category_id']);
@@ -238,64 +246,6 @@ trait GoodLoadingControllerBase
 
                         GoodPrice::create($data_price);
                     }
-
-                    #journal penambahan barang kalau harga beli naik
-                    // if($good_unit->buy_price < $data['prices'][$i])
-                    // {
-                    //     $account_buy = Account::where('code', '1141')->first();
-
-                    //     $payment_buy = Journal::whereDate('journal_date', date('Y-m-d'))->where('debit_account_id', $account_buy->id)->first();
-
-                    //     $amount = $good_unit->good->getStock() * ($data['prices'][$i] - $good_unit->buy_price);
-
-                    //     if($payment_buy != null)
-                    //     {
-                    //         $data_payment_buy['debit'] = floatval($payment_buy->debit) + floatval($amount);
-                    //         $data_payment_buy['credit'] = floatval($payment_buy->credit) + floatval($amount);
-
-                    //         $payment_buy->update($data_payment_buy);
-                    //     }
-                    //     else
-                    //     {
-                    //         $data_payment_buy['type']               = 'other_payment';
-                    //         $data_payment_buy['journal_date']       = date('Y-m-d');
-                    //         $data_payment_buy['name']               = 'Laba kenaikan harga barang ' . $good_unit->good->name . ' id good unit ' . $good_unit->id . ' (Loading barang ' . $good_loading->distributor->name . ' tanggal ' . displayDate($good_loading->loading_date) . ')';
-                    //         $data_payment_buy['debit_account_id']   = $account_buy->id;
-                    //         $data_payment_buy['debit']              = $amount;
-                    //         $data_payment_buy['credit_account_id']  = Account::where('code', '5215')->first()->id;
-                    //         $data_payment_buy['credit']             = $amount;
-
-                    //         Journal::create($data_payment_buy);
-                    //     }
-                    // }
-                    // elseif($good_unit->buy_price > $data['prices'][$i]) #journal penyusutan kalau harga beli turun
-                    // {
-                    //     $account_buy = Account::where('code', '5215')->first();
-
-                    //     $payment_buy = Journal::whereDate('journal_date', date('Y-m-d'))->where('debit_account_id', $account_buy->id)->first();
-
-                    //     $amount = $good_unit->good->getStock() * ($good_unit->buy_price - $data['prices'][$i]);
-
-                    //     if($payment_buy != null)
-                    //     {
-                    //         $data_payment_buy['debit'] = floatval($payment_buy->debit) + floatval($amount);
-                    //         $data_payment_buy['credit'] = floatval($payment_buy->credit) + floatval($amount);
-
-                    //         $payment_buy->update($data_payment_buy);
-                    //     }
-                    //     else
-                    //     {
-                    //         $data_payment_buy['type']               = 'other_payment';
-                    //         $data_payment_buy['journal_date']       = date('Y-m-d');
-                    //         $data_payment_buy['name']               = $account_buy->name . ' (penyusutan harga barang ' . $good_unit->good->name . ' id good unit ' . $good_unit->id . ' dari loading barang ' . $good_loading->distributor->name . ' tanggal ' . displayDate($good_loading->loading_date) . ')';
-                    //         $data_payment_buy['debit_account_id']   = $account_buy->id;
-                    //         $data_payment_buy['debit']              = $amount;
-                    //         $data_payment_buy['credit_account_id']  = Account::where('code', '1141')->first()->id;
-                    //         $data_payment_buy['credit']             = $amount;
-
-                    //         Journal::create($data_payment_buy);
-                    //     }
-                    // }
 
                     $data_unit['good_id']       = $good->id;
                     $data_unit['unit_id']       = 1;

@@ -33,8 +33,11 @@
                 <th><a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/address/asc/15') }}"><i class="fa fa-sort-alpha-asc" aria-hidden="true"></i></a> <a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/address/desc/15') }}"><i class="fa fa-sort-alpha-desc" aria-hidden="true"></i></a> Alamat</th>
                 <th><a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/phone_number/asc/15') }}"><i class="fa fa-sort-numeric-asc" aria-hidden="true"></i></a> <a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/phone_number/desc/15') }}"><i class="fa fa-sort-numeric-desc" aria-hidden="true"></i></a> No Telephone</th>
                 <th>Tempat, Tanggal Lahir</th>
-                <th><a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/total_transaction/asc/15') }}"><i class="fa fa-sort-numeric-asc" aria-hidden="true"></i></a> <a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/total_transaction/desc/15') }}"><i class="fa fa-sort-numeric-desc" aria-hidden="true"></i></a> Total Transaksi</th>
-                <th><a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/total_sum_price/asc/15') }}"><i class="fa fa-sort-numeric-asc" aria-hidden="true"></i></a> <a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/total_sum_price/desc/15') }}"><i class="fa fa-sort-numeric-desc" aria-hidden="true"></i></a> Riwayat Transaksi</th>
+                <th>No KTP</th>
+                <th>Total Transaksi</th>
+                <th>Riwayat Transaksi</th>
+                <!-- <th><a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/total_transaction/asc/15') }}"><i class="fa fa-sort-numeric-asc" aria-hidden="true"></i></a> <a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/total_transaction/desc/15') }}"><i class="fa fa-sort-numeric-desc" aria-hidden="true"></i></a> Total Transaksi</th> -->
+                <!-- <th><a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/total_sum_price/asc/15') }}"><i class="fa fa-sort-numeric-asc" aria-hidden="true"></i></a> <a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/total_sum_price/desc/15') }}"><i class="fa fa-sort-numeric-desc" aria-hidden="true"></i></a> Riwayat Transaksi</th> -->
                 <th>Total Point</th>
                 <th class="center">Detail Data Member</th>
                 <th class="center">Ubah Data Member</th>
@@ -52,9 +55,10 @@
                     <td>{{ $member->name }}</td>
                     <td>{{ $member->address }}</td>
                     <td>{{ $member->phone_number }}</td>
-                    <td>{{ $member->birth_date == null ? '-' : $member->birth_place . ' ' . displayDate($member->birth_date) }}</td>
-                    <td class="center">Jumlah transaksi: {{ $member->total_transaction }}<br><a href="{{ url($role . '/member/' . $member->id . '/transaction/2019-01-01/' . date('Y-m-d') . '/20') }}"><i class="fa fa-hand-o-right pink" aria-hidden="true"></i> detail</a></td>
-                    <td class="center">Total transaksi: {{ showRupiah($member->total_sum_price) }}<br><a href="{{ url($role . '/member/' . $member->id . '/transaction/2019-01-01/' . date('Y-m-d') . '/20') }}"><i class="fa fa-hand-o-right pink" aria-hidden="true"></i> detail</a></td>
+                    <td>{{ $member->birth_date == null ? '-' : $member->birth_place . ', ' . displayDate($member->birth_date) }}</td>
+                    <td>{{ $member->no_ktp }}</td>
+                    <td class="center">Jumlah transaksi: {{ $member->transaction->count() }}<br><a href="{{ url($role . '/member/' . $member->id . '/transaction/2019-01-01/' . date('Y-m-d') . '/20') }}"><i class="fa fa-hand-o-right pink" aria-hidden="true"></i> detail</a></td>
+                    <td class="center">Total transaksi: {{ showRupiah($member->transaction->sum('total_sum_price')) }}<br>{{ $member->getTotalGramTransaction() }} gram<br><a href="{{ url($role . '/member/' . $member->id . '/transaction/2019-01-01/' . date('Y-m-d') . '/20') }}"><i class="fa fa-hand-o-right pink" aria-hidden="true"></i> detail</a></td>
                     <td>
                       <b>Sisa Point: {{ $member->getCurrentPoint() }}</b><br>
                       Total Point: {{ $member->getTotalPoint() }}<br>
@@ -128,7 +132,7 @@
         url: "{!! url($role . '/member/searchByName/') !!}/" + $("#search-input").val(),
         success: function(result){
           console.log(result);
-          var htmlResult = '<thead><tr><th>ID</th><th>Nama</th><th>Alamat</th><th>No Telephone</th><th>Tempat, Tanggal Lahir</th><th>Total Transaksi</th><th>Riwayat Transaksi</th><th>Total Point</th><th class="center">Detail Data Member</th><th class="center">Ubah Data Member</th>@if($role == "admin")<th class="center">Hapus Member</th>@endif </tr></thead><tbody>';
+          var htmlResult = '<thead><tr><th>ID</th><th>Nama</th><th>Alamat</th><th>No Telephone</th><th>Tempat, Tanggal Lahir</th><th>No KTP</th><th>Total Transaksi</th><th>Riwayat Transaksi</th><th>Total Point</th><th class="center">Detail Data Member</th><th class="center">Ubah Data Member</th>@if($role == "admin")<th class="center">Hapus Member</th>@endif </tr></thead><tbody>';
           if(result != null)
           {
             var r = result.members;
@@ -147,8 +151,12 @@
                 htmlResult += "<td>-</td>";
               else
                 htmlResult += "<td>" + r[i].birth_place + " " + r[i].birth_date + "</td>";
+              if(r[i].no_ktp == null)
+                htmlResult += "<td>-</td>";
+              else
+                htmlResult += "<td>" + r[i].no_ktp + "</td>";
               htmlResult += "<td class=\"center\">Jumlah transaksi: " + r[i].total_transaction + "<br><a href=\"" + window.location.origin + "/{{ $role }}/member/" + r[i].id + "/transaction/2019-01-01/{{ date('Y-m-d')}}/20\"> <i class=\"fa fa-hand-o-right pink\" aria-hidden=\"true\"></i> detail</a></td>";
-              htmlResult += "<td class=\"center\">Total transaksi: " + r[i].transaction + "<br><a href=\"" + window.location.origin + "/{{ $role }}/member/" + r[i].id + "/transaction/2019-01-01/{{ date('Y-m-d')}}/20\"> <i class=\"fa fa-hand-o-right pink\" aria-hidden=\"true\"></i> detail</a></td>";
+              htmlResult += "<td class=\"center\">Total transaksi: " + r[i].sum_transaction + "<br>" + r[i].total_gram + " gram<br><a href=\"" + window.location.origin + "/{{ $role }}/member/" + r[i].id + "/transaction/2019-01-01/{{ date('Y-m-d')}}/20\"> <i class=\"fa fa-hand-o-right pink\" aria-hidden=\"true\"></i> detail</a></td>";
               htmlResult += "<td class=\"center\"><b>Sisa Point: " + r[i].current_point + "</b><br>Total Point: " + r[i].total_point + "<br>Total Point Ditukar: " + r[i].redeem_point + "<br><a href=\"" + window.location.origin + "/{{ $role }}/member/" + r[i].id + "/point/2024-01-01/{{ date('Y-m-d')}}/20\"> <i class=\"fa fa-hand-o-right pink\" aria-hidden=\"true\"></i> detail</a><a href=\"" + window.location.origin + "/{{ $role }}/member/" + r[i].id + "/redeem\" class=\"btn\"> TUKAR POINT</a></td>";
               htmlResult += "<td class=\"center\"><a href=\"" + window.location.origin + "/{{ $role }}/member/" + r[i].id + "/detail\"> <i class=\"fa fa-hand-o-right pink\" aria-hidden=\"true\"></i></a></td><td class=\"center\"><a href=\"" + window.location.origin + "/{{ $role }}/member/" + r[i].id + "/edit\"> <i class=\"fa fa-file pink\" aria-hidden=\"true\"></i></a></td>@if($role == 'admin')<td><a href=\"" + window.location.origin + "/" + '{{ $role }}' + "/member/" + r[i].id + "/delete\" onclick=\"event.preventDefault(); document.getElementById('delete-form-" + r[i].id + "').submit();\"><i class=\"fa fa-times red\"></i></a><form id='delete-form-" + r[i].id + "' action=\"" + window.location.origin + "/" + '{{ $role }}' + "/member/" + r[i].id + "/delete\" method=\"POST\" style=\"display: none;\">" + '{{ csrf_field() }}' + '{{ method_field("DELETE") }}' + "</form></td>@endif";
               htmlResult += "</tr>";

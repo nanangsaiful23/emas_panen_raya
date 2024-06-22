@@ -6,12 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
+use App\Models\TransactionDetail;
+
 class Member extends Model
 {    
     use SoftDeletes;
     
     protected $fillable = [
-        'name', 'address', 'phone_number', 'birth_place', 'birth_date'
+        'name', 'address', 'phone_number', 'birth_place', 'birth_date', 'no_ktp', 'start_point'
     ];
 
     protected $hidden = [
@@ -22,12 +24,18 @@ class Member extends Model
         'deleted_at',
     ];
 
-    public function totalTransaction()
+    public function transaction()
     {
-        $transactions = Transaction::where('member_id', $this->id)
-                                    ->get();
+        return $this->hasMany('App\Models\Transaction');
+    }
 
-        return $transactions;
+    public function getTotalGramTransaction()
+    {
+        $transactions = TransactionDetail::join('transactions', 'transactions.id', 'transaction_details.transaction_id')
+                                          ->where('transactions.member_id', $this->id)
+                                          ->get();
+
+        return intdiv($transactions->sum('gold_weight'), 1);
     }
 
     public function redeemPoints()
@@ -37,7 +45,9 @@ class Member extends Model
 
     public function getTotalPoint()
     {
-        return intdiv($this->totalTransaction()->sum('total_sum_price'), 1000000);
+        $total = $this->getTotalGramTransaction() + $this->start_point;
+
+        return $total;
     }
 
     public function getRedeemPoint()

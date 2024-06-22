@@ -19,11 +19,8 @@ trait MemberControllerBase
                                      ->on('transactions.created_at', '>=', DB::raw("'".$start_date."'"))
                                      ->on('transactions.created_at', '<=', DB::raw("'".$end_date."'"));
                             })
-                            // ->where('transactions.type', 'normal')
-                            // ->whereDate('transactions.created_at', '>=', $start_date)
-                            // ->whereDate('transactions.created_at', '<=', $end_date) 
-                            ->select('members.id', 'members.name', 'members.address', 'members.phone_number', 'members.birth_place', 'members.birth_date', DB::raw('SUM(transactions.total_sum_price) as total_sum_price'), DB::raw('COUNT(transactions.id) as total_transaction'))
-                            ->groupBy('members.id', 'members.name', 'members.address', 'members.phone_number', 'members.birth_place', 'members.birth_date')
+                            ->select('members.id', 'members.name', 'members.address', 'members.phone_number', 'members.birth_place', 'members.birth_date', 'members.no_ktp', 'members.start_point')
+                            ->groupBy('members.id', 'members.name', 'members.address', 'members.phone_number', 'members.birth_place', 'members.birth_date', 'members.no_ktp', 'members.no_ktp', 'members.start_point')
                             ->orderBy($sort, $order)->get();
         else
            $members = Member::leftJoin('transactions', function($join) use ($start_date, $end_date) {
@@ -31,12 +28,11 @@ trait MemberControllerBase
                                      ->on('transactions.created_at', '>=', DB::raw("'".$start_date."'"))
                                      ->on('transactions.created_at', '<=', DB::raw("'".$end_date."'"));
                             })
-                            // ->where('transactions.type', 'normal')
-                            // ->whereDate('transactions.created_at', '>=', $start_date)
-                            // ->whereDate('transactions.created_at', '<=', $end_date) 
-                            ->select('members.id', 'members.name', 'members.address', 'members.phone_number', 'members.birth_place', 'members.birth_date', DB::raw('SUM(transactions.total_sum_price) as total_sum_price'), DB::raw('COUNT(transactions.id) as total_transaction'))
-                            ->groupBy('members.id', 'members.name', 'members.address', 'members.phone_number', 'members.birth_place', 'members.birth_date')
+                            ->select('members.id', 'members.name', 'members.address', 'members.phone_number', 'members.birth_place', 'members.birth_date', 'members.no_ktp', 'members.start_point')
+                            ->withCount('transaction')
+                            ->groupBy('members.id', 'members.name', 'members.address', 'members.phone_number', 'members.birth_place', 'members.birth_date', 'members.no_ktp', 'members.no_ktp', 'members.start_point')
                             ->orderBy($sort, $order)->paginate($pagination);
+
 
         return $members;
     }
@@ -44,14 +40,17 @@ trait MemberControllerBase
     public function searchByNameMemberBase($query)
     {
         $members = Member::where('name', 'like', '%'. $query . '%')
+                         ->orWhere('no_ktp', 'like', '%'. $query . '%')
+                         ->orWhere('phone_number', 'like', '%'. $query . '%')
                          ->orderBy('name', 'asc')
                          ->get();
 
         foreach($members as $member)
         {
             $member->birth_date    = $member->birth_date == null ? '-' : displayDate($member->birth_date);
-            $member->total_transaction = $member->totalTransaction()->count();
-            $member->transaction   = showRupiah($member->totalTransaction()->sum('total_sum_price'));
+            $member->total_transaction = $member->transaction->count();
+            $member->sum_transaction   = showRupiah($member->transaction->sum('total_sum_price'));
+            $member->total_gram    = $member->getTotalGramTransaction();
             $member->total_point   = $member->getTotalPoint();
             $member->redeem_point  = $member->getRedeemPoint();
             $member->current_point = $member->total_point - $member->redeem_point;

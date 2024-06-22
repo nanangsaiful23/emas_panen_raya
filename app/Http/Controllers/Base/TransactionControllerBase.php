@@ -170,6 +170,7 @@ trait TransactionControllerBase
                 $data_detail['quantity']       = $request->quantities[$i];
                 $data_detail['real_quantity']  = $request->quantities[$i] * $good_unit->unit->quantity;
                 $data_detail['last_stock']     = $good_unit->good->getStock();
+                $data_detail['gold_weight']    = $good_unit->good->weight;
                 $data_detail['gold_price']     = unformatNumber($request->gold_prices[$i]);
                 if($good_unit->good->gold_history_number == 'N')
                 {
