@@ -23,6 +23,28 @@
         </div>
 
         <div class="form-group">
+            {!! Form::label('subdistrict', 'Kecamatan', array('class' => 'col-sm-12')) !!}
+            <div class="col-sm-5">
+                @if($SubmitButtonText == 'View')
+                    {!! Form::text('subdistrict', null, array('class' => 'form-control', 'readonly' => 'readonly')) !!}
+                @else
+                    {!! Form::text('subdistrict', null, array('class' => 'form-control')) !!}
+                @endif
+            </div>
+        </div>
+
+        <div class="form-group">
+            {!! Form::label('village', 'Desa', array('class' => 'col-sm-12')) !!}
+            <div class="col-sm-5">
+                @if($SubmitButtonText == 'View')
+                    {!! Form::text('village', null, array('class' => 'form-control', 'readonly' => 'readonly')) !!}
+                @else
+                    {!! Form::text('village', null, array('class' => 'form-control')) !!}
+                @endif
+            </div>
+        </div>
+
+        <div class="form-group">
             {!! Form::label('phone_number', 'No HP', array('class' => 'col-sm-12')) !!}
             <div class="col-sm-5">
                 @if($SubmitButtonText == 'View')
@@ -62,7 +84,7 @@
         </div>
 
         <div class="form-group">
-            {!! Form::label('no_ktp', 'No KTP', array('class' => 'col-sm-12')) !!}
+            {!! Form::label('no_ktp', 'No KTP/SIM', array('class' => 'col-sm-12')) !!}
             <div class="col-sm-5">
                 @if($SubmitButtonText == 'View')
                     {!! Form::text('no_ktp', null, array('class' => 'form-control', 'readonly' => 'readonly')) !!}

@@ -31,9 +31,11 @@
                 <th>ID</th>
                 <th><a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/name/asc/15') }}"><i class="fa fa-sort-alpha-asc" aria-hidden="true"></i></a> <a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/name/desc/15') }}"><i class="fa fa-sort-alpha-desc" aria-hidden="true"></i></a> Nama</th>
                 <th><a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/address/asc/15') }}"><i class="fa fa-sort-alpha-asc" aria-hidden="true"></i></a> <a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/address/desc/15') }}"><i class="fa fa-sort-alpha-desc" aria-hidden="true"></i></a> Alamat</th>
+                <th><a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/subdistrict/asc/15') }}"><i class="fa fa-sort-alpha-asc" aria-hidden="true"></i></a> <a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/subdistrict/desc/15') }}"><i class="fa fa-sort-alpha-desc" aria-hidden="true"></i></a> Kecamatan</th>
+                <th><a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/village/asc/15') }}"><i class="fa fa-sort-alpha-asc" aria-hidden="true"></i></a> <a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/village/desc/15') }}"><i class="fa fa-sort-alpha-desc" aria-hidden="true"></i></a> Desa</th>
                 <th><a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/phone_number/asc/15') }}"><i class="fa fa-sort-numeric-asc" aria-hidden="true"></i></a> <a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/phone_number/desc/15') }}"><i class="fa fa-sort-numeric-desc" aria-hidden="true"></i></a> No Telephone</th>
                 <th>Tempat, Tanggal Lahir</th>
-                <th>No KTP</th>
+                <th>No KTP/SIM</th>
                 <th>Total Transaksi</th>
                 <th>Riwayat Transaksi</th>
                 <!-- <th><a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/total_transaction/asc/15') }}"><i class="fa fa-sort-numeric-asc" aria-hidden="true"></i></a> <a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/total_transaction/desc/15') }}"><i class="fa fa-sort-numeric-desc" aria-hidden="true"></i></a> Total Transaksi</th> -->
@@ -53,10 +55,12 @@
                       {{ $member->id }}
                     </td>
                     <td>{{ $member->name }}</td>
-                    <td>{{ $member->address }}</td>
-                    <td>{{ $member->phone_number }}</td>
+                    <td>{{ $member->address == null ? '-' : $member->address }}</td>
+                    <td>{{ $member->subdistrict == null ? '-' : $member->subdistrict }}</td>
+                    <td>{{ $member->village == null ? '-' : $member->village }}</td>
+                    <td>{{ $member->phone_number == null ? '-' : $member->phone_number }}</td>
                     <td>{{ $member->birth_date == null ? '-' : $member->birth_place . ', ' . displayDate($member->birth_date) }}</td>
-                    <td>{{ $member->no_ktp }}</td>
+                    <td>{{ $member->no_ktp == null ? '-' : $member->no_ktp }}</td>
                     <td class="center">Jumlah transaksi: {{ $member->transaction->count() }}<br><a href="{{ url($role . '/member/' . $member->id . '/transaction/2019-01-01/' . date('Y-m-d') . '/20') }}"><i class="fa fa-hand-o-right pink" aria-hidden="true"></i> detail</a></td>
                     <td class="center">Total transaksi: {{ showRupiah($member->transaction->sum('total_sum_price')) }}<br>{{ $member->getTotalGramTransaction() }} gram<br><a href="{{ url($role . '/member/' . $member->id . '/transaction/2019-01-01/' . date('Y-m-d') . '/20') }}"><i class="fa fa-hand-o-right pink" aria-hidden="true"></i> detail</a></td>
                     <td>
@@ -132,7 +136,7 @@
         url: "{!! url($role . '/member/searchByName/') !!}/" + $("#search-input").val(),
         success: function(result){
           console.log(result);
-          var htmlResult = '<thead><tr><th>ID</th><th>Nama</th><th>Alamat</th><th>No Telephone</th><th>Tempat, Tanggal Lahir</th><th>No KTP</th><th>Total Transaksi</th><th>Riwayat Transaksi</th><th>Total Point</th><th class="center">Detail Data Member</th><th class="center">Ubah Data Member</th>@if($role == "admin")<th class="center">Hapus Member</th>@endif </tr></thead><tbody>';
+          var htmlResult = '<thead><tr><th>ID</th><th>Nama</th><th>Alamat</th><th>Kecamatan</th><th>Desa</th><th>No Telephone</th><th>Tempat, Tanggal Lahir</th><th>No KTP/SIM</th><th>Total Transaksi</th><th>Riwayat Transaksi</th><th>Total Point</th><th class="center">Detail Data Member</th><th class="center">Ubah Data Member</th>@if($role == "admin")<th class="center">Hapus Member</th>@endif </tr></thead><tbody>';
           if(result != null)
           {
             var r = result.members;
@@ -143,6 +147,14 @@
                 htmlResult += "<td>-</td>";
               else
                 htmlResult += "<td>" + r[i].address + "</td>";
+              if(r[i].subdistrict == null)
+                htmlResult += "<td>-</td>";
+              else
+                htmlResult += "<td>" + r[i].subdistrict + "</td>";
+              if(r[i].village == null)
+                htmlResult += "<td>-</td>";
+              else
+                htmlResult += "<td>" + r[i].village + "</td>";
               if(r[i].phone_number == null)
                 htmlResult += "<td>-</td>";
               else
