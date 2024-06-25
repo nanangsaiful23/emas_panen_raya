@@ -55,7 +55,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <!-- <div class="form-group">
             {!! Form::label('birth_place', 'Tempat Lahir', array('class' => 'col-sm-12')) !!}
             <div class="col-sm-5">
                 @if($SubmitButtonText == 'View')
@@ -64,7 +64,7 @@
                     {!! Form::text('birth_place', null, array('class' => 'form-control')) !!}
                 @endif
             </div>
-        </div>
+        </div> -->
 
         <div class="form-group">
             {!! Form::label('birth_date', 'Tanggal Lahir', array('class' => 'col-sm-12')) !!}
