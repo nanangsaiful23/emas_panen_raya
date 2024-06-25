@@ -31,8 +31,8 @@
                 <th>ID</th>
                 <th><a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/name/asc/15') }}"><i class="fa fa-sort-alpha-asc" aria-hidden="true"></i></a> <a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/name/desc/15') }}"><i class="fa fa-sort-alpha-desc" aria-hidden="true"></i></a> Nama</th>
                 <th><a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/address/asc/15') }}"><i class="fa fa-sort-alpha-asc" aria-hidden="true"></i></a> <a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/address/desc/15') }}"><i class="fa fa-sort-alpha-desc" aria-hidden="true"></i></a> Alamat</th>
-                <th><a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/subdistrict/asc/15') }}"><i class="fa fa-sort-alpha-asc" aria-hidden="true"></i></a> <a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/subdistrict/desc/15') }}"><i class="fa fa-sort-alpha-desc" aria-hidden="true"></i></a> Kecamatan</th>
                 <th><a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/village/asc/15') }}"><i class="fa fa-sort-alpha-asc" aria-hidden="true"></i></a> <a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/village/desc/15') }}"><i class="fa fa-sort-alpha-desc" aria-hidden="true"></i></a> Desa</th>
+                <th><a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/subdistrict/asc/15') }}"><i class="fa fa-sort-alpha-asc" aria-hidden="true"></i></a> <a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/subdistrict/desc/15') }}"><i class="fa fa-sort-alpha-desc" aria-hidden="true"></i></a> Kecamatan</th>
                 <th><a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/phone_number/asc/15') }}"><i class="fa fa-sort-numeric-asc" aria-hidden="true"></i></a> <a href="{{ url($role . '/member/' . $start_date . '/' . $end_date . '/phone_number/desc/15') }}"><i class="fa fa-sort-numeric-desc" aria-hidden="true"></i></a> No Telephone</th>
                 <th>Tanggal Lahir</th>
                 <th>No KTP/SIM</th>
@@ -56,8 +56,8 @@
                     </td>
                     <td>{{ $member->name }}</td>
                     <td>{{ $member->address == null ? '-' : $member->address }}</td>
-                    <td>{{ $member->subdistrict == null ? '-' : $member->subdistrict }}</td>
                     <td>{{ $member->village == null ? '-' : $member->village }}</td>
+                    <td>{{ $member->subdistrict == null ? '-' : $member->subdistrict }}</td>
                     <td>{{ $member->phone_number == null ? '-' : $member->phone_number }}</td>
                     <td>{{ $member->birth_date == null ? '-' : displayDate($member->birth_date) }}</td>
                     <td>{{ $member->no_ktp == null ? '-' : $member->no_ktp }}</td>
