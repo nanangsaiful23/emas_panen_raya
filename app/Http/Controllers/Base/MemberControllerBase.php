@@ -19,8 +19,8 @@ trait MemberControllerBase
                                      ->on('transactions.created_at', '>=', DB::raw("'".$start_date."'"))
                                      ->on('transactions.created_at', '<=', DB::raw("'".$end_date."'"));
                             })
-                            ->select('members.id', 'members.name', 'members.address', 'members.phone_number', 'members.birth_place', 'members.birth_date', 'members.no_ktp', 'members.start_point')
-                            ->groupBy('members.id', 'members.name', 'members.address', 'members.phone_number', 'members.birth_place', 'members.birth_date', 'members.no_ktp', 'members.no_ktp', 'members.start_point')
+                            ->select('members.id', 'members.name', 'members.address', 'members.phone_number', 'members.birth_place', 'members.birth_date', 'members.no_ktp', 'members.start_point', 'members.village', 'members.subdistrict')
+                            ->groupBy('members.id', 'members.name', 'members.address', 'members.phone_number', 'members.birth_place', 'members.birth_date', 'members.no_ktp', 'members.no_ktp', 'members.start_point', 'members.village', 'members.subdistrict')
                             // ->groupBy('members.id')
                             ->orderBy($sort, $order)->get();
         else
@@ -29,9 +29,9 @@ trait MemberControllerBase
                                      ->on('transactions.created_at', '>=', DB::raw("'".$start_date."'"))
                                      ->on('transactions.created_at', '<=', DB::raw("'".$end_date."'"));
                             })
-                            ->select('members.id', 'members.name', 'members.address', 'members.phone_number', 'members.birth_place', 'members.birth_date', 'members.no_ktp', 'members.start_point')
+                            ->select('members.id', 'members.name', 'members.address', 'members.phone_number', 'members.birth_place', 'members.birth_date', 'members.no_ktp', 'members.start_point', 'members.village', 'members.subdistrict')
                             ->withCount('transaction')
-                            ->groupBy('members.id', 'members.name', 'members.address', 'members.phone_number', 'members.birth_place', 'members.birth_date', 'members.no_ktp', 'members.no_ktp', 'members.start_point')
+                            ->groupBy('members.id', 'members.name', 'members.address', 'members.phone_number', 'members.birth_place', 'members.birth_date', 'members.no_ktp', 'members.no_ktp', 'members.start_point', 'members.village', 'members.subdistrict')
                             // ->groupBy('members.id')
                             ->orderBy($sort, $order)->paginate($pagination);
 
