@@ -159,10 +159,10 @@
                 htmlResult += "<td>-</td>";
               else
                 htmlResult += "<td>" + r[i].phone_number + "</td>";
-              if(r[i].birth_place == null)
+              if(r[i].birth_date == null)
                 htmlResult += "<td>-</td>";
               else
-                htmlResult += "<td>" + r[i].birth_place + " " + r[i].birth_date + "</td>";
+                htmlResult += "<td>" + r[i].birth_date + "</td>";
               if(r[i].no_ktp == null)
                 htmlResult += "<td>-</td>";
               else
