@@ -21,6 +21,7 @@ trait MemberControllerBase
                             })
                             // ->select('members.id', 'members.name', 'members.address', 'members.phone_number', 'members.birth_place', 'members.birth_date', 'members.no_ktp', 'members.start_point')
                             // ->groupBy('members.id', 'members.name', 'members.address', 'members.phone_number', 'members.birth_place', 'members.birth_date', 'members.no_ktp', 'members.no_ktp', 'members.start_point')
+                            ->groupBy('members.id')
                             ->orderBy($sort, $order)->get();
         else
            $members = Member::leftJoin('transactions', function($join) use ($start_date, $end_date) {
@@ -30,7 +31,7 @@ trait MemberControllerBase
                             })
                             // ->select('members.id', 'members.name', 'members.address', 'members.phone_number', 'members.birth_place', 'members.birth_date', 'members.no_ktp', 'members.start_point')
                             ->withCount('transaction')
-                            // ->groupBy('members.id', 'members.name', 'members.address', 'members.phone_number', 'members.birth_place', 'members.birth_date', 'members.no_ktp', 'members.no_ktp', 'members.start_point')
+                            ->groupBy('members.id')
                             ->orderBy($sort, $order)->paginate($pagination);
 
 
