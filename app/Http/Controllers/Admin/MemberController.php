@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\MemberExport;
 
 use App\Http\Controllers\Base\MemberControllerBase;
 
@@ -162,5 +164,18 @@ class MemberController extends Controller
         session(['alert' => 'add', 'data' => 'redeem point']);
 
         return redirect('/admin/member/' . $member->id . '/point/2024-01-01/' . date('Y-m-d') . '/20');
+    }
+
+    public function export()
+    {
+        $result = [['Nama', 'Alamat', 'Desa', 'Kecamatan', 'No Telephone', 'Tanggal Lahir', 'No KTP/SIM', 'Sisa Point']];
+
+        $members = Member::orderBy('name', 'asc')->get();
+        foreach($members as $member)
+        {
+            array_push($result, [$member->name, $member->address, $member->village, $member->subdistrict, $member->phone_number, $member->birth_date, $member->no_ktp, $member->getCurrentPoint()]);
+        }
+
+        return Excel::download(new MemberExport($result), 'Data Member ' . date('Y-m-d') . '.xlsx');
     }
 }

@@ -25,6 +25,11 @@
             </div>
           </div>
           <div class="box-body" style="overflow-x:scroll; color: black !important">
+            @if(\Auth::user()->email == 'admin')
+              {!! Form::model(old(),array('url' => route($role . '.member.export'), 'enctype'=>'multipart/form-data', 'method' => 'POST', 'class' => 'form-horizontal')) !!}
+                {!! Form::submit('EXPORT DATA MEMBER', ['class' => 'btn form-control'])  !!}
+              </form>
+            @endif
             <table id="example1" class="table table-bordered table-striped">
               <thead>
               <tr>

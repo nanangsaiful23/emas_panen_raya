@@ -148,6 +148,7 @@ Route::group(['prefix' => 'lebur'], function () {
 });
 
 Route::group(['prefix' => 'member'], function () {
+	Route::post('/export', 'MemberController@export')->name('member.export');
 	Route::get('/create', 'MemberController@create');
 	Route::post('/store', 'MemberController@store')->name('member.store');
 	Route::get('/search/{member_id}', 'MemberController@search');
