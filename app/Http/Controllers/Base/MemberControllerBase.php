@@ -63,7 +63,13 @@ trait MemberControllerBase
 
     public function storeMemberBase(Request $request)
     {
+        $this->validate($request, [
+            'start_point' => array('numeric'),
+        ]);
         $data = $request->input();
+
+        if($request->start_point != 0 || $request->start_point != null)
+            $data['start_point'] = str_replace(',', '', $request->start_point);
 
         $member = Member::create($data);
 
@@ -72,7 +78,13 @@ trait MemberControllerBase
 
     public function updateMemberBase($member_id, Request $request)
     {
+        $this->validate($request, [
+            'start_point' => array('numeric'),
+        ]);
         $data = $request->input();
+
+        if($request->start_point != 0 || $request->start_point != null)
+            $data['start_point'] = str_replace(',', '', $request->start_point);
 
         $member = Member::find($member_id);
         $member->update($data);

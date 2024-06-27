@@ -97,6 +97,7 @@
         <div class="form-group">
             {!! Form::label('start_point', 'Point Awal', array('class' => 'col-sm-12')) !!}
             <div class="col-sm-5">
+                Koma menggunakan simbol .
                 @if($SubmitButtonText == 'View')
                     {!! Form::text('start_point', null, array('class' => 'form-control', 'readonly' => 'readonly')) !!}
                 @else
