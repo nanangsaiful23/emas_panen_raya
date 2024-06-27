@@ -141,7 +141,7 @@ class MemberController extends Controller
 
         session(['alert' => 'delete', 'data' => 'member']);
 
-        return redirect('/admin/member/all/10');
+        return redirect('/admin/member/2024-01-01/' . date('Y-m-d') . '/name/asc/15');
     }
 
     public function createRedeem($member_id)
