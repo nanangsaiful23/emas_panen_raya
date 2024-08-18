@@ -14,10 +14,15 @@
     }
   </style>
   <div class="content-wrapper">
+    @if(\Auth::user()->server_payment > 0)
+      <div class="alert alert-danger alert-dismissible" id="message">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <h4><i class="icon fa fa-warning"></i> Guna pelayanan yang maksimal, harap melakukan pembayaran tagihan server maksimal tanggal 20 pada setiap bulannya.<br>Status pembayaran saat ini adalah: tertunda {{ \Auth::user()->server_payment }} bulan</h4>
+      </div>
+    @endif
     <section class="content-header">
       <h1>
-              {{ getTotalItems('KL', 'Siap dijual') }} pcs</h3>
-        Hi, {{ \Auth::user()->name }}<br>
+        Hallo, {{ \Auth::user()->name }}<br>
         Selamat datang di aplikasi {{ config('app.name') }}<br>
         <small>Anda login sebagai Admin</small>
       </h1>
