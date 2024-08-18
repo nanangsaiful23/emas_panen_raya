@@ -65,7 +65,7 @@
 								</div>
 								<div class="col-sm-5" style="text-align: center; font-size: 20px;">	
 									<b>PUSAT PERHIASAN EMAS<br>
-									<span style="font-family: 'Dancing script'; font-size: 30px;">{{ config('app.store_name') }}</span><br></b>
+									<span style="font-family: 'Dancing script'; font-size: 27px;">{{ config('app.store_name') }}</span><br></b>
 									{{ config('app.address') }}<br>
 									{{ config('app.phone_number') }} <i class="fa fa-whatsapp"></i> {{ config('app.wa_number') }}<br>
 								</div>
@@ -169,11 +169,11 @@
 
 	<script type="text/javascript">		
         $(document).ready (function (){
-        	// window.print();
+        	window.print();
         }); 
 
-	    // window.setTimeout(function(){
-      	// 	window.location = window.location.origin + '/{{ $role }}/transaction/create';
-	    // }, 5000);
+	    window.setTimeout(function(){
+      		window.location = window.location.origin + '/{{ $role }}/transaction/create';
+	    }, 5000);
 	</script>
 </html>
