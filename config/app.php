@@ -17,6 +17,7 @@ return [
     'store_name' => env('APP_STORE_NAME'),
     'address' => env('APP_ADDRESS'),
     'phone_number' => env('APP_PHONE_NUMBER'),
+    'wa_number' => env('APP_WA_NUMBER'),
 
     /*
     |--------------------------------------------------------------------------
