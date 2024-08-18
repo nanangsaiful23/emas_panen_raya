@@ -65,9 +65,9 @@
 								</div>
 								<div class="col-sm-5" style="text-align: center; font-size: 20px;">	
 									<b>PUSAT PERHIASAN EMAS<br>
-									<span style="font-family: 'Dancing script'; font-size: 18px;">{{ config('app.store_name') }}</span><br></b>
-									{{ config('app.address') }}<br>
-									{{ config('app.phone_number') }}<br><i class="fa fa-whatsapp"></i> {{ config('app.wa_number') }}<br>
+									<span style="font-family: 'Dancing script'; font-size: 28px;">{{ config('app.store_name') }}</span><br></b>
+									<div style="font-size: 16px">{{ config('app.address') }}<br>
+									{{ config('app.phone_number') }}<br><i class="fa fa-whatsapp"></i> {{ config('app.wa_number') }}<br></div>
 								</div>
 								<div class="col-sm-5">	
 									<table class="none no-pad" style="font-size: 14px">
