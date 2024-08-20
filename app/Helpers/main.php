@@ -140,6 +140,16 @@
         return number_format(checkNull($number),0,'',',');
     }
 
+    function hidePhoneNumber($number, $digit)
+    {
+        if(checknull($number))
+            return 0;
+
+        $len = strlen($number) - $digit;
+
+        return substr($number, 0, $len - 1);
+    }
+
     function unformatNumber($number)
     {
         return str_replace(",", "", $number);
