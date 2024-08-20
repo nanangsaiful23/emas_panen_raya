@@ -158,7 +158,7 @@
 
 @section('js-addon')
     <script type="text/javascript">
-        var total_item = 1;
+        var total_item = '{{ sizeof($transaction->details) }}';
         var total_item_retur = 1;
         $(document).ready (function (){
             $('.select2').select2();
@@ -180,8 +180,8 @@
                 {
                     if(document.getElementById("detail_id-" + i).value != '')
                     {
-                        items = unFormatNumber(document.getElementById("price-" + i).value) + parseInt(unFormatNumber(document.getElementById("stone_price-" + i).value));
-
+                        items = parseInt(unFormatNumber(document.getElementById("price-" + i).value)) + parseInt(unFormatNumber(document.getElementById("stone_price-" + i).value));
+                        
                         total_item_price += parseInt(items);
 
                         sums = document.getElementById("sum-" + i).value;
@@ -199,7 +199,7 @@
 
             discount = document.getElementById("total_discount_price").value;
             discount = discount.replace(/,/g,'');
-            total_sum_price = parseInt(total_sum_price) - parseInt(discount);
+            total_sum_price = parseInt(total_item_price) - parseInt(discount);
 
             document.getElementById("total_item_price").value = total_item_price;
             document.getElementById("total_discount_items_price").value = total_discount_items;

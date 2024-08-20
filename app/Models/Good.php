@@ -164,4 +164,24 @@ class Good extends Model
             return 'R';
         }
     }
+
+    public function getHistory()
+    {
+        if($this->gold_history_number == 'N')
+        {
+            return 'Kulak pertama';
+        }
+        else if($this->gold_history_number == 'W')
+        {
+            return 'Kulak W';
+        }
+        else if($this->gold_history_number == '0')
+        {
+            return 'Buyback pertama';
+        }
+        else
+        {
+            return 'Buyback ke-' . (intval($this->gold_history_number) + 1);
+        }
+    }
 }

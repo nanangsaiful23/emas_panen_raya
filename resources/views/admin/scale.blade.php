@@ -37,6 +37,13 @@
                       <td style="text-align: right;">{{ showRupiah($activa_debits[$i]->balance + $activa_debits[$i]->debit - $activa_credits[$i]->credit) }}</td>
                     </tr>
                   @endfor
+                    <tr>
+                      <td>1141</td>
+                      <td>Persediaan Barang (total gram emas dikali harga emas hari ini)</td>
+                      <td style="text-align: right;">0</td>
+                      <td style="text-align: right;">{{ showRupiah(getGram('all', 'all')->sum('weight') * getTodayGoldPrice()->selling_price) }}</td>
+                      <td style="text-align: right;">{{ showRupiah(getGram('all', 'all')->sum('weight') * getTodayGoldPrice()->selling_price) }}</td>
+                    </tr>
                   <tr style="font-weight: bold;">
                     <td></td>
                     <td></td>

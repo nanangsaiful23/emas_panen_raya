@@ -119,7 +119,7 @@
                 @if($SubmitButtonText == 'View')
                     {!! Form::text('stone_price', null, array('class' => 'form-control', 'readonly' => 'readonly')) !!}
                 @else
-                    {!! Form::text('stone_price', null, array('class' => 'form-control')) !!}
+                    {!! Form::text('stone_price', null, array('class' => 'form-control', 'id' => 'stone_price', 'onkeyup' => 'formatNumber("stone_price")')) !!}
                 @endif
             </div>
         </div>
@@ -130,7 +130,7 @@
                 @if($SubmitButtonText == 'View')
                     {!! Form::text('change_status_fee', null, array('class' => 'form-control', 'readonly' => 'readonly')) !!}
                 @else
-                    {!! Form::text('change_status_fee', null, array('class' => 'form-control')) !!}
+                    {!! Form::text('change_status_fee', null, array('class' => 'form-control', 'id' => 'change_status_fee', 'onkeyup' => 'formatNumber("change_status_fee")')) !!}
                 @endif
             </div>
         </div>
@@ -158,6 +158,8 @@
   <script type="text/javascript">
     $(document).ready(function(){
         $('.select2').select2();
+        formatNumber('stone_price');
+        formatNumber('change_status_fee');
     });
 
     function formatNumber(name)

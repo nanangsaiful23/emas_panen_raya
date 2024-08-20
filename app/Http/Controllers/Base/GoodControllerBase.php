@@ -501,6 +501,8 @@ trait GoodControllerBase
             'weight' => array('required', 'numeric'),
         ]);
         $data = $request->input();
+        $data['stone_price'] = unformatNumber($request->stone_price);
+        $data['change_status_fee'] = unformatNumber($request->change_status_fee);
 
         $good = Good::find($good_id);
 

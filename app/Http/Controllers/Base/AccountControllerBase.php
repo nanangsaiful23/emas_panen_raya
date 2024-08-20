@@ -11,9 +11,15 @@ trait AccountControllerBase
     public function indexAccountBase($pagination)
     {
         if($pagination == 'all')
-           $accounts = Account::orderBy('code', 'asc')->get();
+           $accounts = Account::where('code', '1111')
+                              ->orWhere('code', '1141')
+                              ->orWhere('code', '3001')
+                              ->orderBy('code', 'asc')->get();
         else
-           $accounts = Account::orderBy('code', 'asc')->paginate($pagination);
+           $accounts = Account::where('code', '1111')
+                              ->orWhere('code', '1141')
+                              ->orWhere('code', '3001')
+                              ->orderBy('code', 'asc')->paginate($pagination);
 
         return $accounts;
     }
@@ -21,6 +27,7 @@ trait AccountControllerBase
     public function storeAccountBase(Request $request)
     {
         $data = $request->input();
+        $data['balance'] = unformatNumber($data['balance']);
 
         $account = Account::create($data);
 
@@ -30,6 +37,7 @@ trait AccountControllerBase
     public function updateAccountBase($account_id, Request $request)
     {
         $data = $request->input();
+        $data['balance'] = unformatNumber($data['balance']);
 
         $account = Account::find($account_id);
         $account->update($data);

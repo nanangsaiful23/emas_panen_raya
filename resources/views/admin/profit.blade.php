@@ -49,7 +49,7 @@
                     <td style="text-align: right;">{{ showRupiah($penjualan->sum('credit') - $hpp->sum('debit')) }}</td>
                     <td style="text-align: right;">{{ showRupiah(($penjualan_account->balance + $penjualan->sum('credit')) - ($hpp_account->balance + $hpp->sum('debit'))) }}</td>
                   </tr>
-                  <tr>
+                  <!-- <tr>
                     <td colspan="5"></td>
                   </tr>
                   @foreach($payments as $payment)
@@ -94,7 +94,7 @@
                     <td style="text-align: right;">{{ showRupiah($other_outcomes[0]->balance) }}</td>
                     <td style="text-align: right;">{{ showRupiah($other_outcomes[0]->debit) }}</td>
                     <td style="text-align: right;">{{ showRupiah($other_outcomes[0]->balance + $other_outcomes[0]->debit) }}</td>
-                  </tr>
+                  </tr> -->
                 </tbody>
               </table>
             </div>

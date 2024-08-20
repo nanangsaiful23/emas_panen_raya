@@ -24,10 +24,11 @@
         <!-- <th class="center">Retur</th> -->
         <th class="center">Edit</th>
         <th class="center">Print</th>
+        <th class="center">Hapus</th>
       @endif
     </tr>
     </thead>
-    <tbody id="table-good">
+    <tbody id="table-transaction">
       @foreach($transactions as $transaction)
         <tr>
           <td>{{ $transaction->id }}</td>
@@ -71,6 +72,16 @@
           </td> -->
             <td class="center"><a href="{{ url($role . '/transaction/' . $transaction->id . '/edit') }}"><i class="fa fa-pencil-square-o tosca" aria-hidden="true"></i></a></td>
             <td class="center"><a href="{{ url($role . '/transaction/' . $transaction->id . '/print') }}"><i class="fa fa-print tosca" aria-hidden="true"></i></a></td>
+            <td>
+              <button type="button" class="no-btn" data-toggle="modal" data-target="#modal-danger-{{$transaction->id}}" style="color: black;"><i class="fa fa-times red" aria-hidden="true"></i> Hapus</button>
+
+              @include('layout' . '.delete-modal', ['id' => $transaction->id, 'data' => $transaction->created_at, 'formName' => 'delete-form-' . $transaction->id])
+
+              <form id="delete-form-{{$transaction->id}}" action="{{ url($role . '/transaction/' . $transaction->id . '/delete') }}" method="POST" style="display: none;">
+                {{ csrf_field() }}
+                {{ method_field('DELETE') }}
+              </form>
+            </td>
           @endif
         </tr>
       @endforeach

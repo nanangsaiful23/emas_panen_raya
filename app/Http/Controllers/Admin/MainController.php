@@ -120,28 +120,34 @@ class MainController extends Controller
 
         $activa_debits = Journal::select(DB::raw('SUM(journals.debit) as debit'), 'accounts.code', 'accounts.name', 'accounts.balance')
                         ->rightJoin('accounts', 'accounts.id', 'journals.debit_account_id')
-                        ->where('accounts.activa', 'aktiva')
+                        // ->where('accounts.activa', 'aktiva')
                         ->where('accounts.deleted_at', null)
+                        ->where('accounts.code', '1111')
+                        // ->orWhere('accounts.code', '1141')
                         ->groupBy('accounts.id', 'accounts.code', 'accounts.name', 'accounts.balance')
                         ->get();
 
         $activa_credits = Journal::select(DB::raw('SUM(journals.credit) as credit'), 'accounts.code', 'accounts.name', 'accounts.balance')
                         ->rightJoin('accounts', 'accounts.id', 'journals.credit_account_id')
-                        ->where('accounts.activa', 'aktiva')
+                        // ->where('accounts.activa', 'aktiva')
                         ->where('accounts.deleted_at', null)
+                        ->where('accounts.code', '1111')
+                        // ->orWhere('accounts.code', '1141')
                         ->groupBy('accounts.id', 'accounts.code', 'accounts.name', 'accounts.balance')
                         ->get();
 
         $pasiva_debits = Journal::select(DB::raw('SUM(journals.debit) as debit'), 'accounts.code', 'accounts.name', 'accounts.balance')
                         ->rightJoin('accounts', 'accounts.id', 'journals.debit_account_id')
-                        ->where('accounts.activa', 'pasiva')
+                        // ->where('accounts.activa', 'pasiva')
+                        ->where('accounts.code', '3001')
                         ->where('accounts.deleted_at', null)
                         ->groupBy('accounts.id', 'accounts.code', 'accounts.name', 'accounts.balance')
                         ->get();
 
         $pasiva_credits = Journal::select(DB::raw('SUM(journals.credit) as credit'), 'accounts.code', 'accounts.name', 'accounts.balance')
                         ->rightJoin('accounts', 'accounts.id', 'journals.credit_account_id')
-                        ->where('accounts.activa', 'pasiva')
+                        // ->where('accounts.activa', 'pasiva')
+                        ->where('accounts.code', '3001')
                         ->where('accounts.deleted_at', null)
                         ->groupBy('accounts.id', 'accounts.code', 'accounts.name', 'accounts.balance')
                         ->get();

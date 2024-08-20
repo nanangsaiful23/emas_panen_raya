@@ -206,6 +206,7 @@ Route::group(['prefix' => 'transaction'], function () {
     Route::get('/{transaction_id}/edit', 'TransactionController@edit');
     Route::put('/{transaction_id}/edit', 'TransactionController@update')->name('transaction.update');
     Route::put('/{transaction_id}/reverse', 'TransactionController@reverse')->name('transaction.reverse');
+	Route::delete('/{transaction_id}/delete', 'TransactionController@delete')->name('transaction.delete');
 });
 
 Route::group(['prefix' => 'unit'], function () {

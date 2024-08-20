@@ -53,7 +53,14 @@
                 @foreach($journals as $journal)
                   <tr>
                     <td>{{ displayDate($journal->journal_date) }}</td>
-                    <td>{{ $journal->name }}</td>
+                    <td>@if($journal->type == 'good_loading')
+                          <a href="{{ url($role . '/good-loading/' . $journal->type_id . '/detail') }}" style="color: blue;">{{ $journal->name }}</a>
+                        @elseif($journal->type == 'transaction' || $journal->type == 'penyusutan' || $journal->type == 'operasional')
+                          <a href="{{ url($role . '/transaction/' . $journal->type_id . '/detail') }}" style="color: blue;">{{ $journal->name }}</a>
+                        @else
+                          {{ $journal->name }}
+                        @endif
+                    </td>
                     <td style="background-color: #E5F9DB">{{ $journal->debit_account()->code }}</td>
                     <td style="background-color: #E5F9DB">{{ $journal->debit_account()->name }}</td>
                     <td style="background-color: #E5F9DB">{{ showRupiah($journal->debit) }}</td>

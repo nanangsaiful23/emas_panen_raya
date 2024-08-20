@@ -18,11 +18,18 @@
                             <a href="{{ url($role . '/good/' . $good->id . '/photo/create') }}"><i class="fa fa-camera"></i><br>Tambah Foto</a><br>
                         </div>
                         <div class="col-sm-4" style="text-align: right;">
-                            <small style="font-style: italic;">nama </small><br><span style="font-size: 25px; text-transform: capitalize;">{{ $good->name }}</span><br>
-                            <small style="font-style: italic;">kode </small><br><span style="font-size: 20px">{{ $good->code }}</span><br>
-                            <small style="font-style: italic;">persentase </small><br><span style="font-size: 20px">{{ $good->percentage->name }}</span><br>
-                            <small style="font-style: italic;">berat </small><br><span style="font-size: 20px">{{ $good->weight }}gram</span><br>
+                            <small style="font-style: italic;">nama </small><br><span style="font-size: 20px; text-transform: capitalize; font-weight: bold;">{{ $good->name }}</span><br>
+                            <small style="font-style: italic;">kode </small><br><span style="font-size: 20px; font-weight: bold;">{{ $good->code }}</span><br>
+                            <small style="font-style: italic;">jenis </small><br><span style="font-size: 20px; font-weight: bold;">{{ $good->convertJenisEmas() }}</span><br>
+                            <small style="font-style: italic;">history </small><br><span style="font-size: 20px; font-weight: bold;">{{ $good->getHistory() }}</span><br>
                             <small style="font-style: italic;">status </small>@if($good->getStock() > 0) <h4>{{ $good->status }}</h4> @else Sudah terjual @endif
+                        </div>
+                        <div class="col-sm-4" style="text-align: right;">
+                            <small style="font-style: italic;">persentase </small><br><span style="font-size: 20px; font-weight: bold;">{{ $good->percentage->name }}</span><br>
+                            <small style="font-style: italic;">berat emas</small><br><span style="font-size: 20px; font-weight: bold;">{{ $good->weight }}gram</span><br>
+                            <small style="font-style: italic;">berat batu</small><br><span style="font-size: 20px; font-weight: bold;">{{ $good->stone_weight }}gram</span><br>
+                            <small style="font-style: italic;">harga batu</small><br><span style="font-size: 20px; font-weight: bold;">{{ showRupiah($good->stone_price) }}</span><br>
+                            <small style="font-style: italic;">ongkos</small><br><span style="font-size: 20px; font-weight: bold;">{{ showRupiah($good->change_status_fee) }}</span><br>
                         </div>
                     </div>
                     <hr>

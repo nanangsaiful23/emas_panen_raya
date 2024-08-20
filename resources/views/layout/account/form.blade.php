@@ -74,9 +74,9 @@
             {!! Form::label('balance', 'Saldo Awal', array('class' => 'col-sm-12')) !!}
             <div class="col-sm-5">
                 @if($SubmitButtonText == 'View')
-                    {!! Form::text('balance', null, array('class' => 'form-control', 'readonly' => 'readonly')) !!}
+                    {!! Form::text('balance', showRupiah($account->balance), array('class' => 'form-control', 'readonly' => 'readonly')) !!}
                 @else
-                    {!! Form::text('balance', null, array('class' => 'form-control')) !!}
+                    {!! Form::text('balance', null, array('class' => 'form-control', 'onkeyup' => 'formatNumber("balance")')) !!}
                 @endif
             </div>
         </div>
@@ -101,4 +101,12 @@
 {!! Form::close() !!}
 
 @section('js-addon')
+<script type="text/javascript">
+        function formatNumber(name)
+        {
+            num = document.getElementById(name).value;
+            num = num.toString().replace(/,/g,'');
+            document.getElementById(name).value = num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+        }
+</script>
 @endsection
