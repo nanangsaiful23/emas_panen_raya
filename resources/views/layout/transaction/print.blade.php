@@ -169,12 +169,12 @@
 	</body>
 
 	<script type="text/javascript">		
-        // $(document).ready (function (){
-        // 	window.print();
-        // }); 
+        $(document).ready (function (){
+        	window.print();
+        }); 
 
-	    // window.setTimeout(function(){
-      	// 	window.location = window.location.origin + '/{{ $role }}/transaction/create';
-	    // }, 5000);
+	    window.setTimeout(function(){
+      		window.location = window.location.origin + '/{{ $role }}/transaction/create';
+	    }, 5000);
 	</script>
 </html>
