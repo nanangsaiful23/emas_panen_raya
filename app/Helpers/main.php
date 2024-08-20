@@ -143,7 +143,7 @@
     function hidePhoneNumber($number, $digit)
     {
         if(checknull($number))
-            return 0;
+            return '-';
 
         $len = strlen($number) - $digit;
 
