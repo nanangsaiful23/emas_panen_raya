@@ -68,6 +68,9 @@
 									<span style="font-family: 'Dancing script'; font-size: 28px;">{{ config('app.store_name') }}</span><br></b>
 									<div style="font-size: 16px">{{ config('app.address') }}<br>
 									{{ config('app.phone_number') }}<br><i class="fa fa-whatsapp"></i> {{ config('app.wa_number') }}<br></div>
+									<div class="col-sm-12" style="font-size: 14px;">
+										<i class="fa fa-facebook-square"></i> Panen Raya <i class="fa fa-instagram"></i> tmpanenraya<br>
+									</div>
 								</div>
 								<div class="col-sm-5">	
 									<table class="none no-pad" style="font-size: 14px">
@@ -84,7 +87,7 @@
 										<tr>
 											<td>Telp/HP</td>
 											<td>:</td>
-											<td style="border-bottom: 0.5px dotted !important; padding-left: 3px">{{ $transaction->member->phone_number }}</td>
+											<td style="border-bottom: 0.5px dotted !important; padding-left: 3px">{{ hidePhoneNumber($transaction->member->phone_number, 2) }}</td>
 										</tr>
 										<tr>
 											<td>Tanggal</td>
@@ -99,7 +102,7 @@
 									</table>
 								</div>
 							</div>
-							<div class="col-sm-12" style="text-align:center; margin-top: 10px; font-weight: bold;">
+							<div class="col-sm-12" style="text-align:center; margin-top: 3px; font-weight: bold;">
 								<!-- <div class="col-sm-offset-1 col-sm-7" style="font-size: 18px; border: black solid 3px;">
 									TERDEPAN DALAM MODEL DAN PENAMPILAN
 								</div> -->
@@ -112,32 +115,34 @@
 					<hr>
 					<table class="col-sm-11" style="font-size: 16px; text-align: center;">
 						<thead style="font-weight: bold;">
+							<td>Nama Barang</td>
 							<td>Kode</td>
 							<td>Berat</td>
 							<td>Kadar</td>
 							<td>Harga</td>
-							<td>Barang</td>
 							<!-- <td>Jumlah</td> -->
 						</thead>
 						<tbody>	
 							@foreach($transaction->details as $detail)
 								<tr>
+									<td>{{ $detail->good_unit->good->name }}</td>
 									<td>{{ $detail->good_unit->good->code }}</td>
 									<td>{{ $detail->good_unit->good->weight }}</td>
 									<td>{{ $detail->good_unit->good->percentage->name }}</td>
 									<td>{{ showRupiah($detail->sum_price) }}</td>
-									<td>
-										{{ $detail->good_unit->good->name }}
-									</td>
 									<!-- <td style="text-align: right !important;">{{ showRupiah($detail->sum_price) }}</td> -->
 								</tr>
 							@endforeach
+							<tr>
+								<td colspan="4" style="border-color: white !important; border-right-color: black !important;"></td>
+								<td><b>{{ showRupiah($transaction->total_sum_price) }}</b></td>
+							</tr>
 						</tbody>
 					</table>
 					<hr>
 					<div class="wrapper">
 						<div class="row">
-							<div class="col-sm-12">
+							<div class="col-sm-12" style="margin-top: 10px">
 								<div class="col-sm-offset-1 col-sm-6" style="font-size: 10px; border: solid black 3px; text-align: left;">
 									<span style="font-size: 11px;"><b>PERHATIAN:</b></span><br>
 									1. Harap teliti dalam membeli, baik kadar maupun berat timbangan emas. Demikian untuk mencegah kesalahan yang merugikan PEMBELI.<br>
@@ -145,10 +150,6 @@
 									3. Barang yang sudah rusak/peok/gerang/putus maka kami akan beli dengan harga leburan/harga rosok yang berlaku.
 								</div>
 								<div class="col-sm-offset-1 col-sm-3">
-									<div class="col-sm-12" style="font-size: 14px;">
-										<i class="fa fa-facebook-square"></i> Panen Raya<br>
-										<i class="fa fa-instagram"></i> tmpanenraya<br>
-									</div>
 									<div class="col-sm-12" style="font-size: 16px; border: solid black 3px; text-align: center; font-weight: bold;">
 										MINGGU KE 4 TUTUP
 									</div>
@@ -168,12 +169,12 @@
 	</body>
 
 	<script type="text/javascript">		
-        $(document).ready (function (){
-        	window.print();
-        }); 
+        // $(document).ready (function (){
+        // 	window.print();
+        // }); 
 
-	    window.setTimeout(function(){
-      		window.location = window.location.origin + '/{{ $role }}/transaction/create';
-	    }, 5000);
+	    // window.setTimeout(function(){
+      	// 	window.location = window.location.origin + '/{{ $role }}/transaction/create';
+	    // }, 5000);
 	</script>
 </html>
