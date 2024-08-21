@@ -66,10 +66,16 @@
 								<div class="col-sm-5" style="text-align: center; font-size: 20px;">	
 									<b>PUSAT PERHIASAN EMAS<br>
 									<span style="font-family: 'Dancing script'; font-size: 28px;">{{ config('app.store_name') }}</span><br></b>
-									<div style="font-size: 16px">{{ config('app.address') }}<br>
+									<div style="font-size: 11px">{{ config('app.address') }}<br>
 									{{ config('app.phone_number') }}<br><i class="fa fa-whatsapp"></i> {{ config('app.wa_number') }}<br></div>
-									<div class="col-sm-12" style="font-size: 14px;">
+									<div class="col-sm-12" style="font-size: 11px;">
 										<i class="fa fa-facebook-square"></i> Panen Raya <i class="fa fa-instagram"></i> tmpanenraya<br>
+									</div>
+									<div class="col-sm-12" style="font-size: 12px">
+										<b>NPWP: 47 131 385 8 515 000</b>
+									</div>
+									<div class="col-sm-12" style="font-size: 12px; border: solid black 3px; text-align: center; font-weight: bold;">
+										MINGGU KE 4 TUTUP
 									</div>
 								</div>
 								<div class="col-sm-5">	
@@ -102,18 +108,11 @@
 									</table>
 								</div>
 							</div>
-							<div class="col-sm-12" style="text-align:center; margin-top: 3px; font-weight: bold;">
-								<!-- <div class="col-sm-offset-1 col-sm-7" style="font-size: 18px; border: black solid 3px;">
-									TERDEPAN DALAM MODEL DAN PENAMPILAN
-								</div> -->
-								<div class="col-sm-offset-2 col-sm-5" style="font-size: 16px">
-									NPWP: 47 131 385 8 515 000
-								</div>
-							</div>
 						</div>
 					</div>
 					<hr>
-					<table class="col-sm-11" style="font-size: 16px; text-align: center;">
+					<?php $margin = 15 - (sizeof($transaction->details) * 5); ?>
+					<table class="col-sm-11" style="font-size: 16px; text-align: center; margin-top: {{ $margin }}px;">
 						<thead style="font-weight: bold;">
 							<td>Nama Barang</td>
 							<td>Kode</td>
@@ -142,17 +141,16 @@
 					<hr>
 					<div class="wrapper">
 						<div class="row">
-							<div class="col-sm-12" style="margin-top: 10px">
-								<div class="col-sm-offset-1 col-sm-6" style="font-size: 10px; border: solid black 3px; text-align: left;">
+							<div class="col-sm-12" style="margin-top: {{ $margin + 10 }}px">
+								<div class="col-sm-offset-1 col-sm-7" style="font-size: 10px; border: solid black 3px; text-align: left;">
 									<span style="font-size: 11px;"><b>PERHATIAN:</b></span><br>
 									1. Harap teliti dalam membeli, baik kadar maupun berat timbangan emas. Demikian untuk mencegah kesalahan yang merugikan PEMBELI.<br>
 									2. Jual-beli menurut harga pasaran toko.<br>
 									3. Barang yang sudah rusak/peok/gerang/putus maka kami akan beli dengan harga leburan/harga rosok yang berlaku.
 								</div>
 								<div class="col-sm-offset-1 col-sm-3">
-									<div class="col-sm-12" style="font-size: 16px; border: solid black 3px; text-align: center; font-weight: bold;">
-										MINGGU KE 4 TUTUP
-									</div>
+									Hormat kami,<br><br><br>
+									TM. Panen Raya
 								</div>
 							</div>
 						</div>

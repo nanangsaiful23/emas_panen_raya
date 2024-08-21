@@ -73,7 +73,7 @@
             <td class="center"><a href="{{ url($role . '/transaction/' . $transaction->id . '/edit') }}"><i class="fa fa-pencil-square-o tosca" aria-hidden="true"></i></a></td>
             <td class="center"><a href="{{ url($role . '/transaction/' . $transaction->id . '/print') }}"><i class="fa fa-print tosca" aria-hidden="true"></i></a></td>
             <td>
-              <button type="button" class="no-btn" data-toggle="modal" data-target="#modal-danger-{{$transaction->id}}" style="color: black;"><i class="fa fa-times red" aria-hidden="true"></i> Hapus</button>
+              <button type="button" class="no-btn" data-toggle="modal" data-target="#modal-danger-{{$transaction->id}}" style="color: black;"><i class="fa fa-times red" aria-hidden="true"></i></button>
 
               @include('layout' . '.delete-modal', ['id' => $transaction->id, 'data' => $transaction->created_at, 'formName' => 'delete-form-' . $transaction->id])
 
