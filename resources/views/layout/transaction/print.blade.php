@@ -1,5 +1,8 @@
 <html>
 	<style type="text/css">
+		@media print {
+			body {-webkit-print-color-adjust: exact;}
+			}
 		@page {
 		  size: A4;
 		  margin: 0;
@@ -56,15 +59,15 @@
 	<body style="font-family: 'inter';" class="container">
 		<div class="infoi">
 			@for($i = 0; $i < 2; $i++)
-				<div style="height: 148.5mm !important; border-bottom: dotted black 2px;">
+				<div style="height: 140mm !important; border-bottom: dotted black 2px;">
 					<div class="wrapper" style="padding-top: 20px;">
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="col-sm-2">	
 			            			<img src="{{asset('assets/icon/TokoPaktani.png')}}" alt="about" style="display: block;width: 100%;margin-left: auto;margin-right: auto;display: block;">
 								</div>
-								<div class="col-sm-5" style="text-align: center; font-size: 20px;">	
-									<b>PUSAT PERHIASAN EMAS<br>
+								<div class="col-sm-5" style="text-align: center; font-size: 20px; color: red !important; print-color-adjust: exact; font-color: red;">	
+									<b>TOKO PERHIASAN EMAS<br>
 									<span style="font-family: 'Dancing script'; font-size: 28px;">{{ config('app.store_name') }}</span><br></b>
 									<div style="font-size: 11px">{{ config('app.address') }}<br>
 									{{ config('app.phone_number') }}<br><i class="fa fa-whatsapp"></i> {{ config('app.wa_number') }}<br></div>
@@ -111,8 +114,8 @@
 						</div>
 					</div>
 					<hr>
-					<?php $margin = 15 - (sizeof($transaction->details) * 5); ?>
-					<table class="col-sm-11" style="font-size: 16px; text-align: center; margin-top: {{ $margin }}px;">
+					<?php $margin = (-1 * (sizeof($transaction->details) * 5)) + ((3 - sizeof($transaction->details)) * 15); ?>
+					<table class="col-sm-11" style="font-size: 14px; text-align: center; margin-top: {{ $margin }}px;">
 						<thead style="font-weight: bold;">
 							<td>Nama Barang</td>
 							<td>Kode</td>
@@ -167,12 +170,12 @@
 	</body>
 
 	<script type="text/javascript">		
-        $(document).ready (function (){
-        	window.print();
-        }); 
+        // $(document).ready (function (){
+        // 	window.print();
+        // }); 
 
-	    window.setTimeout(function(){
-      		window.location = window.location.origin + '/{{ $role }}/transaction/create';
-	    }, 5000);
+	    // window.setTimeout(function(){
+      	// 	window.location = window.location.origin + '/{{ $role }}/transaction/create';
+	    // }, 5000);
 	</script>
 </html>
