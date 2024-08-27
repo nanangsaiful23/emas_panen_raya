@@ -1,8 +1,17 @@
 <html>
 	<style type="text/css">
 		@media print {
-			body {-webkit-print-color-adjust: exact;}
+			body {
+				-webkit-print-color-adjust: exact;
 			}
+
+			.print-red span, .print-red b, .print-red div, .print-red i
+			{
+				color: red !important;
+/*				background-color: red !important;*/
+				-webkit-print-color-adjust: exact;
+			}
+		}
 		@page {
 		  size: A4;
 		  margin: 0;
@@ -66,7 +75,7 @@
 								<div class="col-sm-2">	
 			            			<img src="{{asset('assets/icon/TokoPaktani.png')}}" alt="about" style="display: block;width: 100%;margin-left: auto;margin-right: auto;display: block;">
 								</div>
-								<div class="col-sm-5" style="text-align: center; font-size: 20px; color: red !important; print-color-adjust: exact; font-color: red;">	
+								<div class="col-sm-5 print-red" style="text-align: center; font-size: 20px; color: red !important; ">	
 									<b>TOKO PERHIASAN EMAS<br>
 									<span style="font-family: 'Dancing script'; font-size: 28px;">{{ config('app.store_name') }}</span><br></b>
 									<div style="font-size: 11px">{{ config('app.address') }}<br>
@@ -77,7 +86,7 @@
 									<div class="col-sm-12" style="font-size: 12px">
 										<b>NPWP: 47 131 385 8 515 000</b>
 									</div>
-									<div class="col-sm-12" style="font-size: 12px; border: solid black 3px; text-align: center; font-weight: bold;">
+									<div class="col-sm-12" style="font-size: 12px; border: solid red 3px; text-align: center; font-weight: bold;">
 										MINGGU KE 4 TUTUP
 									</div>
 								</div>
@@ -170,12 +179,12 @@
 	</body>
 
 	<script type="text/javascript">		
-        // $(document).ready (function (){
-        // 	window.print();
-        // }); 
+        $(document).ready (function (){
+        	window.print();
+        }); 
 
-	    // window.setTimeout(function(){
-      	// 	window.location = window.location.origin + '/{{ $role }}/transaction/create';
-	    // }, 5000);
+	    window.setTimeout(function(){
+      		window.location = window.location.origin + '/{{ $role }}/transaction/create';
+	    }, 5000);
 	</script>
 </html>
