@@ -5,6 +5,8 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
+use App\Models\ServerPayment;
+
 class RedirectIfNotAdmin
 {
 	/**
@@ -20,6 +22,14 @@ class RedirectIfNotAdmin
 	    if (!Auth::guard($guard)->check()) {
 	        return redirect('admin/login');
 	    }
+
+        // $server_payment = ServerPayment::where('month_pay', null)->get();
+
+        // if(sizeof($server_payment) > 0 && \Auth::user()->email != 'super_admin')
+        // {
+    	// 	\Auth::logout();
+	    //     return redirect('pay');
+        // }
 
 	    return $next($request);
 	}

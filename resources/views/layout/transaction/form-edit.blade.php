@@ -119,7 +119,7 @@
         <div class="form-group">
             {!! Form::label('total_discount_price', 'Potongan Harga Akhir', array('class' => 'col-sm-3 control-label')) !!}
             <div class="col-sm-3">
-                <input type="text" name="total_discount_price" class="form-control" id="total_discount_price" onchange="changeTotal()" onkeypress="changeTotal()" required="required" onkeyup="formatNumber('total_discount_price')">
+                {!! Form::text('total_discount_price', formatNumber($transaction->total_discount_price), array('class' => 'form-control', 'readonly' => 'readonly', 'id' => 'total_discount_price')) !!}
             </div>
         </div>
         <div class="form-group">
@@ -131,7 +131,7 @@
         <div class="form-group">
             {!! Form::label('money_paid', 'Bayar', array('class' => 'col-sm-3 control-label', 'style' => "font-size: 40px; height: 40px;")) !!}
             <div class="col-sm-3">
-                <input type="text" name="money_paid" class="form-control" id="money_paid" onchange="changeReturn()" onkeypress="changeReturn()" required="required" onkeyup="formatNumber('money_paid')" style="font-size: 40px; height: 40px;">
+                {!! Form::text('money_paid', formatNumber($transaction->money_paid), array('class' => 'form-control', 'readonly' => 'readonly', 'id' => 'money_paid', 'style' => "font-size: 40px; height: 40px;")) !!}
             </div>
         </div>
         <div class="form-group">

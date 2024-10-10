@@ -9,11 +9,9 @@
             <h3 class="box-title">{{ $default['page_name'] }}</h3>
           </div>
 
-		      {!! Form::model($transaction, array('url' => route($role . '.transaction.update', $transaction->id), 'method' => 'POST', 'class' => 'form-horizontal')) !!}
+          {!! Form::model($server_payment, array('class' => 'form-horizontal')) !!}
             <div class="box-body">
-              @include('layout' . '.transaction.form-edit', ['SubmitButtonText' => 'Edit'])
-			        {{ method_field('PUT') }}
-              {{  Form::hidden('url', URL::previous())  }}
+              @include('layout' . '.server-payment.form', ['SubmitButtonText' => 'View'])
             </div>
           {!! Form::close() !!}
 

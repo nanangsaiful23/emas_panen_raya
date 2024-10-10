@@ -14,10 +14,10 @@
     }
   </style>
   <div class="content-wrapper">
-    @if(\Auth::user()->server_payment > 0)
+    @if(isset($server_payment))
       <div class="alert alert-danger alert-dismissible" id="message">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-          <h4><i class="icon fa fa-warning"></i> Guna pelayanan yang maksimal, harap melakukan pembayaran tagihan server maksimal tanggal 20 pada setiap bulannya.<br>Status pembayaran saat ini adalah: tertunda {{ \Auth::user()->server_payment }} bulan</h4>
+          <h4><i class="icon fa fa-warning"></i> Guna pelayanan yang maksimal, harap melakukan pembayaran tagihan server maksimal tanggal 20 pada setiap bulannya.<br>Status pembayaran saat ini adalah: tertunda {{ $server_payment->count() }} bulan sejak {{ $server_payment[0]->month_due }}</h4>
       </div>
     @endif
     <section class="content-header">
@@ -87,7 +87,7 @@
         <div class="col-xs-12 col-sm-4">
           <div class="small-box" style="background-color: #C3E2C2">
             <div class="inner">
-              <h3>{{ getGram('all', 'Siap dijual')->sum('weight') }} gram</h3>
+              <h3>{{ getGram('wolm', 'Siap dijual')->sum('weight') }} gram</h3>
 
               <p>Total seluruh emas</p>
             </div>
@@ -100,7 +100,7 @@
         <div class="col-xs-12 col-sm-4">
           <div class="small-box" style="background-color: #C3E2C2">
             <div class="inner">
-              <h3>{{ getGram('all', 'Siap dijual')->sum('stone_weight') }} gram</h3>
+              <h3>{{ getGram('wolm', 'Siap dijual')->sum('stone_weight') }} gram</h3>
 
               <p>Total seluruh batu</p>
             </div>
@@ -113,7 +113,7 @@
         <div class="col-xs-12 col-sm-4">
           <div class="small-box" style="background-color: #C3E2C2">
             <div class="inner">
-              <h3>{{ getGram('all', 'Siap dijual')->sum('weight') + getGram('all', 'Siap dijual')->sum('stone_weight') }} gram</h3>
+              <h3>{{ getGram('wolm', 'Siap dijual')->sum('weight') + getGram('all', 'Siap dijual')->sum('stone_weight') }} gram</h3>
 
               <p>Total keseluruhan asset</p>
             </div>
@@ -189,6 +189,20 @@
             </div>
             <div class="icon">
               <span><img src="{{asset('assets/icon/pendant.png')}}" style="width: 80px"></span>
+            </div>
+            <a href="{{ url('/admin/gold-price/create') }}" class="small-box-footer" target="_blank()"></a>
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-4">
+          <div class="small-box" style="background-color: #FD8B51">
+            <div class="inner">
+              <h3>{{ getGram('LM', 'Siap dijual')->sum('weight') }} gram<br>
+              {{ getTotalItems('LM', 'Siap dijual') }} pcs</h3>
+
+              <p>Total asset Logam Mulia</p>
+            </div>
+            <div class="icon">
+              <span><img src="{{asset('assets/icon/gold.png')}}" style="width: 80px"></span>
             </div>
             <a href="{{ url('/admin/gold-price/create') }}" class="small-box-footer" target="_blank()"></a>
           </div>

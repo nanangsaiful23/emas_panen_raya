@@ -47,4 +47,20 @@ class Transaction extends Model
     {
         return Account::where('code', $this->type)->first();
     }
+
+    public function getStatusFee()
+    {
+        $total = 0;
+        foreach($this->details as $detail)
+        {
+            $total += checkNull($detail->good_unit->good->change_status_fee);
+        }
+
+        return $total;
+    }
+
+    public function getHpp()
+    {
+        return $this->details->sum('buy_price') + $this->details->sum('stone_price') + $this->details->sum('discount_price');
+    }
 }

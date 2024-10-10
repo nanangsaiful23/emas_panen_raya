@@ -72,7 +72,7 @@
                                 <th>Kadar</th>
                                 <th>Berat Batu</th>
                                 <th>Harga Batu</th>
-                                @if(\Auth::user()->email == 'admin')
+                                @if(\Auth::user()->email == 'admin' || \Auth::user()->email == 'super_admin')
                                     <th>Harga Beli</th> 
                                 @endif
                                 <th>Harga Jual</th>
@@ -100,7 +100,7 @@
                                         <td>
                                             {{ showRupiah($detail->good_unit->good->stone_price) }}
                                         </td>
-                                        @if(\Auth::user()->email == 'admin')
+                                        @if(\Auth::user()->email == 'admin' || \Auth::user()->email == 'super_admin')
                                             <td style="text-align: right;">
                                                 {{ showRupiah($detail->buy_price) }}
                                             </td>

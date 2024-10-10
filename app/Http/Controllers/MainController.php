@@ -51,4 +51,9 @@ class MainController extends Controller
 
         return $response;
     }
+
+    public function pay()
+    {
+        return view('layout.server-payment.pay');
+    }
 }

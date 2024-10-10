@@ -83,7 +83,8 @@ class TransactionController extends Controller
 
         session(['alert' => 'edit', 'data' => 'transaksi barang']);
             
-        return redirect('/admin/transaction/' . $transaction->id . '/print');
+        return redirect($request->url);
+        // return redirect('/admin/transaction/' . $transaction->id . '/print');
     }
 
     public function print($transaction_id)

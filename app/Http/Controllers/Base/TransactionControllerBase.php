@@ -268,33 +268,11 @@ trait TransactionControllerBase
                 $detail->update($data_detail);
 
                 $sum += $data_detail['sum_price'];
-                $hpp += ($data_detail['buy_price'] * $data_detail['quantity']) + checkNull($good_unit->good->stone_price) + checkNull($good_unit->good->change_status_fee);
+                $hpp += ($data_detail['buy_price'] * $detail->quantity) + checkNull($detail->good_unit->good->stone_price) + checkNull($detail->good_unit->good->change_status_fee);
             }
         }
 
         $sum = $sum - checkNull($data_transaction['total_discount_price']);
-
-        #tabel journal transaksi
-        $journal = Journal::where('type', 'transaction')->where('type_id', $transaction->id)->first();
-
-        #tabel journal 
-        $data_journal['journal_date']       = date('Y-m-d');
-        $data_journal['name']               = 'Edit penjualan tanggal ' . displayDate(date('Y-m-d')) . ' (ID ' . $transaction->id . ')';
-        $data_journal['debit']              = $sum;
-        $data_journal['credit']             = $sum;
-
-        $journal->update($data_journal);
-
-        #tabel journal hpp
-        $journal_hpp = Journal::where('type', 'hpp')->where('type_id', $transaction->id)->first();
-
-        #tabel journal 
-        $data_journal_hpp['journal_date']       = date('Y-m-d');
-        $data_journal_hpp['name']               = 'Edit hpp penjualan tanggal ' . displayDate(date('Y-m-d')) . ' (ID ' . $transaction->id . ')';
-        $data_journal_hpp['debit']              = $hpp;
-        $data_journal_hpp['credit']             = $hpp;
-
-        $journal_hpp->update($data_journal_hpp);
 
         return $transaction;
     }

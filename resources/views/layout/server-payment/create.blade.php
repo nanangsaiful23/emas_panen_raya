@@ -6,13 +6,12 @@
       <div class="col-xs-12">
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">{{ $default['page_name'] }}</h3>
+            <h3 class="box-title"> {{ $default['page_name'] }}</h3>
           </div>
 
-		      {!! Form::model($category, array('url' => route($role . '.category.update', $category->id), 'method' => 'POST', 'class' => 'form-horizontal')) !!}
+          {!! Form::model(old(),array('url' => route($role . '.server-payment.store'), 'enctype'=>'multipart/form-data', 'method' => 'POST', 'class' => 'form-horizontal')) !!}
             <div class="box-body">
-              @include('layout' . '.category.form', ['SubmitButtonText' => 'Edit'])
-			        {{ method_field('PUT') }}
+              @include('layout' . '.server-payment.form', ['SubmitButtonText' => 'Tambah'])
             </div>
           {!! Form::close() !!}
 

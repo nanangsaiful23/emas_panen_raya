@@ -1,5 +1,6 @@
 <?php
 
+Route::get('/pay', 'MainController@pay');
 Route::get('/search/{query}', 'MainController@search');
 Route::get('image/{directory}/{url}', 'MainController@getImage');
 

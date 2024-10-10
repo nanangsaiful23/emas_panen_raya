@@ -14,10 +14,16 @@ use App\Models\GoldPrice;
 use App\Models\Journal;
 use App\Models\Percentage;
 use App\Models\ReturItem;
+use App\Models\ServerPayment;
 use App\Models\Transaction;
+use App\Models\TransactionDetail;
+
+use App\Http\Controllers\Base\TransactionControllerBase;
 
 class MainController extends Controller
 {
+    use TransactionControllerBase;
+
     public function __construct()
     {
         $this->middleware('admin');
@@ -76,7 +82,9 @@ class MainController extends Controller
 
         $percentages = Percentage::where('nominal', null)->orWhere('profit', null)->get();
 
-        return view('admin.index', compact('default', 'transactions', 'other_transactions', 'good_prices', 'gold_price', 'percentages'));
+        $server_payment = ServerPayment::where('month_pay', null)->get();
+
+        return view('admin.index', compact('default', 'transactions', 'other_transactions', 'good_prices', 'gold_price', 'percentages' ,'server_payment'));
     }
 
     public function profit()
@@ -114,45 +122,119 @@ class MainController extends Controller
         return view('admin.profit', compact('default', 'penjualan_account', 'penjualan', 'hpp_account', 'hpp', 'payments', 'other_incomes', 'other_outcomes'));
     }
 
-    public function scale()
+    public function profit2($type, $start_date, $end_date, $sort, $order, $pagination)
     {
-        $default['page_name'] = 'Neraca';
+        $sub_total = TransactionDetail::join('transactions', 'transactions.id', 'transaction_details.transaction_id')
+                                    ->select(DB::raw('SUM(transaction_details.sum_price) as income, SUM(transaction_details.buy_price + transaction_details.stone_price + transaction_details.discount_price) as hpp, SUM(transaction_details.sum_price - (transaction_details.buy_price + transaction_details.stone_price + transaction_details.discount_price)) as result, COUNT(transaction_details.id) as count_trans, SUM(transaction_details.gold_weight) as count_gram'))
+                                    ->whereDate('transaction_details.created_at', '>=', $start_date)
+                                    ->whereDate('transaction_details.created_at', '<=', $end_date) 
+                                    ->where('transactions.type', 'normal')
+                                    ->where('transactions.deleted_at', null)
+                                    ->get();
 
-        $activa_debits = Journal::select(DB::raw('SUM(journals.debit) as debit'), 'accounts.code', 'accounts.name', 'accounts.balance')
-                        ->rightJoin('accounts', 'accounts.id', 'journals.debit_account_id')
-                        // ->where('accounts.activa', 'aktiva')
-                        ->where('accounts.deleted_at', null)
-                        ->where('accounts.code', '1111')
-                        // ->orWhere('accounts.code', '1141')
-                        ->groupBy('accounts.id', 'accounts.code', 'accounts.name', 'accounts.balance')
-                        ->get();
+        if($type == 'resume')
+        {
+            $default['page_name'] = 'Resume Laporan Keuangan'; 
 
-        $activa_credits = Journal::select(DB::raw('SUM(journals.credit) as credit'), 'accounts.code', 'accounts.name', 'accounts.balance')
-                        ->rightJoin('accounts', 'accounts.id', 'journals.credit_account_id')
-                        // ->where('accounts.activa', 'aktiva')
-                        ->where('accounts.deleted_at', null)
-                        ->where('accounts.code', '1111')
-                        // ->orWhere('accounts.code', '1141')
-                        ->groupBy('accounts.id', 'accounts.code', 'accounts.name', 'accounts.balance')
-                        ->get();
+            $transactions = [];
+        }
+        elseif($type == 'detail')
+        {
+            $default['page_name'] = 'Laporan Keuangan Detail Harian'; 
 
-        $pasiva_debits = Journal::select(DB::raw('SUM(journals.debit) as debit'), 'accounts.code', 'accounts.name', 'accounts.balance')
-                        ->rightJoin('accounts', 'accounts.id', 'journals.debit_account_id')
-                        // ->where('accounts.activa', 'pasiva')
-                        ->where('accounts.code', '3001')
-                        ->where('accounts.deleted_at', null)
-                        ->groupBy('accounts.id', 'accounts.code', 'accounts.name', 'accounts.balance')
-                        ->get();
+            $temp = Transaction::select('id', 'created_at', 'total_sum_price')
+                                ->whereDate('transactions.created_at', '>=', $start_date)
+                                ->whereDate('transactions.created_at', '<=', $end_date) 
+                                ->where('payment', 'cash')
+                                // ->whereRaw('money_paid >= total_sum_price')
+                                ->where('type', 'normal')
+                                ->where('transactions.deleted_at', null)
+                                ->with('details')
+                                // ->orderBy($sort, $order)
+                                ->paginate($pagination);
 
-        $pasiva_credits = Journal::select(DB::raw('SUM(journals.credit) as credit'), 'accounts.code', 'accounts.name', 'accounts.balance')
-                        ->rightJoin('accounts', 'accounts.id', 'journals.credit_account_id')
-                        // ->where('accounts.activa', 'pasiva')
-                        ->where('accounts.code', '3001')
-                        ->where('accounts.deleted_at', null)
-                        ->groupBy('accounts.id', 'accounts.code', 'accounts.name', 'accounts.balance')
-                        ->get();
+            $transactions = [];
 
-        return view('admin.scale', compact('default', 'activa_debits', 'activa_credits', 'pasiva_debits', 'pasiva_credits'));
+            foreach($temp as $transaction)
+            {
+                $transaction->status_fee = floatval($transaction->getStatusFee());
+                $transaction->hpp = floatval($transaction->getHpp());
+                $transaction->profit = floatval($transaction->total_sum_price - $transaction->hpp);
+
+                array_push($transactions, $transaction);
+            }
+
+            usort($transactions, function($a, $b) use ($sort, $order)
+                {
+                    $result = 0;
+                    if($order == 'asc')
+                    {
+                        if($a[$sort] > $b[$sort]) 
+                        {
+                            $result = 1;
+                        } 
+                        else if ($a[$sort] < $b[$sort]) 
+                        {
+                            $result = -1;
+                        }  
+                    }
+                    else
+                    {
+                        if($a[$sort] > $b[$sort]) 
+                        {
+                            $result = -1;
+                        } 
+                        else if ($a[$sort] < $b[$sort]) 
+                        {
+                            $result = 1;
+                        } 
+                    }
+                    return $result; 
+                }
+            );
+        }
+        else
+        {
+            if($type == 'month')
+            {
+                $default['page_name'] = 'Laporan Keuangan Bulanan'; 
+
+                $select = "Month(transaction_details.created_at) as month, Year(transaction_details.created_at) as year";
+                $group  = "Month(transaction_details.created_at), Year(transaction_details.created_at)";
+                // $order  = 'asc';
+            }
+            elseif($type == 'day')
+            {
+                $default['page_name'] = 'Laporan Keuangan Rangkuman Harian';
+
+                $select = 'Date(transaction_details.created_at) as date';
+                $group  = 'Date(transaction_details.created_at)';
+                // $order  = 'desc';
+            }
+
+            if($pagination == 'all')
+                $transactions = TransactionDetail::join('transactions', 'transactions.id', 'transaction_details.transaction_id')
+                                                ->select(DB::raw('SUM(transaction_details.sum_price) as income, SUM(transaction_details.buy_price + transaction_details.stone_price + transaction_details.discount_price) as hpp, SUM(transaction_details.sum_price - (transaction_details.buy_price + transaction_details.stone_price + transaction_details.discount_price)) as result, COUNT(transaction_details.id) as count_trans, SUM(transaction_details.gold_weight) as count_gram, ' . $select))
+                                                ->whereDate('transaction_details.created_at', '>=', $start_date)
+                                                ->whereDate('transaction_details.created_at', '<=', $end_date) 
+                                                ->where('transactions.type', 'normal')
+                                                ->where('transactions.deleted_at', null)        
+                                                ->groupBy(DB::raw($group))
+                                                ->orderBy('transactions.created_at', $order)
+                                                ->get();
+            else
+                $transactions = TransactionDetail::join('transactions', 'transactions.id', 'transaction_details.transaction_id')
+                                                ->select(DB::raw('SUM(transaction_details.sum_price) as income, SUM(transaction_details.buy_price + transaction_details.stone_price + transaction_details.discount_price) as hpp, SUM(transaction_details.sum_price - (transaction_details.buy_price + transaction_details.stone_price + transaction_details.discount_price)) as result, COUNT(transaction_details.id) as count_trans, SUM(transaction_details.gold_weight) as count_gram, ' . $select))
+                                                ->whereDate('transaction_details.created_at', '>=', $start_date)
+                                                ->whereDate('transaction_details.created_at', '<=', $end_date) 
+                                                ->where('transactions.type', 'normal')
+                                                ->where('transactions.deleted_at', null)  
+                                                ->groupBy(DB::raw($group))
+                                                ->orderBy('transactions.created_at', $order)
+                                                ->paginate($pagination);
+        }
+
+        return view('admin.profit-' . $type, compact('sub_total', 'transactions', 'type', 'default', 'start_date', 'end_date', 'sort', 'order', 'pagination'));
     }
 
     public function retur($distributor_id, $status, $pagination)
@@ -250,5 +332,10 @@ class MainController extends Controller
         session(['alert' => 'add', 'data' => 'retur']);
 
         return redirect('/admin/retur/all/null/20');
+    }
+
+    public function resume()
+    {
+
     }
 }

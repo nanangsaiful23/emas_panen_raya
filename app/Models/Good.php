@@ -56,6 +56,11 @@ class Good extends Model
                         ->first();
     }
 
+    public function fullName()
+    {
+        return $this->name . ' ' . $this->weight . ' gram';
+    }
+
     public function good_loadings()
     {
         return GoodLoadingDetail::join('good_units', 'good_units.id', 'good_loading_details.good_unit_id')

@@ -126,7 +126,7 @@
             </header>
 
             @include('layout.sidebar')
-
+            
             @yield('content')
 
             <footer class="main-footer">
