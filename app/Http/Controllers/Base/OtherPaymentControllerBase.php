@@ -4,68 +4,48 @@ namespace App\Http\Controllers\Base;
 
 use Illuminate\Http\Request;
 
-use App\Models\Account;
-use App\Models\Journal;
+use App\Models\OtherPayment;
 
 trait OtherPaymentControllerBase 
 {
     public function indexOtherPaymentBase($start_date, $end_date, $pagination)
     {
         if($pagination == 'all')
-           $other_payments = Journal::where('type', 'like', '%_payment%')
-                                        ->whereDate('journals.journal_date', '>=', $start_date)
-                                        ->whereDate('journals.journal_date', '<=', $end_date) 
-                                        ->get();
+           $payments = OtherPayment::whereDate('date', '>=', $start_date)
+                                    ->whereDate('date', '<=', $end_date) 
+                                    ->orderBy('id', 'desc')->get();
         else
-           $other_payments = Journal::where('type', 'like', '%_payment%')
-                                        ->whereDate('journals.journal_date', '>=', $start_date)
-                                        ->whereDate('journals.journal_date', '<=', $end_date) 
-                                        ->paginate($pagination);
+           $payments = OtherPayment::whereDate('date', '>=', $start_date)
+                                    ->whereDate('date', '<=', $end_date) 
+                                    ->orderBy('id', 'desc')->paginate($pagination);
 
-        return $other_payments;
+        return $payments;
     }
 
     public function storeOtherPaymentBase(Request $request)
     {
-        $request->money = unformatNumber($request->money);
-        
-        if($request->payment == 'cash')
-        {
-            $data_payment['credit_account_id']   = Account::where('code', '1111')->first()->id;
-        }
-        elseif($request->payment == 'transfer')
-        {
-            $data_payment['credit_account_id']   = Account::where('code', '1112')->first()->id;
-        }
+        $data = $request->input();
+        $data['nominal'] = unformatNumber($request->nominal);
 
-        $account = Account::find($request->debit_account_id);
+        $other_payment = OtherPayment::create($data);
 
-        if($account == null)
-        {
-            $account = Account::where('code', $request->debit_account_id)->first();
-        }
+        return $other_payment;
+    }
 
-        // $payment = Journal::whereDate('journal_date', date('Y-m-d'))->where('debit_account_id', $request->debit_account_id)->where('credit_account_id', $data_payment['credit_account_id'])->first();
+    public function updateOtherPaymentBase($other_payment_id, Request $request)
+    {
+        $data = $request->input();
+        $data['nominal'] = unformatNumber($request->nominal);
 
-        // if($payment != null)
-        // {
-        //     $data_payment['debit'] = floatval($payment->debit) + floatval($request->money);
-        //     $data_payment['credit'] = floatval($payment->credit) + floatval($request->money);
+        $other_payment = OtherPayment::find($other_payment_id);
+        $other_payment->update($data);
 
-        //     $payment->update($data_payment);
-        // }
-        // else
-        // {
-            $data_payment['type']               = 'other_payment';
-            $data_payment['journal_date']       = date('Y-m-d');
-            $data_payment['name']               = $account->name . ' ' . $request->notes . ' (' . $request->payment . ')';
-            $data_payment['debit_account_id']   = $account->id;
-            $data_payment['debit']              = $request->money;
-            $data_payment['credit']             = $request->money;
+        return $other_payment;
+    }
 
-            Journal::create($data_payment);
-        // }
-
-        return true;
+    public function deleteOtherPaymentBase($other_payment_id)
+    {
+        $other_payment = OtherPayment::find($other_payment_id);
+        $other_payment->delete();
     }
 }

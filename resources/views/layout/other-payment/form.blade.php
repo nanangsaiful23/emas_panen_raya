@@ -1,58 +1,36 @@
 <div class="panel-body" style="color: black !important;">
     <div class="row">
         <div class="form-group">
-            {!! Form::label('debit_account_id', 'Jenis Biaya', array('class' => 'col-sm-12')) !!}
+            {!! Form::label('name', 'Nama', array('class' => 'col-sm-12')) !!}
             <div class="col-sm-5">
                 @if($SubmitButtonText == 'View')
-                    {!! Form::text('debit_account_id', null, array('class' => 'form-control', 'readonly' => 'readonly')) !!}
+                    {!! Form::text('name', null, array('class' => 'form-control', 'readonly' => 'readonly')) !!}
                 @else
-                    @if(\Auth::user()->email == 'admin')
-                        {!! Form::select('debit_account_id', getOtherPayment(), null, ['class' => 'form-control select2', 'style'=>'width: 100%']) !!}
-                    @else
-                        <select class="form-control select2" style="width: 100%;" name="debit_account_id">
-                            <div>
-                                <option value="5220">Biaya Operasional Toko</option>
-                            </div>
-                        </select>
-                    @endif
+                    {!! Form::text('name', null, array('class' => 'form-control')) !!}
                 @endif
             </div>
         </div>
 
         <div class="form-group">
-            {!! Form::label('payment', 'Jenis Pembayaran', array('class' => 'col-sm-12')) !!}
-            <div class="col-sm-5">
+            {!! Form::label('date', 'Tanggal Pembayaran', array('class' => 'col-sm-12')) !!}
+            <div class="col-sm-3">
                 @if($SubmitButtonText == 'View')
-                    {!! Form::text('payment', null, array('class' => 'form-control', 'readonly' => 'readonly')) !!}
+                    {!! Form::text('date', null, array('class' => 'form-control', 'readonly' => 'readonly')) !!}
                 @else
-                    <select class="form-control select2" style="width: 100%;" name="payment">
-                        <div>
-                            <option value="cash">Tunai/Cash</option>
-                            <option value="transfer">Transfer</option>
-                        </div>
-                    </select>
+                    <div class="input-group date">
+                        <input type="text" class="form-control pull-right" name="date" id="date" @if($SubmitButtonText == 'Edit') value="{{ $server_payment->date }}" @endif>
+                    </div>
                 @endif
             </div>
         </div>
 
         <div class="form-group">
-            {!! Form::label('notes', 'Keterangan', array('class' => 'col-sm-12')) !!}
+            {!! Form::label('nominal', 'Nominal', array('class' => 'col-sm-12')) !!}
             <div class="col-sm-5">
                 @if($SubmitButtonText == 'View')
-                    {!! Form::text('notes', null, array('class' => 'form-control', 'readonly' => 'readonly')) !!}
+                    {!! Form::text('nominal', null, array('class' => 'form-control', 'readonly' => 'readonly')) !!}
                 @else
-                    {!! Form::text('notes', null, array('class' => 'form-control')) !!}
-                @endif
-            </div>
-        </div>
-
-        <div class="form-group">
-            {!! Form::label('money', 'Jumlah Uang', array('class' => 'col-sm-12')) !!}
-            <div class="col-sm-5">
-                @if($SubmitButtonText == 'View')
-                    {!! Form::text('money', null, array('class' => 'form-control', 'readonly' => 'readonly')) !!}
-                @else
-                    {!! Form::text('money', null, array('class' => 'form-control', 'onkeyup' => 'formatNumber("money")')) !!}
+                    {!! Form::text('nominal', null, array('class' => 'form-control', 'onkeyup' => 'formatNumber("nominal")')) !!}
                 @endif
             </div>
         </div>
@@ -67,7 +45,7 @@
                 @elseif($SubmitButtonText == 'Tambah')
                     {!! Form::submit($SubmitButtonText, ['class' => 'btn form-control'])  !!}
                 @elseif($SubmitButtonText == 'View')
-                    <a href="{{ url($role . '/other-payment/' . $other_payment->id . '/edit') }}" class="btn form-control">Ubah Data Transaksi Lain</a>
+                    <a href="{{ url($role . '/other-payment/' . $other_payment->id . '/edit') }}" class="btn form-control">Ubah Data Biaya Lain</a>
                 @endif
             </div>
         </div>
@@ -80,6 +58,11 @@
     <script type="text/javascript">
         $(document).ready (function (){
             $('.select2').select2();
+
+            $('#date').datepicker({
+              autoclose: true,
+              format: 'yyyy-mm-dd'
+            })
         });
 
         function formatNumber(name)

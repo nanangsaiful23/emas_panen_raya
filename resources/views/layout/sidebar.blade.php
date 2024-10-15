@@ -233,7 +233,19 @@
               <li class="{{ Request::segment(2) == 'profit' && Request::segment(3) == 'detail' ? 'active' : ''  }}"><a href="{{ url('/' . $role . '/profit/detail/' . date('Y-m-d', strtotime(date('Y-m-d', strtotime(date('Y-m-d'))) . '-1 day')) . '/' . date('Y-m-d') . '/id/asc/20') }}"><i class="fa fa-circle-o"></i> Detail Harian</a></li>
               <li class="{{ Request::segment(2) == 'profit' && Request::segment(3) == 'day' ? 'active' : ''  }}"><a href="{{ url('/' . $role . '/profit/day/' . date('Y-m-d', strtotime(date('Y-m-d', strtotime(date('Y-m-d'))) . '-1 month')) . '/' . date('Y-m-d') . '/id/desc/20') }}"><i class="fa fa-circle-o"></i> Rangkuman Harian</a></li>
               <li class="{{ Request::segment(2) == 'profit' && Request::segment(3) == 'month' ? 'active' : ''  }}"><a href="{{ url('/' . $role . '/profit/month/' . date('Y-m-d', strtotime(date('Y-m-d', strtotime(date('Y-m-d'))) . '-3 month')) . '/' . date('Y-m-d') . '/id/asc/20') }}"><i class="fa fa-circle-o"></i> Triwulan</a></li>
-              <li class="{{ Request::segment(2) == 'profit' && Request::segment(3) == 'resume' ? 'active' : ''  }}"><a href="{{ url('/' . $role . '/profit/resume/2024-01-01/' . date('Y-m-d') . '/id/asc/20') }}"><i class="fa fa-circle-o"></i> Resume Laporan</a></li>
+              <li class="{{ Request::segment(2) == 'profit' && Request::segment(3) == 'resume' ? 'active' : ''  }}"><a href="{{ url('/' . $role . '/profit/resume/2024-01-01/' . date('Y-m-d') . '/id/asc/20') }}"><i class="fa fa-circle-o"></i> Laba Rugi</a></li>
+          </ul>
+        </li>
+        <li class="treeview {{ (Request::segment(2) == 'other-payment' ) ? 'active' : ''  }}">
+          <a href="#">
+              <i class="fa fa-calculator"></i><span> Biaya Lain</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+              <li class="{{ Request::segment(2) == 'other-payment' && Request::segment(3) == 'create' ? 'active' : ''  }}"><a href="{{ url('/' . $role . '/other-payment/create') }}"><i class="fa fa-circle-o"></i> Tambah Biaya Lain</a></li>
+                <li class="{{ Request::segment(2) == 'other-payment' && Request::segment(3) != 'create' ? 'active' : ''  }}"><a href="{{ url('/' . $role . '/other-payment/2020-01-01/' . date('Y-m-d') . '/15') }}"><i class="fa fa-circle-o"></i> Daftar Biaya Lain</a></li>
           </ul>
         </li>
         <!-- <li class="{{ Request::segment(2) == 'scale' ? 'active' : ''  }}"><a href="{{ url('/' . $role . '/scale') }}"><i class="fa fa-balance-scale"></i> Neraca</a></li> -->

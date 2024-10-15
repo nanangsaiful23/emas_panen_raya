@@ -12,6 +12,7 @@ use App\Models\GoodLoadingDetail;
 use App\Models\GoodPrice;
 use App\Models\GoldPrice;
 use App\Models\Journal;
+use App\Models\OtherPayment;
 use App\Models\Percentage;
 use App\Models\ReturItem;
 use App\Models\ServerPayment;
@@ -136,7 +137,9 @@ class MainController extends Controller
         {
             $default['page_name'] = 'Resume Laporan Keuangan'; 
 
-            $transactions = [];
+            $transactions = OtherPayment::whereDate('date', '>=', $start_date)
+                                        ->whereDate('date', '<=', $end_date)
+                                        ->get();
         }
         elseif($type == 'detail')
         {
@@ -151,7 +154,7 @@ class MainController extends Controller
                                 ->where('transactions.deleted_at', null)
                                 ->with('details')
                                 // ->orderBy($sort, $order)
-                                ->paginate($pagination);
+                                ->get();
 
             $transactions = [];
 

@@ -26,36 +26,40 @@
             <div class="box-header">
               <h3 class="box-title">{{ $default['page_name'] }}</h3>
             </div>
-            <div class="box-body" style="color: black !important">
-              <table class="no-border" style="font-size: 16px">
-                <tbody>
+            <div class="box-body col-sm-6" style="color: black !important">
+              <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>Nama</th>
+                  <th>Nominal</th>
+                </tr>
+                </thead>
+                <tbody id="table-good">
                   <tr>
-                    <td width="13%">Total transaksi</td>
-                    <td width="1%">:</td>
-                    <td width="1%"></td>
-                    <td style="text-align: right;">{{ $sub_total->sum('count_trans') }} transaksi</td>
-                    <td width="73%"></td>
-                  </tr>
-                  <tr>
-                    <td width="13%">Total pemasukan</td>
-                    <td width="1%">:</td>
-                    <td width="1%">Rp</td>
+                    <td>Penjualan</td>
                     <td style="text-align: right;">{{ printRupiah($sub_total->sum('income')) }}</td>
-                    <td width="73%"></td>
                   </tr>
                   <tr>
-                    <td width="13%">Total HPP</td>
-                    <td width="1%">:</td>
-                    <td width="1%">Rp</td>
+                    <td>Harga Penjualan Pokok</td>
                     <td style="text-align: right;">{{ printRupiah($sub_total->sum('hpp')) }}</td>
-                    <td width="73%"></td>
+                  </tr>
+                  <tr style="font-weight: bold;">
+                    <td>Laba (rugi) kotor</td>
+                    <td style="text-align: right;">{{ printRupiah($sub_total->sum('result')) }}</td>
                   </tr>
                   <tr>
-                    <td width="13%">Total laba/rugi</td>
-                    <td width="1%">:</td>
-                    <td width="1%">Rp</td>
-                    <td style="text-align: right;">{{ printRupiah($sub_total->sum('result')) }}</td>
-                    <td width="73%"></td>
+                    <td colspan="5"></td>
+                  </tr>
+                  <!-- <tr style="font-weight: bold;">
+                    <td>Pendapatan lain-lain</td>
+                  </tr> -->
+                  <tr style="font-weight: bold;">
+                    <td>Biaya lain-lain</td>
+                    <td style="text-align: right;">{{ printRupiah($transactions->sum('nominal')) }}</td>
+                  </tr>
+                  <tr style="font-weight: bold; background-color: yellow;">
+                    <td>Total Akhir</td>
+                    <td style="text-align: right;">{{ printRupiah($sub_total->sum('result') - $transactions->sum('nominal')) }}</td>
                   </tr>
                 </tbody>
               </table>

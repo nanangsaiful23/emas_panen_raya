@@ -138,7 +138,7 @@
 
       function changeDate()
       {
-        window.location = window.location.origin + '/admin/profit/{{ $type}}/' + $("#datepicker").val() + '/' + $("#datepicker2").val() + '/' + $("#show").val();
+        window.location = window.location.origin + '/admin/profit/{{ $type}}/' + $("#datepicker").val() + '/' + $("#datepicker2").val() + '/{{ $sort }}/{{ $order }}/' + $("#show").val();
       }
     </script>
   @endsection
