@@ -33,7 +33,7 @@
               <div class="col-sm-2">
                 {!! Form::select('status', getStatusOther(), $status, ['class' => 'form-control select2', 'style'=>'width: 100%', 'id' => 'status', 'onchange' => 'advanceSearch()']) !!}
               </div>
-              @if(\Auth::user()->email == 'admin')
+              @if(\Auth::user()->email == 'admin' || \Auth::user()->email == 'super_admin')
                 <!-- <div class="form-group col-sm-12" style="margin-top: 10px;"> -->
                   {!! Form::label('distributor', 'Distributor', array('class' => 'col-sm-1 control-label')) !!}
                   <div class="col-sm-3">
@@ -44,16 +44,16 @@
             </div>
           </div>
           <div class="box-body" style="overflow-x:scroll">
-            @if(\Auth::user()->email == 'admin')
+            @if(\Auth::user()->email == 'admin' || \Auth::user()->email == 'super_admin')
               {!! Form::model(old(),array('url' => route($role . '.good.export', [$category_id, $status]), 'enctype'=>'multipart/form-data', 'method' => 'POST', 'class' => 'form-horizontal')) !!}
                 {!! Form::submit('EXPORT DATA BARANG SESUAI KATEGORI & STATUS YANG DIPILIH', ['class' => 'btn form-control'])  !!}
               </form>
             @endif
-              <div class="form-group">
-                @if($pagination != 'all')
-                  {{ $goods->render() }}
-                @endif
-              </div>
+            <div class="form-group">
+              @if($pagination != 'all')
+                {{ $goods->render() }}
+              @endif
+            </div>
             <table id="example1" class="table table-bordered table-striped">
               <thead>
                 <tr>

@@ -129,7 +129,7 @@
               <h3>{{ getGram('AT', 'Siap dijual')->sum('weight') }} gram<br>
               {{ getTotalItems('AT', 'Siap dijual') }} pcs</h3>
 
-              <p>Total asset anting/cuplik</p>
+              <p>Total asset anting/cuplik siap jual</p>
             </div>
             <div class="icon">
               <span><img src="{{asset('assets/icon/earings.png')}}" style="width: 80px"></span>
@@ -143,7 +143,7 @@
               <h3>{{ getGram('CC', 'Siap dijual')->sum('weight') }} gram<br>
               {{ getTotalItems('CC', 'Siap dijual') }} pcs</h3>
 
-              <p>Total asset cincin</p>
+              <p>Total asset cincin siap jual</p>
             </div>
             <div class="icon">
               <span><img src="{{asset('assets/icon/diamond-ring.png')}}" style="width: 80px"></span>
@@ -157,7 +157,7 @@
               <h3>{{ getGram('GL', 'Siap dijual')->sum('weight') }} gram<br>
               {{ getTotalItems('GL', 'Siap dijual') }} pcs</h3>
 
-              <p>Total asset gelang</p>
+              <p>Total asset gelang siap jual</p>
             </div>
             <div class="icon">
               <span><img src="{{asset('assets/icon/bracelet.png')}}" style="width: 80px"></span>
@@ -171,7 +171,7 @@
               <h3>{{ getGram('KL', 'Siap dijual')->sum('weight') }} gram<br>
               {{ getTotalItems('KL', 'Siap dijual') }} pcs</h3>
 
-              <p>Total asset kalung</p>
+              <p>Total asset kalung siap jual</p>
             </div>
             <div class="icon">
               <span><img src="{{asset('assets/icon/necklace.png')}}" style="width: 80px"></span>
@@ -185,7 +185,7 @@
               <h3>{{ getGram('LT', 'Siap dijual')->sum('weight') }} gram<br>
               {{ getTotalItems('LT', 'Siap dijual') }} pcs</h3>
 
-              <p>Total asset liontin</p>
+              <p>Total asset liontin siap jual</p>
             </div>
             <div class="icon">
               <span><img src="{{asset('assets/icon/pendant.png')}}" style="width: 80px"></span>
@@ -199,7 +199,7 @@
               <h3>{{ getGram('LM', 'Siap dijual')->sum('weight') }} gram<br>
               {{ getTotalItems('LM', 'Siap dijual') }} pcs</h3>
 
-              <p>Total asset Logam Mulia</p>
+              <p>Total asset Logam Mulia siap jual</p>
             </div>
             <div class="icon">
               <span><img src="{{asset('assets/icon/gold.png')}}" style="width: 80px"></span>

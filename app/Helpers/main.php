@@ -571,7 +571,7 @@
                          ->where('good_units.deleted_at', null)
                          ->where('good_loadings.deleted_at', null)
                          ->where('transactions.deleted_at', null)
-                         ->havingRaw('gid > tid')
+                         ->havingRaw('(gid - tid) > 0')
                          ->groupBy('goods.id')
                          ->get();   
         }
@@ -590,11 +590,12 @@
                          ->where('good_units.deleted_at', null)
                          ->where('good_loadings.deleted_at', null)
                          ->where('transactions.deleted_at', null)
-                         ->havingRaw('gid > tid')
-                         ->groupBy('goods.id', 'good_units.id')
+                         ->havingRaw('(gid - tid) > 0')
+                         ->groupBy('goods.id')
                          ->get();  
+
         }
-        // dd($golds);die;
+
 
         return sizeof($golds);
     }
