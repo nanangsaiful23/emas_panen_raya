@@ -293,6 +293,11 @@
         return $categories;
     }
 
+    function getCategoryObj()
+    {
+        return Category::all();
+    }
+
     function getCokimWeight()
     {
         $cokims = Cokim::where('status', 'sell')->get();
