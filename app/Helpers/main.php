@@ -284,6 +284,15 @@
         return $categories;
     }
 
+    function getCategoriesWoNull()
+    {
+        $categories = ['all' => 'Seluruh kategori'];
+        foreach (Category::orderBy('name', 'asc')->get() as $data) {
+            $categories = array_add($categories, $data->id, $data->name . ' (' . $data->eng_name . ')');
+        }
+        return $categories;
+    }
+
     function getCategoriesWoAll()
     {
         $categories = [];

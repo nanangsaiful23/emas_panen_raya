@@ -337,16 +337,21 @@ class GoodController extends Controller
     public function goodExport(Request $request)
     {
         // dd($request);die;
+        $order = 'asc';
+        if($request->sort == 'goods.created_at')
+            $order = 'desc';
+
         $result = [['Kategori', 'Jenis Emas', 'Kode', 'Nama', 'Kadar', 'Berat Emas', 'Status', 'Tanggal Barang Masuk']];
 
+        
         if($request->category == 'all' && $request->status == 'all')
-            $goods = Good::whereDate('goods.created_at', '>=', $request->start_date)->whereDate('goods.created_at', '<=', $request->end_date)->orderBy($request->sort, 'asc')->get();
+            $goods = Good::whereDate('goods.created_at', '>=', $request->start_date)->whereDate('goods.created_at', '<=', $request->end_date)->orderBy($request->sort, $order)->get();
         elseif($request->status == 'all')
-            $goods = Good::where('category_id', $request->category)->whereDate('goods.created_at', '>=', $request->start_date)->whereDate('goods.created_at', '<=', $request->end_date)->orderBy($request->sort, 'asc')->get();
+            $goods = Good::where('category_id', $request->category)->whereDate('goods.created_at', '>=', $request->start_date)->whereDate('goods.created_at', '<=', $request->end_date)->orderBy($request->sort, $order)->get();
         elseif($request->category == 'all')
-            $goods = Good::where('status', $request->status)->whereDate('goods.created_at', '>=', $request->start_date)->whereDate('goods.created_at', '<=', $request->end_date)->orderBy($request->sort, 'asc')->get();
+            $goods = Good::where('status', $request->status)->whereDate('goods.created_at', '>=', $request->start_date)->whereDate('goods.created_at', '<=', $request->end_date)->orderBy($request->sort, $order)->get();
         else
-            $goods = Good::where('status', $request->status)->where('category_id', $request->category)->whereDate('goods.created_at', '>=', $request->start_date)->whereDate('goods.created_at', '<=', $request->end_date)->orderBy($request->sort, 'asc')->get();
+            $goods = Good::where('status', $request->status)->where('category_id', $request->category)->whereDate('goods.created_at', '>=', $request->start_date)->whereDate('goods.created_at', '<=', $request->end_date)->orderBy($request->sort, $order)->get();
 
         foreach($goods as $good)
         {
