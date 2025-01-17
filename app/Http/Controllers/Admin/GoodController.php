@@ -323,23 +323,35 @@ class GoodController extends Controller
         return view('admin.layout.page', compact('default', 'good', 'start_date', 'end_date', 'pagination', 'histories'));
     }
 
-    public function goodExport($category_id, $status)
+    public function export()
     {
-        $result = [['Kategori', 'Jenis Emas', 'Kode', 'Nama', 'Kadar', 'Berat Emas', 'Status']];
+        [$default['type'], $default['color'], $default['data']] = alert();
 
-        if($category_id == 'all' && $status == 'all')
-            $goods = Good::orderBy('name', 'asc')->get();
-        elseif($status == 'all')
-            $goods = Good::where('category_id', $category_id)->orderBy('name', 'asc')->get();
-        elseif($category_id == 'all')
-            $goods = Good::where('status', $status)->orderBy('name', 'asc')->get();
+        $default['page_name'] = 'Export Data Barang';
+        $default['page'] = 'good';
+        $default['section'] = 'export';
+
+        return view('admin.layout.page', compact('default'));
+    }
+
+    public function goodExport(Request $request)
+    {
+        // dd($request);die;
+        $result = [['Kategori', 'Jenis Emas', 'Kode', 'Nama', 'Kadar', 'Berat Emas', 'Status', 'Tanggal Barang Masuk']];
+
+        if($request->category == 'all' && $request->status == 'all')
+            $goods = Good::whereDate('goods.created_at', '>=', $request->start_date)->whereDate('goods.created_at', '<=', $request->end_date)->orderBy($request->sort, 'asc')->get();
+        elseif($request->status == 'all')
+            $goods = Good::where('category_id', $request->category)->whereDate('goods.created_at', '>=', $request->start_date)->whereDate('goods.created_at', '<=', $request->end_date)->orderBy($request->sort, 'asc')->get();
+        elseif($request->category == 'all')
+            $goods = Good::where('status', $request->status)->whereDate('goods.created_at', '>=', $request->start_date)->whereDate('goods.created_at', '<=', $request->end_date)->orderBy($request->sort, 'asc')->get();
         else
-            $goods = Good::where('status', $status)->where('category_id', $category_id)->orderBy('name', 'asc')->get();
+            $goods = Good::where('status', $request->status)->where('category_id', $request->category)->whereDate('goods.created_at', '>=', $request->start_date)->whereDate('goods.created_at', '<=', $request->end_date)->orderBy($request->sort, 'asc')->get();
 
         foreach($goods as $good)
         {
             if($good->getStock() > 0)
-                array_push($result, [$good->category->name, $good->convertJenisEmas(), $good->code, $good->name, $good->percentage->name, $good->weight, $good->status]);
+                array_push($result, [$good->category->name, $good->convertJenisEmas(), $good->code, $good->name, $good->percentage->name, $good->weight, $good->status, $good->created_at]);
         }
 
         return Excel::download(new ZeroStockExport($result), 'Data Barang ' . date('Y-m-d') . '.xlsx');
