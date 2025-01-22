@@ -521,6 +521,10 @@ trait GoodControllerBase
     public function deleteGoodBase($good_id)
     {
         $good = Good::find($good_id);
+
+        $data['code'] = $good->id;
+        $good->update($data);
+        
         $good->delete();
 
         return true;
