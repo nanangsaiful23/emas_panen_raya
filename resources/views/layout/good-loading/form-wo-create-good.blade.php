@@ -5,7 +5,6 @@
 </style>
 
 <div class="panel-body">
-    <?php $goods = getGoods() ?>
     <?php $distributors = getDistributors() ?>
     <div class="row">
         <div class="col-sm-5">
@@ -208,6 +207,7 @@
                         onchange="searchByBarcode()">
                 </div>
             </div>
+            <?php /*
             <div class="form-group col-sm-7">
                 {!! Form::label('all_name', 'Cari nama barang', array('class' => 'col-sm-3 control-label')) !!}
                 <div class="col-sm-9">
@@ -215,15 +215,14 @@
                         onchange="searchItemByName()">
                         <div>
                             <option value="null">Silahkan pilih barang</option>
-                            @foreach($goods as $good)
-                                @if($good->getStock() <= 0)
+                                if($good->getStock() <= 0)
                                     <option value="{{ $good->id }}">{{ $good->name . ' ' . $good->weight . ' gram'}}</option>
-                                @endif
-                            @endforeach
+                                endif
                         </div>
                     </select>
                 </div>
             </div>
+        */ ?>
         @endif
         <div class="form-group col-sm-12" style="overflow-x:scroll">
             <table class="table table-bordered table-striped">
