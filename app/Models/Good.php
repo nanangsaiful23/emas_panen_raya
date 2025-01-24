@@ -106,8 +106,10 @@ class Good extends Model
     {
         return GoodLoadingDetail::join('good_units', 'good_units.id', 'good_loading_details.good_unit_id')
                                 ->join('good_loadings', 'good_loadings.id', 'good_loading_details.good_loading_id')
+                                ->join('distributors', 'distributors.id', 'good_loadings.distributor_id')
                                 ->where('good_units.good_id', $this->id)
                                 ->where('good_loadings.deleted_at', null)
+                                ->where('distributors.deleted_at', null)
                                 ->orderBy('good_loading_details.id', 'desc')
                                 ->first();
     }
