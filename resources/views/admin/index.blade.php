@@ -153,15 +153,14 @@
     $(document).ready(function(){
       @foreach(getCategoryObj() as $category)
         <?php $str = "assets/icon/" . $category->code . ".png"; ?>
-        code = '{{ $category->code }}';
         $.get('{{asset("$str")}}')
         .done(function() { 
-            document.getElementById('icon-lm-' + code).style.display = 'none';
-            document.getElementById('icon-' + code).style.display = 'block';
+            document.getElementById('icon-lm-{{ $category->code }}').style.display = 'none';
+            document.getElementById('icon-{{ $category->code }}').style.display = 'block';
 
         }).fail(function() { 
-            document.getElementById('icon-lm-' + code).style.display = 'block';
-            document.getElementById('icon-' + code).style.display = 'none';
+            document.getElementById('icon-lm-{{ $category->code }}').style.display = 'block';
+            document.getElementById('icon-{{ $category->code }}').style.display = 'none';
 
         })
       @endforeach
