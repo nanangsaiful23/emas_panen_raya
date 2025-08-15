@@ -152,9 +152,9 @@
     
     $(document).ready(function(){
       @foreach(getCategoryObj() as $category)
-        str = "assets/icon/{{ $category->code }}.png";
+        <?php $str = "assets/icon/{{ $category->code }}.png"; ?>
         code = '{{ $category->code }}';
-        $.get('{{asset(' + str + ')}}')
+        $.get('{{asset("$str")}}')
         .done(function() { 
             document.getElementById('icon-lm-' + code).style.display = 'none';
             document.getElementById('icon-' + code).style.display = 'block';
