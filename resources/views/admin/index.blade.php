@@ -152,15 +152,17 @@
     
     $(document).ready(function(){
       @foreach(getCategoryObj() as $category)
-        code = '{{ $category->code }}';
-        const imgElement = document.getElementById('icon-' + code); // Assuming an element with id="myImage"
-        if (imgElement.src === '') {
+        str = "assets/icon/{{ $category->code }}.png";
+        $.get('{{asset("$str")}}')
+        .done(function() { 
             document.getElementById('icon-lm-' + code).style.display = 'none';
             document.getElementById('icon-' + code).style.display = 'block';
-        } else {
+
+        }).fail(function() { 
             document.getElementById('icon-lm-' + code).style.display = 'block';
             document.getElementById('icon-' + code).style.display = 'none';
-        }
+
+        })
       @endforeach
     }
   </script>
