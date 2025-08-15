@@ -134,7 +134,8 @@
               </div>
               <div class="icon">
                 <?php $str = "assets/icon/" . $category->code . ".png"; ?>
-                <span><img src='{{asset("$str")}}' style="width: 80px"></span>
+                <span><img src='{{asset("$str")}}' style="width: 80px" id="icon-{{ $category->code }}"></span>
+                <span><img src='{{asset("assets/icon/LM.png")}}' style="width: 80px" id="icon-lm-{{ $category->code }}" style="display: none"></span>
               </div>
               <a href="{{ url('/admin/gold-price/create') }}" class="small-box-footer" target="_blank()"></a>
             </div>
@@ -144,4 +145,20 @@
     </section>
   </div>
 
+@endsection
+
+@section('js-addon')
+  <script type="text/javascript">
+    function checkImg(code) 
+    {
+      const imgElement = document.getElementById('icon-' + code); // Assuming an element with id="myImage"
+      if (imgElement.src === '') {
+          document.getElementById('icon-lm-' + code).style.display = 'block';
+          document.getElementById('icon-' + code).style.display = 'none';
+      } else {
+          document.getElementById('icon-lm-' + code).style.display = 'none';
+          document.getElementById('icon-' + code).style.display = 'block';
+      }
+    }
+  </script>
 @endsection
