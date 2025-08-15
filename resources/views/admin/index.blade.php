@@ -152,7 +152,7 @@
     
     $(document).ready(function(){
       @foreach(getCategoryObj() as $category)
-        <?php $str = "assets/icon/{{ $category->code }}.png"; ?>
+        <?php $str = "assets/icon/" . $category->code . ".png"; ?>
         code = '{{ $category->code }}';
         $.get('{{asset("$str")}}')
         .done(function() { 
