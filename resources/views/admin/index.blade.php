@@ -149,16 +149,19 @@
 
 @section('js-addon')
   <script type="text/javascript">
-    function checkImg(code) 
-    {
-      const imgElement = document.getElementById('icon-' + code); // Assuming an element with id="myImage"
-      if (imgElement.src === '') {
-          document.getElementById('icon-lm-' + code).style.display = 'block';
-          document.getElementById('icon-' + code).style.display = 'none';
-      } else {
-          document.getElementById('icon-lm-' + code).style.display = 'none';
-          document.getElementById('icon-' + code).style.display = 'block';
-      }
+    
+    $(document).ready(function(){
+      @foreach(getCategoryObj() as $category)
+        code = '{{ $category->code }}';
+        const imgElement = document.getElementById('icon-' + code); // Assuming an element with id="myImage"
+        if (imgElement.src === '') {
+            document.getElementById('icon-lm-' + code).style.display = 'none';
+            document.getElementById('icon-' + code).style.display = 'block';
+        } else {
+            document.getElementById('icon-lm-' + code).style.display = 'block';
+            document.getElementById('icon-' + code).style.display = 'none';
+        }
+      @endforeach
     }
   </script>
 @endsection
