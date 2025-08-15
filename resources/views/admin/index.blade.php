@@ -134,8 +134,8 @@
               </div>
               <div class="icon">
                 <?php $str = "assets/icon/" . $category->code . ".png"; ?>
-                <span><img src='{{asset("$str")}}' style="width: 80px" id="icon-{{ $category->code }}"></span>
-                <span><img src='{{asset("assets/icon/LM.png")}}' style="width: 80px" id="icon-lm-{{ $category->code }}" style="display: none"></span>
+                <span id="icon-{{ $category->code }}"><img src='{{asset("$str")}}' style="width: 80px"></span>
+                <span id="icon-lm-{{ $category->code }}" style="display: none"><img src='{{asset("assets/icon/LM.png")}}' style="width: 80px"></span>
               </div>
               <a href="{{ url('/admin/gold-price/create') }}" class="small-box-footer" target="_blank()"></a>
             </div>
