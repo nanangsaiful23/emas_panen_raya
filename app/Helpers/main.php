@@ -302,6 +302,15 @@
         return $categories;
     }
 
+    function getCategoriesWSold()
+    {
+        $categories = ['all' => 'Seluruh kategori'];
+        foreach (Category::orderBy('name', 'asc')->get() as $data) {
+            $categories = array_add($categories, $data->id, $data->name . ' (' . $data->eng_name . ')');
+        }
+        return $categories;
+    }
+
     function getCategoryObj()
     {
         return Category::all();
@@ -656,6 +665,13 @@
     function getStatusOtherWoAll()
     {
         $statuses = ['Siap dijual' => 'Siap dijual', 'Service' => 'Service', 'Cuci' => 'Cuci', 'Tidak layak jual' => 'Tidak layak jual'];
+
+        return $statuses;
+    }
+
+    function getStatusOtherWSold()
+    {
+        $statuses = ['all' => 'Seluruh Status', 'Siap dijual' => 'Siap dijual', 'Service' => 'Service', 'Cuci' => 'Cuci', 'Tidak layak jual' => 'Tidak layak jual', 'sold' => 'Terjual'];
 
         return $statuses;
     }

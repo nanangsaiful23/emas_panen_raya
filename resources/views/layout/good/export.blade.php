@@ -95,7 +95,7 @@
               <div class="form-group col-sm-12" style="margin-top: 10px;">
                 {!! Form::label('status', 'Status Barang', array('class' => 'col-sm-2 control-label')) !!}
                 <div class="col-sm-3">
-                  {!! Form::select('status', getStatusOther(), null, ['class' => 'form-control select2', 'style'=>'width: 100%']) !!}
+                  {!! Form::select('status', getStatusOtherWSold(), null, ['class' => 'form-control select2', 'style'=>'width: 100%']) !!}
                 </div>
                 <!-- <label for="all_date" class="col-sm-3 control-label"> Semua tanggal</label>
                 <div class="col-sm-2">
