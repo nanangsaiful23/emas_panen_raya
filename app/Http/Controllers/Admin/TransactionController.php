@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ZeroStockExport;
 
 use App\Http\Controllers\Base\TransactionControllerBase;
 
@@ -18,7 +20,7 @@ class TransactionController extends Controller
         $this->middleware('admin');
     }
 
-    public function index($role_user, $role_id, $start_date, $end_date, $pagination)
+    public function index($role_user, $role_id, $trx_type, $start_date, $end_date, $pagination)
     {
         [$default['type'], $default['color'], $default['data']] = alert();
 
@@ -26,9 +28,9 @@ class TransactionController extends Controller
         $default['page'] = 'transaction';
         $default['section'] = 'all';
 
-        [$sub_total, $transactions] = $this->indexTransactionBase($role_user, $role_id, $start_date, $end_date, $pagination);
+        [$sub_total, $transactions] = $this->indexTransactionBase($role_user, $role_id, $trx_type, $start_date, $end_date, $pagination);
 
-        return view('admin.layout.page', compact('default', 'sub_total', 'transactions', 'role_user', 'role_id', 'start_date', 'end_date', 'pagination'));
+        return view('admin.layout.page', compact('default', 'sub_total', 'transactions', 'role_user', 'role_id', 'trx_type', 'start_date', 'end_date', 'pagination'));
     }
 
     public function create()
@@ -147,5 +149,34 @@ class TransactionController extends Controller
         session(['alert' => 'add', 'data' => 'transaksi']);
 
         return redirect('/admin/transaction/all/all/' . date('Y-m-d') . '/' . date('Y-m-d') . '/20');
+    }
+
+    public function export(Request $request)
+    {
+        if($request->trx_type == 'all')
+            $whereTrxType = '%%';
+        else
+            $whereTrxType = $request->trx_type;
+
+        $result = [['ID', 'Waktu', 'Kasir', 'Member', 'Jenis', 'Kode Barang', 'Nama Barang', 'Berat', 'Kadar', 'Berat Batu', 'Harga Batu', 'Harga Beli', 'Harga Jual', 'Total Diskon', 'Total Akhir']];
+
+        $transactions = Transaction::whereDate('transactions.created_at', '>=', $request->start_date)
+                                    ->whereDate('transactions.created_at', '<=', $request->end_date) 
+                                    ->where('payment', 'cash')
+                                    ->whereRaw('money_paid >= total_sum_price')
+                                    ->where('type', 'normal')
+                                    ->whereRaw("coalesce(transactions.trx_type, '') like ? ", array($whereTrxType))
+                                    ->orderBy('transactions.created_at','desc')
+                                    ->get();
+
+        foreach($transactions as $transaction)
+        {
+            foreach($transaction->details as $detail)
+            {
+                array_push($result, [$transaction->id, $transaction->created_at, $transaction->actor()->name, $transaction->member->name, $transaction->trx_type, $detail->good_unit->good->code, $detail->good_unit->good->name . ' ' . $detail->good_unit->unit->name, $detail->good_unit->good->weight . ' gram', $detail->good_unit->good->percentage->name . '(Pengali ' . $detail->good_unit->good->percentage->nominal . ' Profit ' . $detail->good_unit->good->percentage->profit . ')', $detail->good_unit->good->stone_weight, $detail->good_unit->good->stone_price, $detail->buy_price, $detail->selling_price, $detail->discount_price, $detail->sum_price]);
+            }
+        }
+
+        return Excel::download(new ZeroStockExport($result), 'Data Transaksi ' . $request->start_date . ' - ' . $request->end_date . '.xlsx');
     }
 }

@@ -614,6 +614,13 @@
         return sizeof($golds);
     }
 
+    function getTrxTypes()
+    {
+        $types = ['all' => 'Seluruh Transaksi', 'general' => 'Transaksi Umum', 'B' => 'Transaksi B', 'other' => 'Transaksi Lainnya'];
+
+        return $types;
+    }
+
     function getSearchLoading($type, $start_date = null, $end_date = null)
     {
         $search = ['all' => 'Semua'];

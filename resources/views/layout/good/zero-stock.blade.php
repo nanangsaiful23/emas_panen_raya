@@ -18,6 +18,10 @@
           </div>
           <div class="box-body" style="overflow-x:scroll">
             <div class="form-group col-sm-12" style="margin-top: 10px;">
+              {!! Form::label('show', 'Show', array('class' => 'col-sm-1 control-label')) !!}
+              <div class="col-sm-1">
+                {!! Form::select('show', getPaginations(), $pagination, ['class' => 'form-control select2', 'style'=>'width: 100%', 'id' => 'show', 'onchange' => 'advanceSearch()']) !!}
+              </div>
               {!! Form::label('category_id', 'Kategori', array('class' => 'col-sm-1 control-label')) !!}
               <div class="col-sm-5">
                 {!! Form::select('category_id', getCategories(), $category_id, ['class' => 'form-control select2', 'style'=>'width: 100%', 'id' => 'category_id', 'onchange' => 'advanceSearch()']) !!}
@@ -39,7 +43,12 @@
             </div>
           </div>
           <div class="box-body" style="overflow-x:scroll; color: black !important">
-            @if(\Auth::user()->email == 'admin')
+            <div class="form-group">
+              @if($pagination != 'all')
+                {{ $goods->render() }}
+              @endif
+            </div>
+            @if(\Auth::user()->email == 'admin' || \Auth::user()->email == 'super_admin')
               {!! Form::model(old(),array('url' => route($role . '.zeroStock.export'), 'enctype'=>'multipart/form-data', 'method' => 'POST', 'class' => 'form-horizontal')) !!}
                 {!! Form::submit('EXPORT', ['class' => 'btn form-control'])  !!}
             @endif
@@ -52,12 +61,12 @@
                 <th>Nama</th>
                 <th>Berat</th>
                 <th>Kadar</th>
-                @if(\Auth::user()->email == 'admin')
+                @if(\Auth::user()->email == 'admin' || \Auth::user()->email == 'super_admin')
                   <th>Loading Terakhir</th>
                   <th>Harga Beli Terakhir</th>
                 @endif
                 <th>Stock</th>
-                @if(\Auth::user()->email == 'admin')
+                @if(\Auth::user()->email == 'admin' || \Auth::user()->email == 'super_admin')
                   <th>Export</th>
                   <th>Hapus Barang</th>
                 @endif
@@ -71,12 +80,12 @@
                     <td>{{ $good->name }}</td>
                     <td>{{ $good->weight }} gram</td>
                     <td>{{ $good->percentage_name }}</td>
-                    @if(\Auth::user()->email == 'admin')
+                    @if(\Auth::user()->email == 'admin' || \Auth::user()->email == 'super_admin')
                       <td style="text-align: center;">{{ $good->getLastBuy() == null ? "" : displayDate($good->getLastBuy()->good_loading->loading_date) }}</td>
                       <td style="text-align: right;">{{ $good->getLastBuy() == null ? "" : showRupiah($good->getLastBuy()->price) }}</td>
                     @endif
                     <td style="text-align: center;">{{ $good->getStock() }}</td>
-                    @if(\Auth::user()->email == 'admin')
+                    @if(\Auth::user()->email == 'admin' || \Auth::user()->email == 'super_admin')
                       <td style="text-align: center;">
                         <input type="checkbox" name="exports[]" value="{{ $good->id }}" checked="checked">
                       </td>
@@ -127,7 +136,7 @@
 
     function advanceSearch()
     {
-      window.location = window.location.origin + '/{{ $role }}/good/zeroStock/' + $('#category_id').val() + '/{{ $location }}/' + $('#distributor_id').val() + '/0/all';
+      window.location = window.location.origin + '/{{ $role }}/good/zeroStock/' + $('#category_id').val() + '/{{ $location }}/' + $('#distributor_id').val() + '/0/';
     }
   </script>
 @endsection

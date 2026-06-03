@@ -78,14 +78,26 @@
                 <div class="col-sm-3 btn btn-warning" onclick="ajaxButton('LT')">Liontin</div>
             </div>
         </div>
-        <div class="form-group col-sm-5">
-            {!! Form::label('note', 'Keterangan', array('class' => 'col-sm-4 control-label')) !!}
-            <div class="col-sm-8">
-                @if($SubmitButtonText == 'View')
-                    {!! Form::text('note', null, array('class' => 'form-control', 'readonly' => 'readonly')) !!}
-                @else
-                    {!! Form::text('note', null, array('class' => 'form-control', 'style' => 'height: 70px')) !!}
-                @endif
+        <div class="col-sm-12">
+            <div class="form-group col-sm-5">
+                {!! Form::label('note', 'Keterangan', array('class' => 'col-sm-4 control-label')) !!}
+                <div class="col-sm-8">
+                    @if($SubmitButtonText == 'View')
+                        {!! Form::text('note', null, array('class' => 'form-control', 'readonly' => 'readonly')) !!}
+                    @else
+                        {!! Form::text('note', null, array('class' => 'form-control', 'style' => 'height: 70px')) !!}
+                    @endif
+                </div>
+            </div>
+            <div class="form-group col-sm-5">
+                {!! Form::label('trx_type', 'Jenis Transaksi', array('class' => 'col-sm-4 control-label')) !!}
+                <div class="col-sm-8">
+                    @if($SubmitButtonText == 'View')
+                        {!! Form::text('trx_type', null, array('class' => 'form-control', 'readonly' => 'readonly')) !!}
+                    @else
+                        {!! Form::select('trx_type', getTrxTypes(), null, ['class' => 'form-control select2', 'style'=>'width: 100%', 'id' => 'trx_type']) !!}
+                    @endif
+                </div>
             </div>
         </div>
         <table class="table table-bordered table-striped" style="overflow-x: auto;">
@@ -466,6 +478,10 @@
                 if(parseInt(unFormatNumber($('#money_paid').val())) < parseInt(unFormatNumber($('#total_sum_price').val())) && ($('#all_member').val() == '1' && $('#member_name').val() == ''))
                 {
                     alert('Jumlah pembayaran kurang dari total belanja. Silahkan pilih member');
+                }
+                else if($('#trx_type').val() == 'all')
+                {
+                    alert('Silahkan pilih jenis transaksi');
                 }
                 else
                 {

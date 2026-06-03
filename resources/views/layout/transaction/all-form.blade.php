@@ -1,4 +1,4 @@
-<div class="box-body" style="overflow-x:scroll; background-color: {{ $color }}">
+<div class="box-body" style="background-color: {{ $color }}">
   <h3>Transaksi {{ $name }}</h3><br>
   <h4>Total transaksi: {{ showRupiah($total_sum_price) }}</h4>
   <h4>Total potongan: {{ showRupiah($discount_item + $total_discount_price) }}</h4><br>
@@ -13,6 +13,7 @@
         <th>Kasir</th>
       @endif
       <th>Member</th>
+      <th>Jenis</th>
       <th>Total Belanja</th>
       <th>Total Diskon</th>
       <th>Potongan Akhir</th>
@@ -37,6 +38,7 @@
             <td>{{ $transaction->actor()->name }}</td>
           @endif
           <td>{{ $transaction->member->name }}</td>
+          <td>{{ $transaction->trx_type }}</td>
           <td>{{ showRupiah($transaction->total_item_price) }}</td>
           <td>{{ showRupiah(checkNull($transaction->details->sum('discount_price'))) }}</td>
           <td>{{ showRupiah($transaction->total_discount_price) }}</td>
