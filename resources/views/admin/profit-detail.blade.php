@@ -73,6 +73,7 @@
                 <tr>
                   <th>@if($order == 'desc')<a href="{{ url('admin/profit/detail/' . $start_date . '/' . $end_date . '/id/asc/20') }}">@else<a href="{{ url('admin/profit/detail/' . $start_date . '/' . $end_date . '/id/desc/20') }}">@endif <i class="fa fa-sort" aria-hidden="true"></i> ID</a></th>
                   <th>Waktu</th>
+                  <th>Jenis</th>
                   <th colspan="2">@if($order == 'desc')<a href="{{ url('admin/profit/detail/' . $start_date . '/' . $end_date . '/total_sum_price/asc/20') }}">@else<a href="{{ url('admin/profit/detail/' . $start_date . '/' . $end_date . '/total_sum_price/desc/20') }}">@endif <i class="fa fa-sort" aria-hidden="true"></i> Pemasukan</a></th>
                   <th colspan="2">@if($order == 'desc')<a href="{{ url('admin/profit/detail/' . $start_date . '/' . $end_date . '/hpp/asc/20') }}">@else<a href="{{ url('admin/profit/detail/' . $start_date . '/' . $end_date . '/hpp/desc/20') }}">@endif <i class="fa fa-sort" aria-hidden="true"></i> HPP</a></th>
                   <th colspan="2">@if($order == 'desc')<a href="{{ url('admin/profit/detail/' . $start_date . '/' . $end_date . '/status_fee/asc/20') }}">@else<a href="{{ url('admin/profit/detail/' . $start_date . '/' . $end_date . '/status_fee/desc/20') }}">@endif <i class="fa fa-sort" aria-hidden="true"></i> Biaya Lain</a></th>
@@ -87,6 +88,7 @@
                     <tr style="@if($i%2 == 0) background-color: #DEE5D4; @endif">
                       <td>{{ $transaction->id }}</td>
                       <td>{{ $transaction->created_at }}</td>
+                      <td>{{ $transaction->trx_type }}</td>
                       <td style="border-right-color: transparent;">Rp</td>
                       <td style="text-align: right;">{{ printRupiah($transaction->total_sum_price) }}</td>
                       <td style="border-right-color: transparent;">Rp</td>
