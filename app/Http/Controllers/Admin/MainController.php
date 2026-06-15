@@ -159,7 +159,7 @@ class MainController extends Controller
                                                     ->get();
             }
 
-            $temp = Transaction::select('id', 'created_at', 'total_sum_price')
+            $temp = Transaction::select('id', 'created_at', 'trx_type', 'total_sum_price')
                                 ->whereDate('transactions.created_at', '>=', $start_date)
                                 ->whereDate('transactions.created_at', '<=', $end_date) 
                                 ->where('payment', 'cash')
