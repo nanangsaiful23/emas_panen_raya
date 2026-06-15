@@ -111,7 +111,7 @@
           </div>
 
           <div class="box-body">
-            <h3>Total transaksi hari ini: {{ showRupiah($sub_total->sum('total_sum_price')) }}</h3>
+            <h3>Total transaksi: {{ showRupiah($sub_total->sum('total_sum_price')) }}</h3>
           </div>
 
           @include('layout.transaction.all-form', ['name' => 'Lunas', 'transactions' => $transactions['cash'], 'color' => '#E5F9DB', 'total_sum_price' => $sub_total->sum('total_sum_price'), 'total_discount_price' => $sub_total->sum('total_discount_price'), 'discount_item' => $sub_total->sum('discount_item') ])

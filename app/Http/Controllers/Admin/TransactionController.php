@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ZeroStockExport;
+use App\Exports\TransactionExport;
 
 use App\Http\Controllers\Base\TransactionControllerBase;
 
@@ -158,7 +159,7 @@ class TransactionController extends Controller
         else
             $whereTrxType = $request->trx_type;
 
-        $result = [['ID', 'Waktu', 'Kasir', 'Member', 'Jenis', 'Kode Barang', 'Nama Barang', 'Berat', 'Kadar', 'Berat Batu', 'Harga Batu', 'Harga Beli', 'Harga Jual', 'Total Diskon', 'Total Akhir']];
+        $result = [['ID', 'Waktu', 'Kasir', 'Member', 'Jenis', 'Kode Barang', 'Nama Barang', 'Berat', 'Kadar', 'Harga Beli', 'Harga Jual', 'Total Akhir']];
 
         $transactions = Transaction::whereDate('transactions.created_at', '>=', $request->start_date)
                                     ->whereDate('transactions.created_at', '<=', $request->end_date) 
@@ -173,10 +174,10 @@ class TransactionController extends Controller
         {
             foreach($transaction->details as $detail)
             {
-                array_push($result, [$transaction->id, $transaction->created_at, $transaction->actor()->name, $transaction->member->name, $transaction->trx_type, $detail->good_unit->good->code, $detail->good_unit->good->name . ' ' . $detail->good_unit->unit->name, $detail->good_unit->good->weight . ' gram', $detail->good_unit->good->percentage->name . '(Pengali ' . $detail->good_unit->good->percentage->nominal . ' Profit ' . $detail->good_unit->good->percentage->profit . ')', $detail->good_unit->good->stone_weight, $detail->good_unit->good->stone_price, $detail->buy_price, $detail->selling_price, $detail->discount_price, $detail->sum_price]);
+                array_push($result, [$transaction->id, $transaction->created_at, $transaction->actor()->name, $transaction->member->name, $transaction->trx_type, $detail->good_unit->good->code, $detail->good_unit->good->name . ' ' . $detail->good_unit->unit->name, $detail->good_unit->good->weight . ' gram', $detail->good_unit->good->percentage->name . '(Pengali ' . $detail->good_unit->good->percentage->nominal . ' Profit ' . $detail->good_unit->good->percentage->profit . ')', formatNumber($detail->buy_price), formatNumber($detail->selling_price), formatNumber($detail->sum_price)]);
             }
         }
 
-        return Excel::download(new ZeroStockExport($result), 'Data Transaksi ' . $request->start_date . ' - ' . $request->end_date . '.xlsx');
+        return Excel::download(new TransactionExport($result), 'Data Transaksi ' . $request->start_date . ' - ' . $request->end_date . '.xlsx');
     }
 }

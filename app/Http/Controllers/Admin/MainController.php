@@ -125,6 +125,7 @@ class MainController extends Controller
 
     public function profit2($type, $start_date, $end_date, $sort, $order, $pagination)
     {
+        $sub_trx = [];
         $sub_total = TransactionDetail::join('transactions', 'transactions.id', 'transaction_details.transaction_id')
                                     ->select(DB::raw('SUM(transaction_details.sum_price) as income, SUM(transaction_details.buy_price + transaction_details.stone_price + transaction_details.discount_price) as hpp, SUM(transaction_details.sum_price - (transaction_details.buy_price + transaction_details.stone_price + transaction_details.discount_price)) as result, COUNT(transaction_details.id) as count_trans, SUM(transaction_details.gold_weight) as count_gram'))
                                     ->whereDate('transaction_details.created_at', '>=', $start_date)
@@ -144,6 +145,19 @@ class MainController extends Controller
         elseif($type == 'detail')
         {
             $default['page_name'] = 'Laporan Keuangan Detail Harian'; 
+
+            foreach(getTrxTypes() as $key => $value)
+            {
+                $sub_trx[$key] = TransactionDetail::join('transactions', 'transactions.id', 'transaction_details.transaction_id')
+                                                    ->select(DB::raw('SUM(transaction_details.sum_price) as income, SUM(transaction_details.buy_price + transaction_details.stone_price + transaction_details.discount_price) as hpp, SUM(transaction_details.sum_price - (transaction_details.buy_price + transaction_details.stone_price + transaction_details.discount_price)) as result, COUNT(transaction_details.id) as count_trans, SUM(transaction_details.gold_weight) as count_gram, transactions.trx_type as trx_type'))
+                                                    ->whereDate('transaction_details.created_at', '>=', $start_date)
+                                                    ->whereDate('transaction_details.created_at', '<=', $end_date) 
+                                                    ->where('transactions.type', 'normal')
+                                                    ->where('transactions.trx_type', $key)
+                                                    ->where('transactions.deleted_at', null)
+                                                    ->groupBy('transactions.trx_type')
+                                                    ->get();
+            }
 
             $temp = Transaction::select('id', 'created_at', 'total_sum_price')
                                 ->whereDate('transactions.created_at', '>=', $start_date)
@@ -237,7 +251,7 @@ class MainController extends Controller
                                                 ->paginate($pagination);
         }
 
-        return view('admin.profit-' . $type, compact('sub_total', 'transactions', 'type', 'default', 'start_date', 'end_date', 'sort', 'order', 'pagination'));
+        return view('admin.profit-' . $type, compact('sub_total', 'sub_trx', 'transactions', 'type', 'default', 'start_date', 'end_date', 'sort', 'order', 'pagination'));
     }
 
     public function retur($distributor_id, $status, $pagination)

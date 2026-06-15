@@ -17,60 +17,57 @@
               <h3 class="box-title">Laporan Keuangan Detail</h3>
             </div>
             <div class="box-body">
-              <!-- {!! Form::label('show', 'Show', array('class' => 'col-sm-1 control-label')) !!}
-             <div class="col-sm-1">
-                {!! Form::select('show', getPaginations(), $pagination, ['class' => 'form-control', 'style'=>'width: 100%', 'id' => 'show', 'onchange' => 'advanceSearch()']) !!}
-              </div> -->
               {!! Form::label('start_date', 'Tanggal', array('class' => 'col-sm-1 control-label')) !!}
               <div class="col-sm-2">
                 <div class="input-group date">
                   <input type="text" class="form-control pull-right" id="datepicker" name="start_date" value="{{ $start_date }}" onchange="changeDate()">
                 </div>
               </div>
-              <!-- {!! Form::label('end_date', 'Tanggal Akhir', array('class' => 'col-sm-1 control-label')) !!}
-              <div class="col-sm-2">
-                <div class="input-group date">
-                  <input type="text" class="form-control pull-right" id="datepicker2" name="end_date" value="{{ $end_date }}" onchange="changeDate()">
-                </div>
-              </div> -->
             </div>
+            <div class="box-body">
+              @foreach($sub_trx as $rsm)
+                @if(sizeof($rsm) != null)
+                  <div class="col-sm-3">
+                    <h4>Rangkuman transaksi {{ $rsm[0]->trx_type }}</h4>
+                    <table class="no-border" style="font-size: 16px">
+                      <tbody>
+                        <tr>
+                          <td width="60%">Total transaksi</td>
+                          <td width="1%">:</td>
+                          <td width="1%"></td>
+                          <td style="text-align: right;">{{ $rsm->sum('count_trans') }} transaksi</td>
+                          <!-- <td width="50%"></td> -->
+                        </tr>
+                        <tr>
+                          <td width="60%">Total pemasukan</td>
+                          <td width="1%">:</td>
+                          <td width="1%">Rp</td>
+                          <td style="text-align: right;">{{ printRupiah($rsm->sum('income')) }}</td>
+                          <!-- <td width="50%"></td> -->
+                        </tr>
+                        <tr>
+                          <td width="60%">Total HPP</td>
+                          <td width="1%">:</td>
+                          <td width="1%">Rp</td>
+                          <td style="text-align: right;">{{ printRupiah($rsm->sum('hpp')) }}</td>
+                          <!-- <td width="50%"></td> -->
+                        </tr>
+                        <tr>
+                          <td width="60%">Total laba/rugi</td>
+                          <td width="1%">:</td>
+                          <td width="1%">Rp</td>
+                          <td style="text-align: right;">{{ printRupiah($rsm->sum('result')) }}</td>
+                          <!-- <td width="50%"></td> -->
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                @endif
+              @endforeach
+            </div>
+            <hr>
             <div class="box-body" style="overflow-x:scroll;">
-              <h4>Rangkuman transaksi</h4>
-              <table class="no-border" style="font-size: 16px">
-                <tbody>
-                  <tr>
-                    <td width="13%">Total transaksi</td>
-                    <td width="1%">:</td>
-                    <td width="1%"></td>
-                    <td style="text-align: right;">{{ $sub_total->sum('count_trans') }} transaksi</td>
-                    <td width="76%"></td>
-                  </tr>
-                  <tr>
-                    <td width="13%">Total pemasukan</td>
-                    <td width="1%">:</td>
-                    <td width="1%">Rp</td>
-                    <td style="text-align: right;">{{ printRupiah($sub_total->sum('income')) }}</td>
-                    <td width="76%"></td>
-                  </tr>
-                  <tr>
-                    <td width="13%">Total HPP</td>
-                    <td width="1%">:</td>
-                    <td width="1%">Rp</td>
-                    <td style="text-align: right;">{{ printRupiah($sub_total->sum('hpp')) }}</td>
-                    <td width="76%"></td>
-                  </tr>
-                  <tr>
-                    <td width="13%">Total laba/rugi</td>
-                    <td width="1%">:</td>
-                    <td width="1%">Rp</td>
-                    <td style="text-align: right;">{{ printRupiah($sub_total->sum('result')) }}</td>
-                    <td width="76%"></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
             Klik judul tabel untuk mengurutkan data
-            <div class="box-body" style="overflow-x:scroll;">
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
