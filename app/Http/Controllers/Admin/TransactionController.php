@@ -178,7 +178,7 @@ class TransactionController extends Controller
                 if($detail->good_unit->deleted_at != null || $detail->good->deleted_at != null)
                     $status = 'Barang sudah dihapus';
 
-                array_push($result, [displayDate($transaction->created_at), $detail->good->code, $detail->good->name . ' ' . $detail->good_unit->unit->name, $detail->good->weight, $detail->good->percentage->name, $detail->buy_price, $detail->selling_price, $status]);
+                array_push($result, [displayDate($transaction->created_at), $detail->good->code, $detail->good->name . ' ' . $detail->unit->name, $detail->good->weight, $detail->percentage->name, $detail->buy_price, $detail->selling_price, $status]);
             }
         }
 
