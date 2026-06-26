@@ -159,7 +159,7 @@ class TransactionController extends Controller
         else
             $whereTrxType = $request->trx_type;
 
-        $result = [['Waktu', 'Kode Barang', 'Nama Barang', 'Berat', 'Kadar', 'Harga Beli', 'Harga Jual']];
+        $result = [['Waktu', 'Kode Barang', 'Nama Barang', 'Berat', 'Kadar', 'Harga Beli', 'Harga Jual', 'Status']];
 
         $transactions = Transaction::whereDate('transactions.created_at', '>=', $request->start_date)
                                     ->whereDate('transactions.created_at', '<=', $request->end_date) 
@@ -172,9 +172,13 @@ class TransactionController extends Controller
 
         foreach($transactions as $transaction)
         {
-            foreach($transaction->details as $detail)
+            foreach($transaction->detailsWithDeleted() as $detail)
             {
-                array_push($result, [displayDate($transaction->created_at), $detail->good_unit->good->code, $detail->good_unit->good->name . ' ' . $detail->good_unit->unit->name, $detail->good_unit->good->weight, $detail->good_unit->good->percentage->name, $detail->buy_price, $detail->selling_price]);
+                $status = '-';
+                if($detail->good_unit->deleted_at != null || $detail->good->deleted_at != null)
+                    $status = 'Barang sudah dihapus';
+
+                array_push($result, [displayDate($transaction->created_at), $detail->good->code, $detail->good->name . ' ' . $detail->good_unit->unit->name, $detail->good->weight, $detail->good->percentage->name, $detail->buy_price, $detail->selling_price, $status]);
             }
         }
 
