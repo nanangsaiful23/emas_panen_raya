@@ -174,7 +174,7 @@ class TransactionController extends Controller
         {
             foreach($transaction->details as $detail)
             {
-                array_push($result, [displayDate($transaction->created_at), $detail->good_unit->good->code, $detail->good_unit->good->name . ' ' . $detail->good_unit->unit->name, $detail->good_unit->good->weight, $detail->good_unit->good->percentage->name, formatNumber($detail->buy_price), formatNumber($detail->selling_price)]);
+                array_push($result, [displayDate($transaction->created_at), $detail->good_unit->good->code, $detail->good_unit->good->name . ' ' . $detail->good_unit->unit->name, $detail->good_unit->good->weight, $detail->good_unit->good->percentage->name, $detail->buy_price, $detail->selling_price]);
             }
         }
 

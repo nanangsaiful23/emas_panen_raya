@@ -140,6 +140,11 @@
         return number_format(checkNull($number),0,'',',');
     }
 
+    function formatNumberExcel($number)
+    {
+        return number_format(checkNull($number),0,',','.');
+    }
+
     function hidePhoneNumber($number, $digit)
     {
         if(checknull($number))

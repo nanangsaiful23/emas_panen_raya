@@ -4,8 +4,9 @@ namespace App\Exports;
 
 use App\Models\Good;
 use Maatwebsite\Excel\Concerns\FromArray;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 
-class TransactionExport implements FromArray
+class TransactionExport implements FromArray, WithColumnFormatting
 {
     protected $goods;
 
@@ -17,5 +18,13 @@ class TransactionExport implements FromArray
     public function array(): array
     {
         return $this->goods;
+    }
+
+    public function columnFormats(): array
+    {
+        return [
+            'F' => '#,##', 
+            'G' => '#,##',     
+        ];
     }
 }
