@@ -45,9 +45,9 @@ class Transaction extends Model
         foreach($details as $detail)
         {
             $detail->good_unit = GoodUnit::withTrashed()->where('id', $detail->good_unit_id)->first();
-            $detail->unit = GoodUnit::withTrashed()->where('id', $detail->good_unit->unit_id)->first();
+            $detail->unit = Unit::withTrashed()->where('id', $detail->good_unit->unit_id)->first();
             $detail->good = Good::withTrashed()->where('id', $detail->good_unit->good_id)->first();
-            $detail->percentage = Good::withTrashed()->where('id', $detail->good->percentage_id)->first();
+            $detail->percentage = Percentage::withTrashed()->where('id', $detail->good->percentage_id)->first();
         }
 
         return $details;
