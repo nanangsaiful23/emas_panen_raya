@@ -14,6 +14,7 @@
       @endif
       <th>Member</th>
       <th>Jenis</th>
+      <th>Keterangan</th>
       <th>Total Belanja</th>
       <th>Total Diskon</th>
       <th>Potongan Akhir</th>
@@ -39,6 +40,7 @@
           @endif
           <td>{{ $transaction->member->name }}</td>
           <td>{{ $transaction->trx_type }}</td>
+          <td>{{ $transaction->note }}</td>
           <td>{{ showRupiah($transaction->total_item_price) }}</td>
           <td>{{ showRupiah(checkNull($transaction->details->sum('discount_price'))) }}</td>
           <td>{{ showRupiah($transaction->total_discount_price) }}</td>

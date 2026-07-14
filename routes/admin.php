@@ -2,6 +2,7 @@
 
 Route::get('/', 'MainController@index');
 Route::get('image/{directory}/{url}', 'MainController@getImage');
+Route::get('profit/category/{category_id}/{start_date}/{end_date}/{sort}/{order}/{pagination}', 'MainController@profitCategory');
 Route::get('profit/{type}/{start_date}/{end_date}/{sort}/{order}/{pagination}', 'MainController@profit2');
 Route::get('scale', 'MainController@scale');
 Route::get('retur/{distributor_id}/{status}/{pagination}', 'MainController@retur');
@@ -26,6 +27,19 @@ Route::group(['prefix' => 'brand'], function () {
 	Route::put('/{brand_id}/edit', 'BrandController@update')->name('brand.update');
 	Route::delete('/{brand_id}/delete', 'BrandController@delete')->name('brand.delete');
 	Route::get('/{pagination}', 'BrandController@index');
+});
+
+Route::group(['prefix' => 'by-order-transaction'], function () {
+	Route::get('/create', 'ByOrderTransactionController@create');
+    Route::post('/store', 'ByOrderTransactionController@store')->name('by-order-transaction.store');
+	Route::get('/{start_date}/{end_date}/{pagination}', 'ByOrderTransactionController@index');
+    Route::get('/{order_id}/detail', 'ByOrderTransactionController@detail');
+    Route::get('/{order_id}/print', 'ByOrderTransactionController@print');
+    Route::get('/{order_id}/edit', 'ByOrderTransactionController@edit');
+    Route::put('/{order_id}/edit', 'ByOrderTransactionController@update')->name('by-order-transaction.update');
+	Route::delete('/{order_id}/delete', 'ByOrderTransactionController@delete')->name('by-order-transaction.delete');
+	Route::get('/{order_id}/transaction', 'ByOrderTransactionController@createTransaction');
+    Route::post('/{order_id}/store', 'ByOrderTransactionController@storeTransaction')->name('by-order-transaction.store-transaction');
 });
 
 Route::group(['prefix' => 'category'], function () {

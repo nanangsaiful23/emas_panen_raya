@@ -113,8 +113,14 @@ trait GoodLoadingControllerBase
     public function storeGoodLoadingBase($role, $role_id, Request $request)
     {
         $data = $request->input();
-        // dd($data);die;
+        
+        $loading = $this->storeMainLoadingFunction($role, $role_id, $data);
 
+        return $loading;
+    }
+
+    public function storeMainLoadingFunction($role, $role_id, $data)
+    {
         if($data['distributor_name'] != null)
         {
             $distributor = Distributor::where('name', $data['distributor_name'])->first();
@@ -133,7 +139,7 @@ trait GoodLoadingControllerBase
         $data_loading['checker']      = $data['checker'];
         $data_loading['loading_date'] = $data['loading_date'];
         $data_loading['distributor_id']   = $data['distributor_id'];
-        $data_loading['total_item_price'] = unformatNumber($request->total_item_price);
+        $data_loading['total_item_price'] = unformatNumber($data['total_item_price']);
         $data_loading['note']             = $data['note'];
         $data_loading['payment']          = '1111';
         $data_loading['type']             = $data['type'];
@@ -157,7 +163,7 @@ trait GoodLoadingControllerBase
                 $data_good['stone_weight'] = $data['stone_weights'][$i];
                 $data_good['stone_price'] = $data['stone_prices'][$i];
 
-                if($request->type == 'buy')
+                if($data['type'] == 'buy')
                 {
                     $good = Good::find($data['ids'][$i]);
 
@@ -293,9 +299,9 @@ trait GoodLoadingControllerBase
         $data_journal['journal_date']       = $data['loading_date'];
         $data_journal['name']               = 'Loading barang ' . $good_loading->distributor->name . ' tanggal ' . displayDate($good_loading->loading_date);
         $data_journal['debit_account_id']   = Account::where('code', '3001')->first()->id;
-        $data_journal['debit']              = unformatNumber($request->total_item_price);
+        $data_journal['debit']              = unformatNumber($data_loading['total_item_price']);
         $data_journal['credit_account_id']  = $account->id;
-        $data_journal['credit']             = unformatNumber($request->total_item_price);
+        $data_journal['credit']             = unformatNumber($data_loading['total_item_price']);
 
         Journal::create($data_journal);
 

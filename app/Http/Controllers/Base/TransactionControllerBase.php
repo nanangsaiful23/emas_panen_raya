@@ -89,14 +89,23 @@ trait TransactionControllerBase
 
     public function storeTransactionBase($role, $role_id, Request $request)
     {
+        $data = $request->input();
+        
+        $transaction = $this->storeMainTransactionFunction($role, $role_id, $data);
+
+        return $transaction;
+    }
+
+    public function storeMainTransactionFunction($role, $role_id, $data)
+    {
         $hpp = 0;
         $sum = 0;
 
-        if($request->member_name != null)
+        if($data['member_name'] != null)
         {
-            $data_member_new['name'] = $request->member_name;
+            $data_member_new['name'] = $data['member_name'];
 
-            $member = Member::where('name', $request->member_name)->first();
+            $member = Member::where('name', $data['member_name'])->first();
 
             if($member == null)
                 $member = Member::create($data_member_new);
@@ -105,40 +114,40 @@ trait TransactionControllerBase
         }
         else
         {
-            $data_transaction['member_id'] = $request->member_id;
+            $data_transaction['member_id'] = $data['member_id'];
         }
 
         #tabel transaction
-        $data_transaction['type'] = $request->type;
-        $data_transaction['trx_type'] = $request->trx_type;
+        $data_transaction['type'] = $data['type'];
+        $data_transaction['trx_type'] = $data['trx_type'];
         $data_transaction['role'] = $role;
         $data_transaction['role_id'] = $role_id;
-        $data_transaction['total_item_price'] = unformatNumber($request->total_item_price);
-        $data_transaction['total_discount_price'] = unformatNumber($request->total_discount_price);
-        $data_transaction['total_sum_price'] = unformatNumber($request->total_sum_price);
-        $data_transaction['money_paid'] = unformatNumber($request->money_paid);
-        $data_transaction['money_returned'] = unformatNumber($request->money_returned);
+        $data_transaction['total_item_price'] = unformatNumber($data['total_item_price']);
+        $data_transaction['total_discount_price'] = unformatNumber($data['total_discount_price']);
+        $data_transaction['total_sum_price'] = unformatNumber($data['total_sum_price']);
+        $data_transaction['money_paid'] = unformatNumber($data['money_paid']);
+        $data_transaction['money_returned'] = unformatNumber($data['money_returned']);
         $data_transaction['store']   = 'emas pak tani demak';
         $data_transaction['payment'] = 'cash';
-        $data_transaction['note']    = $request->note;
+        $data_transaction['note']    = $data['note'];
 
         $transaction = Transaction::create($data_transaction);
 
         #tabel transaction detail
         $data_detail['transaction_id'] = $transaction->id;
 
-        for ($i = 0; $i < sizeof($request->barcodes); $i++) 
+        for ($i = 0; $i < sizeof($data['barcodes']); $i++) 
         { 
-            if($request->barcodes[$i] != null)
+            if($data['barcodes'][$i] != null)
             {
-                $good_unit = GoodUnit::find($request->barcodes[$i]);
+                $good_unit = GoodUnit::find($data['barcodes'][$i]);
                 $data_detail['good_unit_id']   = $good_unit->id;
-                $data_detail['type']           = $request->type;
-                $data_detail['quantity']       = $request->quantities[$i];
-                $data_detail['real_quantity']  = $request->quantities[$i] * $good_unit->unit->quantity;
+                $data_detail['type']           = $data['type'];
+                $data_detail['quantity']       = $data['quantities'][$i];
+                $data_detail['real_quantity']  = $data['quantities'][$i] * $good_unit->unit->quantity;
                 $data_detail['last_stock']     = $good_unit->good->getStock();
                 $data_detail['gold_weight']    = $good_unit->good->weight;
-                $data_detail['gold_price']     = unformatNumber($request->gold_prices[$i]);
+                $data_detail['gold_price']     = unformatNumber($data['gold_prices'][$i]);
                 if($good_unit->good->gold_history_number == 'N')
                 {
                     $data_detail['buy_price']  = ($data_detail['gold_price'] * $good_unit->good->weight * $good_unit->good->percentage->nominal) + checkNull($good_unit->good->change_status_fee);
@@ -147,10 +156,10 @@ trait TransactionControllerBase
                 {
                     $data_detail['buy_price']  = $good_unit->good->getLastBuy() != null ? $good_unit->good->getLastBuy()->price : 0;
                 }
-                $data_detail['selling_price']  = unformatNumber($request->prices[$i]);
-                $data_detail['discount_price'] = unformatNumber($request->discounts[$i]);
-                $data_detail['stone_price']    = unformatNumber($request->stone_prices[$i]);
-                $data_detail['sum_price']      = unformatNumber($request->sums[$i]);
+                $data_detail['selling_price']  = unformatNumber($data['prices'][$i]);
+                $data_detail['discount_price'] = unformatNumber($data['discounts'][$i]);
+                $data_detail['stone_price']    = unformatNumber($data['stone_prices'][$i]);
+                $data_detail['sum_price']      = unformatNumber($data['sums'][$i]);
 
                 TransactionDetail::create($data_detail);
 

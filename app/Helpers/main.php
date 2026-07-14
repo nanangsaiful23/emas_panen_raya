@@ -630,7 +630,7 @@
 
     function getTrxTypes()
     {
-        $types = ['all' => 'Seluruh Transaksi', 'general' => 'Transaksi Umum', 'B' => 'Transaksi B', 'other' => 'Transaksi Lainnya'];
+        $types = ['all' => 'Seluruh Transaksi', 'general' => 'Transaksi Umum', 'B' => 'Transaksi B', 'order' => 'Transaksi Pesanan', 'other' => 'Transaksi Lainnya'];
 
         return $types;
     }

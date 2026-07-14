@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 
 use App\Models\Account;
+use App\Models\Category;
 use App\Models\GoodLoading;
 use App\Models\GoodLoadingDetail;
 use App\Models\GoodPrice;
@@ -252,6 +253,56 @@ class MainController extends Controller
         }
 
         return view('admin.profit-' . $type, compact('sub_total', 'sub_trx', 'transactions', 'type', 'default', 'start_date', 'end_date', 'sort', 'order', 'pagination'));
+    }
+
+    public function profitCategory($category_id, $start_date, $end_date, $sort, $order, $pagination)
+    {
+        $default['page_name'] = 'Laporan Keuangan Per Kategori'; 
+
+        $category = Category::find($category_id);
+
+        $sub_total = TransactionDetail::join('transactions', 'transactions.id', 'transaction_details.transaction_id')
+                                    ->join('good_units', 'good_units.id', 'transaction_details.good_unit_id')
+                                    ->join('goods', 'goods.id', 'good_units.good_id')
+                                    ->select(DB::raw('SUM(transaction_details.sum_price) as income, SUM(transaction_details.buy_price + transaction_details.stone_price + transaction_details.discount_price) as hpp, SUM(transaction_details.sum_price - (transaction_details.buy_price + transaction_details.stone_price + transaction_details.discount_price)) as result, COUNT(transaction_details.id) as count_trans, SUM(transaction_details.gold_weight) as count_gram'))
+                                    ->whereDate('transaction_details.created_at', '>=', $start_date)
+                                    ->whereDate('transaction_details.created_at', '<=', $end_date) 
+                                    ->where('transactions.type', 'normal')
+                                    ->where('transactions.deleted_at', null)
+                                    ->where('goods.deleted_at', null)
+                                    ->where('goods.category_id', $category_id) 
+                                    ->get();
+
+        if($pagination == 'all')
+            $transactions = TransactionDetail::join('transactions', 'transactions.id', 'transaction_details.transaction_id')
+                                            ->join('good_units', 'good_units.id', 'transaction_details.good_unit_id')
+                                            ->join('goods', 'goods.id', 'good_units.good_id')
+                                            ->join('categories', 'categories.id', 'goods.category_id')
+                                            ->select('transaction_details.*', 'categories.name as cat_name', 'goods.name as good_name')
+                                            ->whereDate('transaction_details.created_at', '>=', $start_date)
+                                            ->whereDate('transaction_details.created_at', '<=', $end_date) 
+                                            ->where('transactions.type', 'normal')
+                                            ->where('transactions.deleted_at', null)    
+                                            ->where('goods.deleted_at', null) 
+                                            ->where('goods.category_id', $category_id) 
+                                            ->orderBy($sort, $order)
+                                            ->get();
+        else
+            $transactions = TransactionDetail::join('transactions', 'transactions.id', 'transaction_details.transaction_id')
+                                            ->join('good_units', 'good_units.id', 'transaction_details.good_unit_id')
+                                            ->join('goods', 'goods.id', 'good_units.good_id')
+                                            ->join('categories', 'categories.id', 'goods.category_id')
+                                            ->select('transaction_details.*', 'categories.name as cat_name', 'goods.name as good_name')
+                                            ->whereDate('transaction_details.created_at', '>=', $start_date)
+                                            ->whereDate('transaction_details.created_at', '<=', $end_date) 
+                                            ->where('transactions.type', 'normal')
+                                            ->where('transactions.deleted_at', null)  
+                                            ->where('goods.deleted_at', null)   
+                                            ->where('goods.category_id', $category_id) 
+                                            ->orderBy($sort, $order)
+                                            ->paginate($pagination);
+
+        return view('admin.profit-category', compact('sub_total', 'transactions', 'default', 'category', 'start_date', 'end_date', 'sort', 'order', 'pagination'));
     }
 
     public function retur($distributor_id, $status, $pagination)
