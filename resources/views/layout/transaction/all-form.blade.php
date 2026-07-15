@@ -19,8 +19,6 @@
       <th>Total Diskon</th>
       <th>Potongan Akhir</th>
       <th>Total Akhir</th>
-      <th>Uang Dibayar</th>
-      <th>Kembalian</th>
       <th class="center">Detail</th>
       @if($role == 'admin')
         <!-- <th class="center">Retur</th> -->
@@ -45,8 +43,6 @@
           <td>{{ showRupiah(checkNull($transaction->details->sum('discount_price'))) }}</td>
           <td>{{ showRupiah($transaction->total_discount_price) }}</td>
           <td>{{ showRupiah($transaction->total_sum_price) }}</td>
-          <td>{{ showRupiah($transaction->money_paid) }}</td>
-          <td>{{ showRupiah($transaction->money_returned) }}</td>
           <td class="center"><a href="{{ url($role . '/transaction/' . $transaction->id . '/detail') }}"><i class="fa fa-hand-o-right tosca" aria-hidden="true"></i></a></td>
           @if($role == 'admin')
           <!-- <td><button type="button" class="no-btn" data-toggle="modal" data-target="#modal-reverse-{{$transaction->id}}"><i class="fa fa-times red" aria-hidden="true"></i></button>

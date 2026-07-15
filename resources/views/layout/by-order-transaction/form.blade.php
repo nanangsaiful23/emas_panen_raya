@@ -38,7 +38,7 @@
         <div class="col-sm-6">
             <h3>Data Perhiasan</h3>
             <div class="form-group">
-                {!! Form::label('model', 'Model', array('class' => 'col-sm-12')) !!}
+                {!! Form::label('model', 'Model/Nama Barang', array('class' => 'col-sm-12')) !!}
                 <div class="col-sm-10">
                     @if($SubmitButtonText == 'View')
                         {!! Form::text('model', null, array('class' => 'form-control', 'readonly' => 'readonly')) !!}
@@ -55,7 +55,7 @@
                         @if($SubmitButtonText == 'View')
                             {!! Form::text('category', $order->category->name, array('class' => 'form-control', 'readonly' => 'readonly')) !!}
                         @else
-                            {!! Form::select('category_id', getCategories(), null, ['class' => 'form-control select2','required'=>'required', 'style'=>'width:100%', 'id' => 'category']) !!}
+                            {!! Form::select('category_id', getCategoriesWoAll(), null, ['class' => 'form-control select2','required'=>'required', 'style'=>'width:100%', 'id' => 'category']) !!}
                         @endif
                     </div>
                 </div>
@@ -85,7 +85,7 @@
                 </div>
 
                 <div class="form-group col-sm-6">
-                    {!! Form::label('fee', 'Ongkos', array('class' => 'col-sm-12')) !!}
+                    {!! Form::label('fee', 'Ongkos Pembuatan', array('class' => 'col-sm-12')) !!}
                     <div class="col-sm-12">
                         @if($SubmitButtonText == 'View')
                             {!! Form::text('fee', showRupiah($order->fee), array('class' => 'form-control', 'readonly' => 'readonly')) !!}

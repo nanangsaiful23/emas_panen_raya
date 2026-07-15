@@ -119,7 +119,7 @@
 					</div>
 					<hr>
 					<h3 style="text-align: center; text-decoration: underline; text-transform: uppercase;">Nota Pesanan</h3>
-					<table class="col-sm-11" style="font-size: 14px; text-align: center; margin-top: 25 px;">
+					<table class="col-sm-11" style="font-size: 14px; text-align: center; margin-top: 25 px; margin-bottom: 30px;">
 						<thead style="font-weight: bold;">
 							<td>Model</td>
 							<td>Berat</td>
@@ -137,16 +137,16 @@
 								<td>{{ displayDate($order->finish_date) }}</td>
 								<td>{{ showRupiah($order->fee) }}</td>
 							</tr>
-							<tr>
+							<!-- <tr>
 								<td colspan="5" style="border-color: white !important; border-right-color: black !important;"></td>
 								<td><b>{{ showRupiah($order->fee) }}</b></td>
-							</tr>
+							</tr> -->
 						</tbody>
 					</table>
 					<hr>
 					<div class="wrapper">
 						<div class="row">
-							<div class="col-sm-12" style="margin-top: 35 px">
+							<div class="col-sm-12">
 								<<!-- div class="col-sm-offset-1 col-sm-7" style="font-size: 10px; border: solid black 3px; text-align: left;">
 									<span style="font-size: 11px;"><b>PERHATIAN:</b></span><br>
 									Apabila pesanan saudara sampai batas waktu 2 bulan tidak diambil,<br>
@@ -176,7 +176,7 @@
         }); 
 
 	    window.setTimeout(function(){
-      		window.location = window.location.origin + '/{{ $role }}/by-order-transaction/create';
+      		window.location = window.location.origin + '/{{ $role }}/by-order-transaction/{{ date("Y-m-d") }}/{{ date("Y-m-d") }}/20' ;
 	    }, 5000);
 	</script>
 </html>

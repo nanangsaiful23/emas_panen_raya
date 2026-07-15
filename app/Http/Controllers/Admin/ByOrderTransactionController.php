@@ -48,7 +48,7 @@ class ByOrderTransactionController extends Controller
 
         session(['alert' => 'add', 'data' => 'Pesanan barang']);
 
-        return redirect('/admin/by-order-transaction/' . $order->id . '/detail');
+        return redirect('/admin/by-order-transaction/' . $order->id . '/print');
     }
 
     public function detail($order_id)

@@ -18,11 +18,11 @@ trait ByOrderTransactionControllerBase
         if($pagination == 'all')
            $orders = ByOrderTransaction::whereDate('by_order_transactions.created_at', '>=', $start_date)
                                         ->whereDate('by_order_transactions.created_at', '<=', $end_date) 
-                                        ->orderBy('id', 'asc')->get();
+                                        ->orderBy('good_unit_id', 'asc')->get();
         else
            $orders = ByOrderTransaction::whereDate('by_order_transactions.created_at', '>=', $start_date)
                                         ->whereDate('by_order_transactions.created_at', '<=', $end_date) 
-                                        ->orderBy('id', 'asc')->paginate($pagination);
+                                        ->orderBy('good_unit_id', 'asc')->paginate($pagination);
 
         return $orders;
     }

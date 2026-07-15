@@ -49,18 +49,20 @@
                                 {!! Form::text('total_sum_price', showRupiah($transaction->total_sum_price), array('class' => 'form-control', 'readonly' => 'readonly')) !!}
                             </div>
                         </div>
-                        <div class="form-group">
-                            {!! Form::label('money_paid', 'Total Uang', array('class' => 'col-sm-2 control-label')) !!}
-                            <div class="col-sm-4">
-                                {!! Form::text('money_paid', showRupiah($transaction->money_paid), array('class' => 'form-control', 'readonly' => 'readonly')) !!}
+                        @if($transaction->trx_type != 'order')
+                            <div class="form-group">
+                                {!! Form::label('money_paid', 'Total Uang', array('class' => 'col-sm-2 control-label')) !!}
+                                <div class="col-sm-4">
+                                    {!! Form::text('money_paid', showRupiah($transaction->money_paid), array('class' => 'form-control', 'readonly' => 'readonly')) !!}
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            {!! Form::label('money_returned', 'Kembalian', array('class' => 'col-sm-2 control-label')) !!}
-                            <div class="col-sm-4">
-                                {!! Form::text('money_returned', showRupiah($transaction->money_returned), array('class' => 'form-control', 'readonly' => 'readonly')) !!}
+                            <div class="form-group">
+                                {!! Form::label('money_returned', 'Kembalian', array('class' => 'col-sm-2 control-label')) !!}
+                                <div class="col-sm-4">
+                                    {!! Form::text('money_returned', showRupiah($transaction->money_returned), array('class' => 'form-control', 'readonly' => 'readonly')) !!}
+                                </div>
                             </div>
-                        </div>
+                        @endif
                         <div class="form-group">
                             {!! Form::label('note', 'Keterangan', array('class' => 'col-sm-2 control-label')) !!}
                             <div class="col-sm-4">
@@ -76,8 +78,10 @@
                                 <th>Nama</th>
                                 <th>Berat</th>
                                 <th>Kadar</th>
-                                <th>Berat Batu</th>
-                                <th>Harga Batu</th>
+                                @if($transaction->trx_type != 'order')
+                                    <th>Berat Batu</th>
+                                    <th>Harga Batu</th>
+                                @endif
                                 @if(\Auth::user()->email == 'admin' || \Auth::user()->email == 'super_admin')
                                     <th>Harga Beli</th> 
                                 @endif
@@ -100,12 +104,14 @@
                                         <td>
                                             {{ $detail->good_unit->good->percentage->name . '(Pengali ' . $detail->good_unit->good->percentage->nominal . ' Profit ' . $detail->good_unit->good->percentage->profit . ')' }}
                                         </td>
-                                        <td>
-                                            {{ $detail->good_unit->good->stone_weight }}
-                                        </td>
-                                        <td>
-                                            {{ showRupiah($detail->good_unit->good->stone_price) }}
-                                        </td>
+                                        @if($transaction->trx_type != 'order')
+                                            <td>
+                                                {{ $detail->good_unit->good->stone_weight }}
+                                            </td>
+                                            <td>
+                                                {{ showRupiah($detail->good_unit->good->stone_price) }}
+                                            </td>
+                                        @endif
                                         @if(\Auth::user()->email == 'admin' || \Auth::user()->email == 'super_admin')
                                             <td style="text-align: right;">
                                                 {{ showRupiah($detail->buy_price) }}

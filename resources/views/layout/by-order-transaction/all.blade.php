@@ -34,12 +34,12 @@
                 <th>Nama</th>
                 <th>Alamat</th>
                 <th>No HP</th>
-                <th>Model</th>
+                <th>Model/Nama Barang</th>
                 <th>Tanggal Order</th>
                 <th>Tanggal Jadi</th>
                 <th>Status</th>
                 <th class="center">Print</th>
-                <th class="center">Jual Emas</th>
+                <th class="center">Transaksi Emas</th>
                 <th class="center">Detail</th>
                 <th class="center">Ubah</th>
                 @if($role == 'admin')
@@ -58,7 +58,7 @@
                     <td>{{ displayDate($order->finish_date) }}</td>
                     <td>@if($order->good_unit_id != null) Sudah terjual @else On progress @endif</td>
                     <td class="center"><a href="{{ url($role . '/by-order-transaction/' . $order->id . '/print') }}" target="_blank()"><i class="fa fa-print tosca" aria-hidden="true"></i></a></td>
-                    <td class="center"><a href="{{ url($role . '/by-order-transaction/' . $order->id . '/transaction') }}"><i class="fa fa-dollar tosca" aria-hidden="true"></i></a></td>
+                    <td class="center"><a href="{{ url($role . '/by-order-transaction/' . $order->id . '/transaction') }}"><i class="fa fa-handshake-o tosca" aria-hidden="true"></i></a></td>
                     <td class="center"><a href="{{ url($role . '/by-order-transaction/' . $order->id . '/detail') }}"><i class="fa fa-hand-o-right tosca" aria-hidden="true"></i></a></td>
                     <td class="center"><a href="{{ url($role . '/by-order-transaction/' . $order->id . '/edit') }}"><i class="fa fa-file orange" aria-hidden="true"></i></a></td>
                     @if($role == 'admin')

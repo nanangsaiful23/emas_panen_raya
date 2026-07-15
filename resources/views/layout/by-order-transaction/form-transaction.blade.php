@@ -28,7 +28,7 @@
 
             <div class="col-sm-6" style="margin-left: -18px">
                 <div class="form-group">
-                    {!! Form::label('price_gram', 'Harga per Gram', array('class' => 'col-sm-12')) !!}
+                    {!! Form::label('price_gram', 'Harga Modal per Gram', array('class' => 'col-sm-12')) !!}
                     <div class="col-sm-8">
                         {!! Form::text('price_gram', null, array('class' => 'form-control', 'onkeyup' => 'formatNumber("price_gram")', 'onchange' => 'changeSellingPrice(); formatNumber("selling_price"); formatNumber("total_price")')) !!}
                     </div>
@@ -44,7 +44,7 @@
 
             <div class="col-sm-6" style="margin-left: -18px">
                 <div class="form-group">
-                    {!! Form::label('fee', 'Ongkos', array('class' => 'col-sm-12')) !!}
+                    {!! Form::label('fee', 'Ongkos Pembuatan', array('class' => 'col-sm-12')) !!}
                     <div class="col-sm-8">
                         {!! Form::text('fee', formatNumber($order->fee), array('class' => 'form-control', 'readonly' => 'readonly', 'id' => 'fee')) !!}
                     </div>
@@ -61,7 +61,7 @@
         <div class="col-sm-6">
             <h3>Data Perhiasan</h3>
             <div class="form-group">
-                {!! Form::label('model', 'Model', array('class' => 'col-sm-12')) !!}
+                {!! Form::label('model', 'Model/Nama Barang', array('class' => 'col-sm-12')) !!}
                 <div class="col-sm-10">
                     {!! Form::text('model', null, array('class' => 'form-control', 'readonly' => 'readonly')) !!}
                 </div>
@@ -138,6 +138,9 @@
     {
         nominal = '{{ $order->percentage->nominal }}';
         profit  = '{{ $order->percentage->profit }}';
+        console.log(profit);
+        if(profit == '')
+            alert('Silahkan lengkapi data profit kadar');
         document.getElementById('selling_price').value = unFormatNumber(document.getElementById('price_gram').value) * parseFloat(document.getElementById('weight').value) * parseFloat(nominal) * ((parseInt(100) + parseInt(profit)) / 100);
         document.getElementById('selling_price').value = parseInt(document.getElementById('selling_price').value);
         changeTotalPrice();
