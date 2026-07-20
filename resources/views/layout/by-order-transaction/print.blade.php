@@ -126,7 +126,7 @@
 							<td>Kadar</td>
 							<td>Tanggal Pesan</td>
 							<td>Tanggal Jadi</td>
-							<td>Ongkos</td>
+							<!-- <td>Ongkos</td> -->
 						</thead>
 						<tbody>	
 							<tr>
@@ -135,7 +135,7 @@
 								<td>{{ $order->percentage->name }}</td>
 								<td>{{ displayDate($order->order_date) }}</td>
 								<td>{{ displayDate($order->finish_date) }}</td>
-								<td>{{ showRupiah($order->fee) }}</td>
+								<!-- <td>{{ showRupiah($order->fee) }}</td> -->
 							</tr>
 							<!-- <tr>
 								<td colspan="5" style="border-color: white !important; border-right-color: black !important;"></td>

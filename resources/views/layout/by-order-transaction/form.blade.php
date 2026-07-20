@@ -84,7 +84,7 @@
                     </div>
                 </div>
 
-                <div class="form-group col-sm-6">
+                <!-- <div class="form-group col-sm-6">
                     {!! Form::label('fee', 'Ongkos Pembuatan', array('class' => 'col-sm-12')) !!}
                     <div class="col-sm-12">
                         @if($SubmitButtonText == 'View')
@@ -95,7 +95,7 @@
                             {!! Form::text('fee', null, array('class' => 'form-control', 'onkeyup' => 'formatNumber("fee")')) !!}
                         @endif
                     </div>
-                </div>
+                </div> -->
             </div>
         
 

@@ -30,7 +30,7 @@ trait ByOrderTransactionControllerBase
     public function storeByOrderTransactionBase(Request $request)
     {
         $data = $request->input();
-        $data['fee'] = unformatNumber($data['fee']);
+        // $data['fee'] = unformatNumber($data['fee']);
         $data['good_unit_id'] = null;
 
         $order = ByOrderTransaction::create($data);
@@ -41,7 +41,7 @@ trait ByOrderTransactionControllerBase
     public function updateByOrderTransactionBase($order_id, Request $request)
     {
         $data = $request->input();
-        $data['fee'] = unformatNumber($data['fee']);
+        // $data['fee'] = unformatNumber($data['fee']);
 
         $order = ByOrderTransaction::find($order_id);
         $order->update($data);
@@ -105,6 +105,7 @@ trait ByOrderTransactionControllerBase
         $transaction = $this->storeMainTransactionFunction($role, $role_id, $data_transaction);
 
         $data_order['good_unit_id'] = $good_unit->id;
+        $data_order['fee']          = unformatNumber($request->fee);
 
         $order->update($data_order);
 

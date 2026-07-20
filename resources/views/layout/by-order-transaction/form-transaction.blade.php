@@ -46,7 +46,7 @@
                 <div class="form-group">
                     {!! Form::label('fee', 'Ongkos Pembuatan', array('class' => 'col-sm-12')) !!}
                     <div class="col-sm-8">
-                        {!! Form::text('fee', formatNumber($order->fee), array('class' => 'form-control', 'readonly' => 'readonly', 'id' => 'fee')) !!}
+                        {!! Form::text('fee', null, array('class' => 'form-control', 'onkeyup' => 'formatNumber("fee")', 'onchange' => 'changeTotalPrice(); formatNumber("total_price")')) !!}
                     </div>
                 </div>
 

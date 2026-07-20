@@ -123,6 +123,6 @@ class ByOrderTransactionController extends Controller
 
         session(['alert' => 'add', 'data' => 'Penjualan pesanan']);
 
-        return redirect('/admin/transaction/' . $transaction->id . '/detail');
+        return redirect('/admin/transaction/' . $transaction->id . '/print');
     }
 }
