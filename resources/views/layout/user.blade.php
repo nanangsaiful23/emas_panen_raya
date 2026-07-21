@@ -125,7 +125,7 @@
               </nav>
             </header>
 
-            @include('layout.sidebar')
+            @include('layout.sidebar-dummy')
             
             @yield('content')
 
