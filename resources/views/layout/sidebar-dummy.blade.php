@@ -40,20 +40,6 @@
           </ul>
         </li>
       @endif
-      @if(\Auth::user()->email == 'admin' || \Auth::user()->email == 'super_admin')
-        <li class="header">LAPORAN KEUANGAN</li>
-        <li class="treeview {{ (Request::segment(2) == 'profit' ) ? 'active' : ''  }}">
-          <a href="#">
-              <i class="fa fa-line-chart"></i><span> Laporan Keuangan</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-              <li class="{{ Request::segment(2) == 'profit' && Request::segment(3) == 'category' ? 'active' : ''  }}"><a href="{{ url('/' . $role . '/profit/category/1/' . date('Y-m-d', strtotime(date('Y-m-d', strtotime(date('Y-m-d'))) . '-1 day')) . '/' . date('Y-m-d') . '/id/asc/20') }}"><i class="fa fa-circle-o"></i> Per Kategori</a></li>
-          </ul>
-        </li>
-      @endif
     </ul>
   </section>
 </aside>
