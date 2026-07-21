@@ -36,7 +36,7 @@
           </a>
           <ul class="treeview-menu">
               <li class="{{ Request::segment(2) == 'by-order-transaction' && Request::segment(3) == 'create' ? 'active' : ''  }}"><a href="{{ url('/' . $role . '/by-order-transaction/create') }}"><i class="fa fa-circle-o"></i> Tambah Pesanan</a></li>
-              <li class="{{ Request::segment(2) == 'by-order-transaction' && Request::segment(3) != 'create' ? 'active' : ''  }}"><a href="{{ url('/' . $role . '/by-order-transaction/' . date('Y-m-d') . '/' . date('Y-m-d') . '/20') }}"><i class="fa fa-circle-o"></i> Daftar Pesanan</a></li>
+              <li class="{{ Request::segment(2) == 'by-order-transaction' && Request::segment(3) != 'create' ? 'active' : ''  }}"><a href="{{ url('/' . $role . '/by-order-transaction/' . date('Y-m-d', strtotime(date('Y-m-d', strtotime(date('Y-m-d'))) . '-3 month')) . '/' . date('Y-m-d') . '/20') }}"><i class="fa fa-circle-o"></i> Daftar Pesanan</a></li>
           </ul>
         </li>
       @endif

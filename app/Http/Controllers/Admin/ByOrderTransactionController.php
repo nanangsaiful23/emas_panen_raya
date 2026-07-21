@@ -26,9 +26,10 @@ class ByOrderTransactionController extends Controller
         $default['page'] = 'by-order-transaction';
         $default['section'] = 'all';
 
-        $orders = $this->indexByOrderTransactionBase($start_date, $end_date, $pagination);
+        $ongoing_orders = $this->indexByOrderTransactionBase($start_date, $end_date, $pagination, 'ongoing');
+        $finish_orders = $this->indexByOrderTransactionBase($start_date, $end_date, $pagination, 'finish');
 
-        return view('admin.layout.page', compact('default', 'orders', 'start_date', 'end_date', 'pagination'));
+        return view('admin.layout.page', compact('default', 'ongoing_orders', 'finish_orders', 'start_date', 'end_date', 'pagination'));
     }
 
     public function create()

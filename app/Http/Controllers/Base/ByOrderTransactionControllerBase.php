@@ -13,16 +13,34 @@ trait ByOrderTransactionControllerBase
 {
     use GoodLoadingControllerBase, TransactionControllerBase;
     
-    public function indexByOrderTransactionBase($start_date, $end_date, $pagination)
+    public function indexByOrderTransactionBase($start_date, $end_date, $pagination, $status)
     {
-        if($pagination == 'all')
-           $orders = ByOrderTransaction::whereDate('by_order_transactions.created_at', '>=', $start_date)
-                                        ->whereDate('by_order_transactions.created_at', '<=', $end_date) 
-                                        ->orderBy('good_unit_id', 'asc')->get();
+        if($status == 'ongoing')
+        {
+            if($pagination == 'all')
+               $orders = ByOrderTransaction::whereDate('by_order_transactions.created_at', '>=', $start_date)
+                                            ->whereDate('by_order_transactions.created_at', '<=', $end_date) 
+                                            ->where('good_unit_id', null)
+                                            ->orderBy('good_unit_id', 'asc')->get();
+            else
+               $orders = ByOrderTransaction::whereDate('by_order_transactions.created_at', '>=', $start_date)
+                                            ->whereDate('by_order_transactions.created_at', '<=', $end_date) 
+                                            ->where('good_unit_id', null)
+                                            ->orderBy('good_unit_id', 'asc')->paginate($pagination);
+        }
         else
-           $orders = ByOrderTransaction::whereDate('by_order_transactions.created_at', '>=', $start_date)
-                                        ->whereDate('by_order_transactions.created_at', '<=', $end_date) 
-                                        ->orderBy('good_unit_id', 'asc')->paginate($pagination);
+        {
+            if($pagination == 'all')
+               $orders = ByOrderTransaction::whereDate('by_order_transactions.created_at', '>=', $start_date)
+                                            ->whereDate('by_order_transactions.created_at', '<=', $end_date) 
+                                            ->where('good_unit_id', '!=', null)
+                                            ->orderBy('good_unit_id', 'asc')->get();
+            else
+               $orders = ByOrderTransaction::whereDate('by_order_transactions.created_at', '>=', $start_date)
+                                            ->whereDate('by_order_transactions.created_at', '<=', $end_date) 
+                                            ->where('good_unit_id', '!=', null)
+                                            ->orderBy('good_unit_id', 'asc')->paginate($pagination);
+        }
 
         return $orders;
     }

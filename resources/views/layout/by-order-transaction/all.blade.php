@@ -28,6 +28,7 @@
             </div>
           </div>
           <div class="box-body" style="overflow-x:scroll; color: black !important">
+            <h3>Dalam Pembuatan</h3>
             <table id="example1" class="table table-bordered table-striped">
               <thead>
               <tr>
@@ -37,8 +38,7 @@
                 <th>Model/Nama Barang</th>
                 <th>Tanggal Order</th>
                 <th>Tanggal Jadi</th>
-                <th>Status</th>
-                <th class="center">Print</th>
+                <th class="center">Print Nota Pesanan</th>
                 <th class="center">Transaksi Emas</th>
                 <th class="center">Detail</th>
                 <th class="center">Ubah</th>
@@ -48,7 +48,7 @@
               </tr>
               </thead>
               <tbody id="table-good">
-                @foreach($orders as $order)
+                @foreach($ongoing_orders as $order)
                   <tr>
                     <td>{{ $order->name }}</td>
                     <td>{{ $order->address }}</td>
@@ -56,7 +56,6 @@
                     <td>{{ $order->model }}</td>
                     <td>{{ displayDate($order->order_date) }}</td>
                     <td>{{ displayDate($order->finish_date) }}</td>
-                    <td>@if($order->good_unit_id != null) Sudah terjual @else On progress @endif</td>
                     <td class="center"><a href="{{ url($role . '/by-order-transaction/' . $order->id . '/print') }}" target="_blank()"><i class="fa fa-print tosca" aria-hidden="true"></i></a></td>
                     <td class="center"><a href="{{ url($role . '/by-order-transaction/' . $order->id . '/transaction') }}"><i class="fa fa-handshake-o tosca" aria-hidden="true"></i></a></td>
                     <td class="center"><a href="{{ url($role . '/by-order-transaction/' . $order->id . '/detail') }}"><i class="fa fa-hand-o-right tosca" aria-hidden="true"></i></a></td>
@@ -78,7 +77,60 @@
               </tbody>
               <div id="renderField">
                 @if($pagination != 'all')
-                  {{ $orders->render() }}
+                  {{ $ongoing_orders->render() }}
+                @endif
+              </div>
+            </table>
+            <h3>Sudah Terjual</h3>
+            <table id="example1" class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                <th>Nama</th>
+                <th>Alamat</th>
+                <th>No HP</th>
+                <th>Model/Nama Barang</th>
+                <th>Tanggal Order</th>
+                <th>Tanggal Jadi</th>
+                <th class="center">Print Nota Pesanan</th>
+                <th class="center">Print Nota Transaksi</th>
+                <th class="center">Detail</th>
+                <th class="center">Ubah</th>
+                @if($role == 'admin')
+                  <th class="center">Hapus</th>
+                @endif
+              </tr>
+              </thead>
+              <tbody id="table-good">
+                @foreach($finish_orders as $order)
+                  <tr>
+                    <td>{{ $order->name }}</td>
+                    <td>{{ $order->address }}</td>
+                    <td>{{ $order->phone_number }}</td>
+                    <td>{{ $order->model }}</td>
+                    <td>{{ displayDate($order->order_date) }}</td>
+                    <td>{{ displayDate($order->finish_date) }}</td>
+                    <td class="center"><a href="{{ url($role . '/by-order-transaction/' . $order->id . '/print') }}" target="_blank()"><i class="fa fa-print tosca" aria-hidden="true"></i></a></td>
+                    <td class="center"><a href="{{ url($role . '/transaction/' . $order->transaction_detail()->transaction_id . '/print') }}"><i class="fa fa-print tosca" aria-hidden="true"></i></a></td>
+                    <td class="center"><a href="{{ url($role . '/by-order-transaction/' . $order->id . '/detail') }}"><i class="fa fa-hand-o-right tosca" aria-hidden="true"></i></a></td>
+                    <td class="center"><a href="{{ url($role . '/by-order-transaction/' . $order->id . '/edit') }}"><i class="fa fa-file orange" aria-hidden="true"></i></a></td>
+                    @if($role == 'admin')
+                      <td class="center">
+                        <button type="button" class="no-btn center" data-toggle="modal" data-target="#modal-danger-{{$order->id}}"><i class="fa fa-times" aria-hidden="true" style="color: red !important"></i></button>
+
+                        @include('layout' . '.delete-modal', ['id' => $order->id, 'data' => $order->name, 'formName' => 'delete-form-' . $order->id])
+
+                        <form id="delete-form-{{$order->id}}" action="{{ url($role . '/by-order-transaction/' . $order->id . '/delete') }}" method="POST" style="display: none;">
+                          {{ csrf_field() }}
+                          {{ method_field('DELETE') }}
+                        </form>
+                      </td>
+                    @endif
+                  </tr>
+                @endforeach
+              </tbody>
+              <div id="renderField">
+                @if($pagination != 'all')
+                  {{ $finish_orders->render() }}
                 @endif
               </div>
             </table>
