@@ -132,7 +132,7 @@
           </ul>
         </li>
       @endif
-      @if($role == 'admin' || \Auth::user()->role == 'penjualan_cashier') 
+      <!-- @if($role == 'admin' || \Auth::user()->role == 'penjualan_cashier') 
         <li class="treeview {{ (Request::segment(2) == 'by-order-transaction' ) ? 'active' : ''  }}">
           <a href="#">
               <i class="fa fa-superpowers"></i><span> Pesanan Emas</span>
@@ -145,7 +145,7 @@
               <li class="{{ Request::segment(2) == 'by-order-transaction' && Request::segment(3) != 'create' ? 'active' : ''  }}"><a href="{{ url('/' . $role . '/by-order-transaction/' . date('Y-m-d') . '/' . date('Y-m-d') . '/20') }}"><i class="fa fa-circle-o"></i> Daftar Pesanan</a></li>
           </ul>
         </li>
-      @endif
+      @endif -->
       @if($role == 'admin')
         <li class="header">MENU LAIN</li>
         <li class="treeview {{ (Request::segment(2) == 'distributor' && Request::segment(3) == 'all') ? 'active' : ''  }}">
