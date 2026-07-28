@@ -108,6 +108,11 @@
                     </tr>
                   @endforeach
                 </tbody>
+                <div id="renderField">
+                  @if($pagination != 'all')
+                    {{ $transactions->render() }}
+                  @endif
+                </div>
               </table>
             </div>
           </div>
