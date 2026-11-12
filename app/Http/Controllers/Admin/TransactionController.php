@@ -159,7 +159,7 @@ class TransactionController extends Controller
         else
             $whereTrxType = $request->trx_type;
 
-        $result = [['Waktu', 'Kode Barang', 'Nama Barang', 'Berat', 'Kadar', 'Harga Beli', 'Harga Jual', 'Status']];
+        $result = [['Waktu', 'Kode Barang', 'Nama Barang', 'Berat', 'Kadar', 'HPP/Harga Beli', 'Harga Jual', 'Status']];
 
         $transactions = Transaction::whereDate('transactions.created_at', '>=', $request->start_date)
                                     ->whereDate('transactions.created_at', '<=', $request->end_date) 
